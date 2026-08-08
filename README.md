@@ -18,6 +18,9 @@ Originalquellen ersetzen.
 - [ADR-0001: Markdown und Git als Source of Truth](docs/adr/0001-markdown-git-source-of-truth.md)
 - [Seitenschema](schemas/page.schema.json)
 - [Memory-Evaluation](evals/README.md)
+- [Runtime-Techniken: strukturierte Synthese](syntheses/agentic-runtime-techniques.md)
+- [Runtime Decision Guide](patterns/runtime-decision-guide.md)
+- [Runtime Safety Baseline](patterns/runtime-safety-baseline.md)
 
 ## Vault-Struktur
 

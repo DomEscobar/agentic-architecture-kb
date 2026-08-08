@@ -25,6 +25,10 @@ Originalquellen ersetzen.
 - [Case: Bauhelfer-KI RAG](cases/bauhelfer-ki-rag.md)
 - [RAG Pipeline Taxonomy](syntheses/rag-pipeline-taxonomy.md)
 - [PageIndex / Reasoning Tree Retrieval](patterns/pageindex-reasoning-tree-retrieval.md)
+- [Contextual Retrieval](patterns/contextual-retrieval.md)
+- [Graph-based Retrieval](patterns/graph-based-retrieval.md)
+- [Agentic and Corrective Retrieval](patterns/agentic-corrective-retrieval.md)
+- [Visual Late-interaction Retrieval](patterns/visual-late-interaction-retrieval.md)
 
 ## Vault-Struktur
 

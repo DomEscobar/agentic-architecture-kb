@@ -123,3 +123,18 @@ Select one baseline per stage, then add complexity only where the error analysis
 shows a bottleneck. For example, a reranker cannot repair missing OCR text, and
 PageIndex cannot compensate for an incorrect page hierarchy. Likewise, strong
 retrieval does not make an unconstrained generator safe.
+
+## 2026 technique placement
+
+- Contextual Retrieval changes **representation/indexing** and can improve both
+  sparse and dense candidate generation.
+- GraphRAG, LightRAG, HippoRAG and PageIndex are different **retrieval
+  representations and traversal policies**, not generation methods.
+- Rerankers, coverage selection and compression belong to **augmentation**.
+- Self-RAG spans **retrieval control and generation** because reflection is part
+  of a trained generator; CRAG primarily adds **verification and corrective
+  routing** around retrieval.
+- ColPali changes **multimodal candidate generation**; extraction and grounded
+  generation still follow.
+- Long context is a competing or complementary **context-construction baseline**
+  and should participate in routing and evaluation.

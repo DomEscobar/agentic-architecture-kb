@@ -6,16 +6,20 @@ status: reviewed
 privacy: internal
 confidence: 0.9
 created_at: 2026-08-08T17:15:00+02:00
-updated_at: 2026-08-08T17:15:00+02:00
+updated_at: 2026-08-08T18:35:00+02:00
 review_at: 2026-11-08
 source_ids:
   - source-domescobar-bauhelfer-ki
   - source-vectifyai-pageindex
+  - source-rag-developments-2026-batch-1
+  - source-rag-developments-2026-batch-2
 relations:
   - predicate: derived_from
     target: source-domescobar-bauhelfer-ki
   - predicate: derived_from
     target: source-vectifyai-pageindex
+  - predicate: derived_from
+    target: source-rag-developments-2026-batch-2
 ---
 
 # RAG Pipeline Taxonomy
@@ -138,3 +142,16 @@ retrieval does not make an unconstrained generator safe.
   generation still follow.
 - Long context is a competing or complementary **context-construction baseline**
   and should participate in routing and evaluation.
+- MarginMerge changes **visual index size**; InfoGain-RAG and CORAG change
+  **candidate/context utility**; REFRAG changes **model inference**. Reporting
+  all three merely as “compression” hides different costs and failure modes.
+- RL-trained systems such as Search-R3, R3-RAG and ReSearch are **learned
+  retrieval policies**, not generic agent prompts. They require reward,
+  transfer, canary and rollback evaluation.
+
+## Scale-aware default
+
+BM25 is a mandatory control at every corpus tier. The 2026 controlled scaling
+study makes a strong case for Agent+BM25 over raw file-system navigation at
+large scale, but does not establish lexical retrieval as universally superior.
+Use nested-corpus replay to identify the crossover for the actual query mix.

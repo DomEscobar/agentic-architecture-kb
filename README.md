@@ -21,6 +21,8 @@ Originalquellen ersetzen.
 - [Runtime-Techniken: strukturierte Synthese](syntheses/agentic-runtime-techniques.md)
 - [Runtime Decision Guide](patterns/runtime-decision-guide.md)
 - [Runtime Safety Baseline](patterns/runtime-safety-baseline.md)
+- [Document-centric Hybrid RAG](patterns/document-centric-hybrid-rag.md)
+- [Case: Bauhelfer-KI RAG](cases/bauhelfer-ki-rag.md)
 
 ## Vault-Struktur
 

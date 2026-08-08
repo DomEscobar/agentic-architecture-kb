@@ -23,6 +23,8 @@ Originalquellen ersetzen.
 - [Runtime Safety Baseline](patterns/runtime-safety-baseline.md)
 - [Document-centric Hybrid RAG](patterns/document-centric-hybrid-rag.md)
 - [Case: Bauhelfer-KI RAG](cases/bauhelfer-ki-rag.md)
+- [RAG Pipeline Taxonomy](syntheses/rag-pipeline-taxonomy.md)
+- [PageIndex / Reasoning Tree Retrieval](patterns/pageindex-reasoning-tree-retrieval.md)
 
 ## Vault-Struktur
 

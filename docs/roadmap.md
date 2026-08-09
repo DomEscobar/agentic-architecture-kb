@@ -23,10 +23,11 @@ kompilieren.
 
 ## Phase 2 — Retrieval
 
-- SQLite FTS5 Baseline
+- [x] SQLite FTS5 Baseline
+- [x] stabile zitierfähige Abschnitts-IDs
+- [x] Retrieval-Trace mit Filtern, Kandidaten und geladenen Abschnitten
 - Embedding-Index mit vollständigem Manifest
 - RRF-Fusion und optionale Metadatenfilter
-- Retrieval-Trace und zitierfähige Textabschnitte
 
 Exit-Kriterium: Baseline-Evals schlagen Volltext allein messbar, ohne Privacy-
 oder Löschregression.

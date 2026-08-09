@@ -68,3 +68,18 @@ make check
 `make lint` verändert keine Dateien. `make compile` schreibt ausschließlich die
 ignorierten Projektionen `build/wiki.json` und `reports/quality.json`. GitHub
 Actions führt denselben Check bei Pushes und Pull Requests aus.
+
+## Lokale Suche
+
+`make compile` erzeugt zusätzlich `indexes/wiki.sqlite`. Jede Markdown-Sektion
+erhält eine stabile zitierfähige ID aus Seiten-ID und Überschriftenpfad.
+
+```bash
+python3 tools/wiki.py search "hybrid retrieval BM25" \
+  --privacy internal --status reviewed --limit 5
+```
+
+Die Suche verwendet zunächst striktes FTS5-AND und fällt bei null Treffern auf
+OR zurück. JSON-Traces unter `reports/retrieval-traces/` enthalten Query,
+Filter, alle gerankten Kandidaten und die tatsächlich geladenen Vollabschnitte.
+Index und Traces sind rekonstruierbare, von Git ignorierte Projektionen.

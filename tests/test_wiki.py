@@ -1,6 +1,7 @@
 import importlib.util
 import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -45,6 +46,31 @@ class WikiToolTests(unittest.TestCase):
             path = root / relative
             self.assertTrue(path.is_file(), relative)
             self.assertIn("# ", path.read_text(encoding="utf-8"), relative)
+
+    def test_section_ids_are_stable_and_unique(self):
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        first = [section.section_id for section in wiki.all_sections(pages)]
+        second = [section.section_id for section in wiki.all_sections(pages)]
+        self.assertEqual(first, second)
+        self.assertEqual(len(first), len(set(first)))
+
+    def test_fts_search_filters_and_returns_citable_sections(self):
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "wiki.sqlite"
+            wiki.build_fts(pages, index)
+            result = wiki.search_fts(
+                "LLM Judge Calibration",
+                privacy=["internal"],
+                status=["reviewed"],
+                trace=False,
+                db_path=index,
+            )
+        self.assertGreater(result["candidate_count"], 0)
+        self.assertTrue(all("#" in item["section_id"] for item in result["results"]))
+        self.assertTrue(all(item["privacy"] == "internal" for item in result["results"]))
 
 
 if __name__ == "__main__":

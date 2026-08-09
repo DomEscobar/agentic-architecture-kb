@@ -72,6 +72,33 @@ class WikiToolTests(unittest.TestCase):
         self.assertTrue(all("#" in item["section_id"] for item in result["results"]))
         self.assertTrue(all(item["privacy"] == "internal" for item in result["results"]))
 
+    def test_memory_lane_is_retrievable_for_consulting_questions(self):
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        queries = [
+            "memory poisoning quarantine promotion",
+            "verified forgetting derived indexes",
+            "procedural memory preconditions rollback",
+            "temporal validity conflicts supersession",
+            "agent memory brownfield audit",
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "wiki.sqlite"
+            wiki.build_fts(pages, index)
+            for query in queries:
+                result = wiki.search_fts(
+                    query,
+                    privacy=["internal"],
+                    status=["reviewed"],
+                    trace=False,
+                    db_path=index,
+                )
+                self.assertGreater(result["candidate_count"], 0, query)
+                self.assertTrue(
+                    any("memory" in item["page_id"] for item in result["results"]),
+                    query,
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -15,6 +15,21 @@
     "docs/templates/evaluation-strategy.md",
     "docs/templates/dataset-card.md",
     "docs/templates/go-live-scorecard.md",
-    "docs/templates/case-record.md"
+    "docs/templates/case-record.md",
+    "sources/agent-memory-foundations-2026.md",
+    "sources/agent-memory-systems-2026.md",
+    "sources/agent-memory-evaluation-security-2026.md",
+    "syntheses/agentic-memory-architecture.md",
+    "patterns/memory-write-and-promotion.md",
+    "patterns/memory-read-routing.md",
+    "patterns/memory-conflict-and-temporal-validity.md",
+    "patterns/verifiable-memory-forgetting.md",
+    "patterns/memory-poisoning-defense.md",
+    "patterns/verified-procedural-memory.md",
+    "patterns/agent-memory-consulting-intake.md",
+    "patterns/agent-memory-framework-selection.md",
+    "patterns/agent-memory-evaluation-blueprint.md",
+    "cases/agent-memory-consulting-regression-cases.md",
+    "docs/agentic-memory-consulting-playbook.md"
   ]
 }

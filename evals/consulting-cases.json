@@ -8,6 +8,10 @@
     {"id":"memory-system","expects":["write-precision","temporal","contradiction","privacy","forgetting"]},
     {"id":"multi-agent-proposal","expects":["single-agent-baseline","authority","handoff","fan-out","failure-containment"]},
     {"id":"production-regression","expects":["incident-to-eval","shadow","critical-slices","kill-switch","rollback"]},
-    {"id":"tool-selection","expects":["workload-fit","data-boundary","oracle","identity","migration-proof"]}
+    {"id":"tool-selection","expects":["workload-fit","data-boundary","oracle","identity","migration-proof"]},
+    {"id":"memory-personal-assistant","expects":["write-authority","correction","privacy","poisoning","verified-erasure"]},
+    {"id":"memory-recoverable-tool-agent","expects":["run-state","action-ledger","idempotency","procedural-memory","recovery"]},
+    {"id":"memory-multi-tenant","expects":["namespace","pre-retrieval-acl","cross-tenant-gate","lineage","deletion"]},
+    {"id":"memory-temporal-graph","expects":["relationship-query","valid-time","provenance","extraction-error","winning-condition"]}
   ]
 }

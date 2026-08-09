@@ -29,6 +29,9 @@ Originalquellen ersetzen.
 - [Graph-based Retrieval](patterns/graph-based-retrieval.md)
 - [Agentic and Corrective Retrieval](patterns/agentic-corrective-retrieval.md)
 - [Visual Late-interaction Retrieval](patterns/visual-late-interaction-retrieval.md)
+- [Agent Evaluation Techniques](syntheses/agent-evaluation-techniques.md)
+- [Evidence-first Agent Evaluation](patterns/evidence-first-agent-evaluation.md)
+- [Eval-guided Bounded Improvement Loop](patterns/eval-guided-improvement-loop.md)
 
 ## Vault-Struktur
 

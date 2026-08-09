@@ -40,6 +40,14 @@ oder Löschregression.
 
 Exit-Kriterium: kein ungeprüfter Inhalt gelangt in kanonische Synthesen.
 
+## Eval Foundation
+
+- [x] Agent-Evaluation-Taxonomie und Evidence-first Pattern
+- [x] bounded Improvement Loop mit Promotion- und Rollback-Grenzen
+- [ ] erste project-lokale Eval Packs und kalibrierte Orakel
+- [ ] Judge-Validierungsset und wiederholungsbasierte Konfidenz
+- [ ] geschützte Development-/Selection-/Holdout-/Redteam-Splits
+
 ## Phase 4 — Scale-up nach Messung
 
 Postgres/pgvector, Reranker, Graphprojektion oder Workflow-Runtime werden jeweils

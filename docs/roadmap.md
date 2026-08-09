@@ -10,10 +10,11 @@
 
 ## Phase 1 — Deterministische Wissensbasis
 
-- Markdown-Parser, Schema-Validator und Link-Linter
-- stabile IDs und Claim-/Source-Referenzen
-- Compile-Schritt für Indizes und Reports
-- CI für Schema, Links, Provenienz, Duplikate und Privacy
+- [x] Markdown-Parser, Schema-Validator und Link-Linter
+- [x] stabile IDs und Source-/Relationsreferenzen
+- [x] reproduzierbarer Compile-Schritt für JSON-Projektion und Qualitätsreport
+- [x] CI für Schema, Links, Provenienz, Duplikate und Privacy-Markierungen
+- [ ] explizites Claim-Ledger mit abschnittsgenauen Source-Referenzen
 - Git-basierter Review- und Rollback-Prozess
 
 Exit-Kriterium: Jeder kanonische Claim ist einer Quelle oder explizit einer

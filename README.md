@@ -45,5 +45,18 @@ reports/     generierte Qualitäts- und Governance-Berichte
 
 ## Status
 
-Planungs- und Bootstrap-Repository. Es ist noch kein autonomes Schreiben in den
-kanonischen Bereich aktiviert.
+Die deterministische MVP-Toolchain validiert Schema, IDs, Seitentypen, lokale
+Links, Provenienz und Relationsziele. Sie kompiliert alle kanonischen Seiten in
+eine vollständig rekonstruierbare JSON-Projektion. Autonomes Schreiben in den
+kanonischen Bereich ist nicht aktiviert.
+
+## Lokale Qualitätsprüfung
+
+```bash
+python3 -m pip install -r requirements.txt
+make check
+```
+
+`make lint` verändert keine Dateien. `make compile` schreibt ausschließlich die
+ignorierten Projektionen `build/wiki.json` und `reports/quality.json`. GitHub
+Actions führt denselben Check bei Pushes und Pull Requests aus.

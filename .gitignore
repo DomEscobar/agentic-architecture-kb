@@ -7,3 +7,6 @@ indexes/
 *.sqlite-wal
 __pycache__/
 .pytest_cache/
+build/
+reports/*.json
+*.pyc

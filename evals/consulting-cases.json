@@ -1,0 +1,13 @@
+{
+  "version": "consulting-cases.v1",
+  "cases": [
+    {"id":"greenfield-rag","expects":["intake","retrieval","grounding","slices","rollout","alternatives"]},
+    {"id":"brownfield-agent","expects":["reproduce","oracle-validation","trace","failure-boundary","containment","migration"]},
+    {"id":"judge-only-evals","expects":["deterministic-first","calibration","false-pass","drift","escalation"]},
+    {"id":"coding-agent-improvement","expects":["hidden-tests","evaluator-integrity","paired-baseline","canary","rollback"]},
+    {"id":"memory-system","expects":["write-precision","temporal","contradiction","privacy","forgetting"]},
+    {"id":"multi-agent-proposal","expects":["single-agent-baseline","authority","handoff","fan-out","failure-containment"]},
+    {"id":"production-regression","expects":["incident-to-eval","shadow","critical-slices","kill-switch","rollback"]},
+    {"id":"tool-selection","expects":["workload-fit","data-boundary","oracle","identity","migration-proof"]}
+  ]
+}

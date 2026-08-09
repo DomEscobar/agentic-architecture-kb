@@ -22,3 +22,10 @@ protokolliert werden.
 Retrieval-Latenz, End-to-End-Latenz, Kosten, Ergebnis-Abdeckung, Quellenklicks,
 Korrekturen, Abstentionsrate, Stale-Quote und Privacy-Verstöße. Änderungen gehen
 über Replay, gepaarte Baseline, Canary, Kill Switch und Rollback.
+
+## Consulting-Regression
+
+`consulting-cases.json` definiert verpflichtende Entscheidungselemente für
+Brownfield-, Greenfield-, Judge-, Coding-, Memory-, Multi-Agent-, Production-
+und Toolauswahlfragen. Feldvalidierte Ergebnisse werden getrennt als kanonische
+Case Records mit realer Evidenz aufgenommen.

@@ -32,6 +32,11 @@ Originalquellen ersetzen.
 - [Agent Evaluation Techniques](syntheses/agent-evaluation-techniques.md)
 - [Evidence-first Agent Evaluation](patterns/evidence-first-agent-evaluation.md)
 - [Eval-guided Bounded Improvement Loop](patterns/eval-guided-improvement-loop.md)
+- [Evaluation Consulting Playbook](docs/evaluation-consulting-playbook.md)
+- [Evaluation Workload Blueprints](syntheses/evaluation-workload-blueprints.md)
+- [Evaluation Metric Catalog](concepts/evaluation-metric-catalog.md)
+- [LLM Judge Calibration](patterns/llm-judge-calibration.md)
+- [Online Evaluation and Rollout](patterns/online-evaluation-and-rollout.md)
 
 ## Vault-Struktur
 

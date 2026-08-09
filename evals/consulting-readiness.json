@@ -1,0 +1,20 @@
+{
+  "version": "consulting-readiness.v1",
+  "required_artifacts": [
+    "patterns/evaluation-consulting-intake.md",
+    "concepts/evaluation-metric-catalog.md",
+    "patterns/evaluation-statistical-decision-rules.md",
+    "patterns/llm-judge-calibration.md",
+    "patterns/online-evaluation-and-rollout.md",
+    "patterns/evaluation-tool-selection.md",
+    "syntheses/evaluation-workload-blueprints.md",
+    "patterns/evidence-first-agent-evaluation.md",
+    "patterns/eval-guided-improvement-loop.md",
+    "docs/evaluation-consulting-playbook.md",
+    "docs/templates/brownfield-audit.md",
+    "docs/templates/evaluation-strategy.md",
+    "docs/templates/dataset-card.md",
+    "docs/templates/go-live-scorecard.md",
+    "docs/templates/case-record.md"
+  ]
+}

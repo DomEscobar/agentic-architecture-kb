@@ -47,6 +47,12 @@ Exit-Kriterium: kein ungeprüfter Inhalt gelangt in kanonische Synthesen.
 - [ ] erste project-lokale Eval Packs und kalibrierte Orakel
 - [ ] Judge-Validierungsset und wiederholungsbasierte Konfidenz
 - [ ] geschützte Development-/Selection-/Holdout-/Redteam-Splits
+- [x] Consulting Intake, Brownfield Audit und Greenfield Design
+- [x] workload-spezifische Eval-Blueprints und Metrikauswahl
+- [x] Statistik-, Judge-, Online-, Toolauswahl- und Rollout-Patterns
+- [x] Strategy-, Dataset-, Audit- und Go-live-Templates
+- [x] Consulting-Coverage-Suite
+- [ ] drei feldvalidierte Case Records mit realen Outcomes
 
 ## Phase 4 — Scale-up nach Messung
 

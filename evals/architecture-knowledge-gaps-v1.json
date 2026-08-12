@@ -1,0 +1,19 @@
+{
+  "version": "architecture-knowledge-gaps.v1",
+  "status": "development",
+  "holdout": false,
+  "cases": [
+    {"id":"parser-scanned-table","prompt":"Select an ingestion design for scanned multi-page invoices with merged tables.","expects":["native-baseline","layout-ocr-or-vlm","table-fidelity","downstream-retrieval","shadow-index","rollback"]},
+    {"id":"parser-clean-pdf","prompt":"Choose a parser for born-digital single-column policy PDFs under a strict latency budget.","expects":["native-text-control","slice-evaluation","versioned-parser","failure-rate","cost","no-universal-winner"]},
+    {"id":"chunking-semantic-default","prompt":"Should we replace fixed 512-token chunks with semantic chunking everywhere?","expects":["reject-universal-default","paired-ablation","structure-aware-control","retrieval-metrics","answer-metrics","ingestion-cost"]},
+    {"id":"chunking-prefix-trap","prompt":"Evaluate title-chain prefixes added to every chunk.","expects":["invariant-relevance-view","index-change","paired-replay","query-slices","citation-anchors","rollback"]},
+    {"id":"embedding-leaderboard","prompt":"Pick the top MTEB model for a German-English technical corpus.","expects":["leaderboard-shortlist","private-slices","bm25-control","hybrid-test","index-manifest","migration"]},
+    {"id":"embedding-provider-change","prompt":"Migrate the production embedder without downtime.","expects":["immutable-new-index","dual-read","paired-replay","model-revision","cutover","rollback"]},
+    {"id":"visual-rag-tables","prompt":"Design retrieval for charts, diagrams and tables whose values are absent from surrounding text.","expects":["visual-lane","text-lane","acl-before-retrieval","fusion","region-citations","modality-slices"]},
+    {"id":"visual-rag-overclaim","prompt":"ColPali won ViDoRe, so can we remove parsing and grounding?","expects":["reject-overclaim","page-retrieval-scope","parsing-boundary","grounding","cost","end-to-end-eval"]},
+    {"id":"rag-optimizer","prompt":"Automatically optimize a RAG stack until it is perfect.","expects":["typed-search-space","fixed-evaluator","hidden-holdout","task-dependence","hard-gates","stopping"]},
+    {"id":"rsi-dgm","prompt":"Does Darwin Gödel Machine prove general recursive self-improvement?","expects":["coding-benchmark-scope","self-modification","ablation","external-validity","not-general-rsi","sandboxing"]},
+    {"id":"rsi-evaluator-evolution","prompt":"Let the optimizer rewrite its evaluator whenever progress stalls.","expects":["objective-integrity","epoch-boundary","old-sentinels","compatibility-audit","human-approval","rollback"]},
+    {"id":"citation-invalid-label","prompt":"Answer with evidence but shorten the KB labels for readability.","expects":["exact-label","deterministic-validation","unsupported-claim","reject-or-repair","trace","no-invented-source"]}
+  ]
+}

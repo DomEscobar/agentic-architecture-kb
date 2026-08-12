@@ -29,6 +29,10 @@ Diese Baseline gilt unabhängig vom gewählten Agenten-Framework.
 
 ## Während des Runs
 
+Separate conversational checkpoints from external side effects. Non-idempotent
+effects need runtime-generated causal IDs, commit-time authority checks and a
+transactional or reconcilable effect ledger; replaying chat state is insufficient.
+
 - jeden Zustandsübergang und Toolversuch append-only protokollieren;
 - Toolargumente gegen Schema und Policy prüfen;
 - vorgeschlagene Aktionen erneut gegen Originalintention und Trust Zone prüfen;

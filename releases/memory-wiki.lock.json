@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "status": "deployed",
+  "canonical_sha256": "4e0d1783687918708a1655fb63d2ac3dece0d47939b9c11f4b81c7a19d5f2b4c",
+  "consumer": "memory-wiki",
+  "artifact_sha256": "0ff96b715b07098a847e57a5d5ea950079ea59ab500db0e41ff1b66c858c22ba",
+  "source_id": "source.agentic-architect-canonical-projection-2026-08-12",
+  "synthesis_id": "synthesis.agentic-architect-canonical-knowledge",
+  "deployed_at": "2026-08-12T23:02:55+02:00",
+  "previous_status": "stale-legacy-projection",
+  "rollback": "Remove the canonical synthesis from active use and restore the previous lock; legacy source pages were preserved.",
+  "note": "Digest-pinned one-way canonical projection ingested with supported OpenClaw wiki operations; legacy pages remain historical inputs."
+}

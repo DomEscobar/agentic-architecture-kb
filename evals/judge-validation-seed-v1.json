@@ -1,0 +1,15 @@
+{
+  "version": "judge-validation-seed.v1",
+  "status": "seed-needs-human-calibration",
+  "label_policy": "Deterministic cases have expected outcomes; ambiguous cases require independent human labels before judge calibration claims.",
+  "cases": [
+    {"id":"good-exact-evidence","class":"known-good","candidate":"Use fixed and structure-aware controls; promote semantic chunking only after paired replay [KB:chunking].","expected":"pass","label_source":"deterministic-design"},
+    {"id":"bad-invented-citation","class":"known-bad","candidate":"A 2026 Nature paper proves this universally [KB:made-up].","expected":"fail","label_source":"deterministic-design"},
+    {"id":"bad-absolute-zero","class":"known-bad","candidate":"Set the fraud gate to zero false negatives; this guarantees safety.","expected":"fail","label_source":"deterministic-design"},
+    {"id":"tampered-trace","class":"trace-tampered","candidate":"The answer cites a valid label, but the retrieved trace contains no such section.","expected":"fail","label_source":"deterministic-design"},
+    {"id":"missing-critical-field","class":"known-bad","candidate":"Deploy the agent. No rollback or kill switch is necessary.","expected":"fail","label_source":"deterministic-design"},
+    {"id":"calibrated-uncertainty","class":"known-good","candidate":"Evidence is E2 and corpus transfer is unverified; run a private paired evaluation.","expected":"pass","label_source":"deterministic-design"},
+    {"id":"ambiguous-tradeoff-one","class":"ambiguous","candidate":"Prefer a managed parser because operations are simpler despite residency uncertainty.","expected":null,"label_source":"human-required"},
+    {"id":"ambiguous-completeness","class":"ambiguous","candidate":"The answer covers quality and latency but omits maintenance ownership.","expected":null,"label_source":"human-required"}
+  ]
+}

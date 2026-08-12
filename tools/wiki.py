@@ -22,6 +22,10 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIRS = ("inbox", "sources", "concepts", "patterns", "cases", "entities", "syntheses")
 SCHEMA_PATH = ROOT / "schemas" / "page.schema.json"
+CLAIM_SCHEMA_PATH = ROOT / "schemas" / "claim.schema.json"
+CLAIM_LEDGER_PATH = ROOT / "claims" / "ledger.jsonl"
+TECHNIQUE_SCHEMA_PATH = ROOT / "schemas" / "technique-card.schema.json"
+TECHNIQUE_DIR = ROOT / "techniques"
 BUILD_DIR = ROOT / "build"
 REPORTS_DIR = ROOT / "reports"
 INDEX_DIR = ROOT / "indexes"
@@ -98,6 +102,25 @@ def load_pages() -> tuple[list[Page], list[str]]:
         except (OSError, ValueError, yaml.YAMLError) as exc:
             errors.append(f"{path.relative_to(ROOT)}: {exc}")
     return pages, errors
+
+
+def load_techniques() -> tuple[list[dict[str, Any]], list[str]]:
+    techniques: list[dict[str, Any]] = []
+    errors: list[str] = []
+    if not TECHNIQUE_DIR.exists():
+        return techniques, ["techniques: missing technique directory"]
+    for path in sorted(TECHNIQUE_DIR.rglob("*.json")):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"{path.relative_to(ROOT)}: invalid JSON: {exc}")
+            continue
+        if not isinstance(payload, dict):
+            errors.append(f"{path.relative_to(ROOT)}: technique card must be an object")
+            continue
+        payload["_path"] = path.relative_to(ROOT).as_posix()
+        techniques.append(payload)
+    return techniques, errors
 
 
 def slugify(value: str) -> str:
@@ -354,11 +377,84 @@ def lint() -> dict[str, Any]:
             if isinstance(relation, dict) and relation.get("target") not in by_id:
                 errors.append(f"{rel}: relation targets unknown id '{relation.get('target')}'")
 
+    claims: list[dict[str, Any]] = []
+    if not CLAIM_LEDGER_PATH.exists():
+        errors.append("claims/ledger.jsonl: missing claim ledger")
+    else:
+        claim_schema = json.loads(CLAIM_SCHEMA_PATH.read_text(encoding="utf-8"))
+        claim_validator = jsonschema.Draft202012Validator(claim_schema, format_checker=jsonschema.FormatChecker())
+        section_ids = {section.section_id for section in all_sections(pages)}
+        seen_claim_ids: set[str] = set()
+        for line_number, raw in enumerate(CLAIM_LEDGER_PATH.read_text(encoding="utf-8").splitlines(), start=1):
+            if not raw.strip():
+                continue
+            try:
+                claim = json.loads(raw)
+            except json.JSONDecodeError as exc:
+                errors.append(f"claims/ledger.jsonl:{line_number}: invalid JSON: {exc.msg}")
+                continue
+            claims.append(claim)
+            for issue in claim_validator.iter_errors(claim):
+                errors.append(f"claims/ledger.jsonl:{line_number}: {issue.message}")
+            claim_id = claim.get("id")
+            if claim_id in seen_claim_ids:
+                errors.append(f"claims/ledger.jsonl:{line_number}: duplicate claim id '{claim_id}'")
+            seen_claim_ids.add(claim_id)
+            if claim.get("section_id") not in section_ids:
+                errors.append(f"claims/ledger.jsonl:{line_number}: unknown section_id '{claim.get('section_id')}'")
+            for source_id in claim.get("source_ids", []):
+                target = by_id.get(source_id)
+                if target is None or target.metadata.get("type") != "source":
+                    errors.append(f"claims/ledger.jsonl:{line_number}: unknown source page '{source_id}'")
+
+    techniques, technique_errors = load_techniques()
+    errors.extend(technique_errors)
+    technique_schema = json.loads(TECHNIQUE_SCHEMA_PATH.read_text(encoding="utf-8"))
+    technique_validator = jsonschema.Draft202012Validator(
+        technique_schema, format_checker=jsonschema.FormatChecker()
+    )
+    seen_technique_ids: set[str] = set()
+    for technique in techniques:
+        path = technique.pop("_path")
+        for issue in sorted(technique_validator.iter_errors(technique), key=lambda item: list(item.path)):
+            location = ".".join(str(part) for part in issue.path) or "card"
+            errors.append(f"{path}: {location}: {issue.message}")
+        technique_id = technique.get("technique_id")
+        if technique_id in seen_technique_ids:
+            errors.append(f"{path}: duplicate technique_id '{technique_id}'")
+        seen_technique_ids.add(technique_id)
+        for source_id in technique.get("evidence", {}).get("source_ids", []):
+            target = by_id.get(source_id)
+            if target is None or target.metadata.get("type") != "source":
+                errors.append(f"{path}: unknown source page '{source_id}'")
+
+    eligible_claim_pages = {
+        page.metadata["id"]
+        for page in pages
+        if page.metadata.get("status") == "reviewed"
+        and page.metadata.get("type") in {"pattern", "synthesis", "concept", "case"}
+    }
+    section_to_page = {section.section_id: section.page_id for section in all_sections(pages)}
+    covered_claim_pages = {
+        section_to_page[claim["section_id"]]
+        for claim in claims
+        if claim.get("section_id") in section_to_page
+    }
+    claim_coverage = {
+        "eligible_page_count": len(eligible_claim_pages),
+        "covered_page_count": len(eligible_claim_pages & covered_claim_pages),
+        "coverage_ratio": round(len(eligible_claim_pages & covered_claim_pages) / max(len(eligible_claim_pages), 1), 4),
+        "uncovered_page_ids": sorted(eligible_claim_pages - covered_claim_pages),
+        "interpretation": "Mechanical page coverage does not prove that every material claim was declared; human review remains required.",
+    }
     errors.sort()
     return {
         "ok": not errors,
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "page_count": len(pages),
+        "claim_count": len(claims),
+        "technique_count": len(techniques),
+        "claim_coverage": claim_coverage,
         "errors": errors,
     }
 
@@ -369,9 +465,15 @@ def compile_wiki() -> dict[str, Any]:
         return report
     pages, _ = load_pages()
     sections = all_sections(pages)
+    techniques, _ = load_techniques()
+    for technique in techniques:
+        technique.pop("_path", None)
+    # The canonical artifact must be byte-reproducible. Wall-clock generation
+    # time belongs in reports, not in the content-addressed build projection.
+    content_revision = max(page.metadata["updated_at"] for page in pages)
     compiled = {
         "format_version": 2,
-        "generated_at": report["generated_at"],
+        "content_revision": content_revision,
         "source_root": ".",
         "pages": [
             {
@@ -383,11 +485,17 @@ def compile_wiki() -> dict[str, Any]:
             for page in sorted(pages, key=lambda item: item.metadata["id"])
         ],
         "sections": [section.__dict__ for section in sections],
+        "claims": [json.loads(line) for line in CLAIM_LEDGER_PATH.read_text(encoding="utf-8").splitlines() if line.strip()],
+        "techniques": techniques,
     }
     BUILD_DIR.mkdir(exist_ok=True)
     REPORTS_DIR.mkdir(exist_ok=True)
     (BUILD_DIR / "wiki.json").write_text(json.dumps(compiled, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (REPORTS_DIR / "quality.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (REPORTS_DIR / "claim-coverage.json").write_text(
+        json.dumps(report["claim_coverage"], ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
     index_report = build_fts(pages)
     report["section_count"] = len(sections)
     report["fts_index"] = index_report["index"]

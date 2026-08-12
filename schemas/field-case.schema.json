@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["case_id", "workload_snapshot_sha256", "owner", "independent_reviewer", "privacy_review", "baseline_manifest_sha256", "candidate_manifest_sha256", "metrics", "sample_size", "measured_outcomes", "failure_analysis", "rollout_result", "rollback_result", "evidence_artifacts", "external_validity_limits", "review_at"],
+  "properties": {
+    "case_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]+$"},
+    "workload_snapshot_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "owner": {"type": "string", "minLength": 2},
+    "independent_reviewer": {"type": "string", "minLength": 2},
+    "privacy_review": {"enum": ["approved", "approved-redacted"]},
+    "baseline_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "candidate_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "metrics": {"type": "array", "minItems": 2, "items": {"type": "object", "required": ["name", "definition", "denominator"], "properties": {"name": {"type": "string"}, "definition": {"type": "string"}, "denominator": {"type": "integer", "minimum": 1}}, "additionalProperties": true}},
+    "sample_size": {"type": "integer", "minimum": 1},
+    "measured_outcomes": {"type": "array", "minItems": 2, "items": {"type": "object", "required": ["metric", "baseline", "candidate", "denominator", "unit", "measurement_window"], "properties": {"metric": {"type": "string", "minLength": 2}, "baseline": {"type": "number"}, "candidate": {"type": "number"}, "denominator": {"type": "integer", "minimum": 1}, "unit": {"type": "string", "minLength": 1}, "measurement_window": {"type": "string", "minLength": 5}}, "additionalProperties": false}},
+    "failure_analysis": {"type": "string", "minLength": 20},
+    "rollout_result": {"type": "string", "minLength": 10},
+    "rollback_result": {"type": "string", "minLength": 10},
+    "evidence_artifacts": {"type": "array", "minItems": 2, "items": {"type": "object", "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}, "additionalProperties": false}},
+    "external_validity_limits": {"type": "string", "minLength": 20},
+    "review_at": {"type": "string", "format": "date"}
+  },
+  "additionalProperties": false
+}

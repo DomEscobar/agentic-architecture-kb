@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-architect.local/schemas/technique-card.schema.json",
+  "type": "object",
+  "required": ["technique_id", "name", "family", "stage", "deployment", "mechanism", "use_when", "avoid_when", "parameters", "expected_effects", "failure_modes", "required_evals", "reindex_required", "risk_class", "evidence", "freshness"],
+  "properties": {
+    "technique_id": {"type":"string","pattern":"^(parser|chunking|embedding|multimodal|retrieval|context|runtime|memory|evaluation|rsi)\\.[a-z0-9.-]+$"},
+    "name": {"type":"string","minLength":3},
+    "family": {"enum":["native","pipeline","vlm","managed","fixed","structural","semantic","contextual","hierarchical","adaptive","specialized","dense","sparse","hybrid","multivector","migration","visual","fusion","routing","reranking","citation","lexical","filtering","rewriting","compression","selection","abstention","iterative","orchestration","safety","tooling","write-policy","read-policy","retention","benchmarking","grading","monitoring","optimization","governance"]},
+    "stage": {"enum":["ingestion","segmentation","embedding","retrieval","reranking","context-assembly","runtime","memory-write","memory-read","evaluation","improvement"]},
+    "deployment": {"enum":["local-cpu","local-gpu","local-hybrid","managed-api","deployment-agnostic"]},
+    "mechanism": {"type":"string","minLength":20},
+    "use_when": {"type":"array","minItems":2,"items":{"type":"string"}},
+    "avoid_when": {"type":"array","minItems":2,"items":{"type":"string"}},
+    "parameters": {"type":"object","minProperties":2,"additionalProperties":{"type":"object","required":["type","allowed"],"properties":{"type":{"enum":["integer","number","boolean","string","enum"]},"allowed":{"type":"array","minItems":1}},"additionalProperties":false}},
+    "expected_effects": {"type":"array","minItems":2,"items":{"type":"string"}},
+    "failure_modes": {"type":"array","minItems":3,"items":{"type":"string"}},
+    "required_evals": {"type":"array","minItems":4,"items":{"type":"string"}},
+    "reindex_required": {"enum":["full","partial","none"]},
+    "risk_class": {"enum":["medium","high"]},
+    "evidence": {"type":"object","required":["level","source_ids","links"],"properties":{"level":{"enum":["E2","E3"]},"source_ids":{"type":"array","minItems":1,"items":{"type":"string"}},"links":{"type":"array","minItems":1,"items":{"type":"string","format":"uri"}}},"additionalProperties":false},
+    "freshness": {"type":"object","required":["checked","review"],"properties":{"checked":{"type":"string","format":"date"},"review":{"type":"string","format":"date"}},"additionalProperties":false}
+  },
+  "additionalProperties": false
+}

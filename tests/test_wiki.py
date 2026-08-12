@@ -47,6 +47,67 @@ class WikiToolTests(unittest.TestCase):
             self.assertTrue(path.is_file(), relative)
             self.assertIn("# ", path.read_text(encoding="utf-8"), relative)
 
+    def test_claim_ledger_is_compiled_and_source_backed(self):
+        report = wiki.lint()
+        self.assertTrue(report["ok"], "\n".join(report["errors"]))
+        self.assertGreaterEqual(report["claim_count"], 55)
+        self.assertEqual(report["claim_coverage"]["coverage_ratio"], 1.0)
+        self.assertEqual(report["claim_coverage"]["uncovered_page_ids"], [])
+
+    def test_parser_technique_catalog_is_complete_and_diverse(self):
+        report = wiki.lint()
+        self.assertTrue(report["ok"], "\n".join(report["errors"]))
+        self.assertGreaterEqual(report["technique_count"], 15)
+        techniques, errors = wiki.load_techniques()
+        self.assertEqual(errors, [])
+        parser_cards = [card for card in techniques if card["technique_id"].startswith("parser.")]
+        self.assertGreaterEqual(len(parser_cards), 15)
+        self.assertEqual({card["family"] for card in parser_cards}, {"native", "pipeline", "vlm", "managed"})
+        for card in parser_cards:
+            self.assertGreaterEqual(len(card["use_when"]), 2)
+            self.assertGreaterEqual(len(card["avoid_when"]), 2)
+            self.assertGreaterEqual(len(card["failure_modes"]), 3)
+            self.assertGreaterEqual(len(card["required_evals"]), 4)
+            self.assertEqual(card["reindex_required"], "full")
+
+    def test_chunking_technique_catalog_is_complete_and_diverse(self):
+        report = wiki.lint()
+        self.assertTrue(report["ok"], "\n".join(report["errors"]))
+        techniques, errors = wiki.load_techniques()
+        self.assertEqual(errors, [])
+        cards = [card for card in techniques if card["technique_id"].startswith("chunking.")]
+        self.assertGreaterEqual(len(cards), 18)
+        self.assertEqual(
+            {card["family"] for card in cards},
+            {"fixed", "structural", "semantic", "contextual", "hierarchical", "adaptive", "specialized"},
+        )
+        for card in cards:
+            self.assertEqual(card["stage"], "segmentation")
+            self.assertGreaterEqual(len(card["use_when"]), 2)
+            self.assertGreaterEqual(len(card["avoid_when"]), 2)
+            self.assertGreaterEqual(len(card["failure_modes"]), 3)
+            self.assertGreaterEqual(len(card["required_evals"]), 4)
+            self.assertEqual(card["reindex_required"], "full")
+
+    def test_architecture_gap_eval_pack_is_bounded_and_unique(self):
+        root = MODULE_PATH.parents[1]
+        payload = json.loads((root / "evals" / "architecture-knowledge-gaps-v1.json").read_text(encoding="utf-8"))
+        self.assertFalse(payload["holdout"])
+        cases = payload["cases"]
+        ids = [case["id"] for case in cases]
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertGreaterEqual(len(cases), 12)
+        for case in cases:
+            self.assertGreaterEqual(len(case["expects"]), 6)
+
+    def test_retrieval_eval_pack_has_language_and_query_slices(self):
+        payload = json.loads((MODULE_PATH.parents[1] / "evals/wiki-retrieval-v1.json").read_text())
+        self.assertFalse(payload["promotion_authority"])
+        self.assertGreaterEqual(len(payload["cases"]), 12)
+        slices = {case["slice"] for case in payload["cases"]}
+        self.assertTrue(any(item.startswith("de-") for item in slices))
+        self.assertTrue(any(item.startswith("en-") for item in slices))
+
     def test_section_ids_are_stable_and_unique(self):
         pages, errors = wiki.load_pages()
         self.assertEqual(errors, [])
@@ -54,6 +115,15 @@ class WikiToolTests(unittest.TestCase):
         second = [section.section_id for section in wiki.all_sections(pages)]
         self.assertEqual(first, second)
         self.assertEqual(len(first), len(set(first)))
+
+    def test_compile_artifact_is_byte_reproducible(self):
+        root = MODULE_PATH.parents[1]
+        first = wiki.compile_wiki()
+        self.assertTrue(first["ok"], first.get("errors"))
+        before = (root / "build/wiki.json").read_bytes()
+        second = wiki.compile_wiki()
+        self.assertTrue(second["ok"], second.get("errors"))
+        self.assertEqual(before, (root / "build/wiki.json").read_bytes())
 
     def test_fts_search_filters_and_returns_citable_sections(self):
         pages, errors = wiki.load_pages()
@@ -96,6 +166,61 @@ class WikiToolTests(unittest.TestCase):
                 self.assertGreater(result["candidate_count"], 0, query)
                 self.assertTrue(
                     any("memory" in item["page_id"] for item in result["results"]),
+                    query,
+                )
+
+    def test_parser_catalog_is_retrievable_by_use_case(self):
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        queries = [
+            "born digital bounding boxes PyMuPDF",
+            "scientific formulas multilingual MinerU",
+            "AWS forms signatures Textract",
+            "historical multilingual PaddleOCR VL",
+            "office local markdown AnyDoc",
+            "PDF geometry tables pdfplumber",
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "wiki.sqlite"
+            wiki.build_fts(pages, index)
+            for query in queries:
+                result = wiki.search_fts(
+                    query,
+                    privacy=["public"],
+                    status=["reviewed"],
+                    trace=False,
+                    db_path=index,
+                )
+                self.assertGreater(result["candidate_count"], 0, query)
+                self.assertTrue(
+                    any("parser" in item["page_id"] for item in result["results"]),
+                    query,
+                )
+
+    def test_chunking_catalog_is_retrievable_by_use_case(self):
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        queries = [
+            "atomic facts proposition chunking",
+            "code AST chunking functions",
+            "table headers rows chunking",
+            "hierarchical synthesis summary tree",
+            "conversation speaker turns episodes",
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "wiki.sqlite"
+            wiki.build_fts(pages, index)
+            for query in queries:
+                result = wiki.search_fts(
+                    query,
+                    privacy=["public"],
+                    status=["reviewed"],
+                    trace=False,
+                    db_path=index,
+                )
+                self.assertGreater(result["candidate_count"], 0, query)
+                self.assertTrue(
+                    any("chunking" in item["page_id"] for item in result["results"]),
                     query,
                 )
 

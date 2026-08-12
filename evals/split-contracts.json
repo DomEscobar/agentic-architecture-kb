@@ -1,0 +1,17 @@
+{
+  "version": "split-contracts.v1",
+  "updated_at": "2026-08-12",
+  "promotion_evidence": {"schema":"schemas/promotion-evidence.schema.json","control_plane_only":true,"boolean_attestation_forbidden":true,"access_log_required_before_activation":true},
+  "information_flow": {
+    "development": {"answers_visible_to_optimizer": true, "promotion_authority": false},
+    "selection": {"answers_visible_to_optimizer": false, "promotion_authority": true},
+    "holdout": {"answers_visible_to_optimizer": false, "promotion_authority": true, "max_access_per_release": 1},
+    "redteam": {"answers_visible_to_optimizer": false, "hard_gate": true}
+  },
+  "splits": [
+    {"id": "development-v1", "kind": "development", "path": "evals/architecture-knowledge-gaps-v1.json", "status": "active", "human_label_status": "seed-needs-calibration"},
+    {"id": "selection-private-v1", "kind": "selection", "path": "evals/private/selection-v1.json", "status": "awaiting-private-cases", "human_label_status": "missing"},
+    {"id": "holdout-private-v1", "kind": "holdout", "path": "evals/private/holdout-v1.json", "status": "awaiting-private-cases", "human_label_status": "missing"},
+    {"id": "redteam-v1", "kind": "redteam", "path": "evals/redteam-sentinels-v1.json", "status": "active", "human_label_status": "deterministic-invariants"}
+  ]
+}

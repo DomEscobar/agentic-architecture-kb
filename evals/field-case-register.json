@@ -1,0 +1,12 @@
+{
+  "version": "field-case-register.v1",
+  "required_validated_cases": 3,
+  "validated_case_count": 0,
+  "validation_contract": ["real workload and constraints", "versioned candidate manifest", "predeclared metrics", "measured baseline and outcome", "failure analysis", "review date and owner"],
+  "records": [
+    {"case_id":"bauhelfer-ki-rag","status":"project-case-needs-field-outcome-audit","path":"cases/bauhelfer-ki-rag.md"},
+    {"case_id":"public-ai-architect-v1","status":"technical-outcomes-only","path":"cases/public-ai-architect-v1.md"},
+    {"case_id":null,"status":"missing-independent-field-case","path":null}
+  ],
+  "complete": false
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["release_id", "baseline_manifest_sha256", "candidate_manifest_sha256", "split_manifest_sha256", "split_id", "case_set_file", "case_set_sha256", "scorer_sha256", "repetition_ids", "redteam_report_sha256", "hard_gate_report_sha256", "judge_calibration_report_sha256", "human_approval"],
+  "properties": {
+    "release_id": {"type": "string", "minLength": 6},
+    "baseline_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "candidate_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "split_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "split_id": {"enum": ["selection-private-v1", "holdout-private-v1"]},
+    "case_set_file": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+\\.json$"},
+    "case_set_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "scorer_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "judge_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "repetition_ids": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string"}},
+    "redteam_report_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "hard_gate_report_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "judge_calibration_report_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "human_approval": {"const": true}
+  },
+  "additionalProperties": false
+}

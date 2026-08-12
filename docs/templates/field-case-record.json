@@ -1,0 +1,27 @@
+{
+  "case_id": "replace-with-real-case-id",
+  "workload_snapshot_sha256": "replace-with-64-char-digest",
+  "owner": "workload-owner",
+  "independent_reviewer": "independent-reviewer",
+  "privacy_review": "approved-redacted",
+  "baseline_manifest_sha256": "replace-with-64-char-digest",
+  "candidate_manifest_sha256": "replace-with-different-64-char-digest",
+  "metrics": [
+    {"name": "primary-outcome", "definition": "Predeclared user-value outcome", "denominator": 1},
+    {"name": "critical-failure-rate", "definition": "Predeclared unacceptable failures", "denominator": 1}
+  ],
+  "sample_size": 1,
+  "measured_outcomes": [
+    {"metric": "primary-outcome", "baseline": 0, "candidate": 0, "denominator": 1, "unit": "rate", "measurement_window": "replace-with-window"},
+    {"metric": "critical-failure-rate", "baseline": 0, "candidate": 0, "denominator": 1, "unit": "rate", "measurement_window": "replace-with-window"}
+  ],
+  "failure_analysis": "Replace with observed failures and causal limits.",
+  "rollout_result": "Replace with measured rollout result.",
+  "rollback_result": "Replace with rollback drill or executed rollback result.",
+  "evidence_artifacts": [
+    {"path": "replace-with-relative-artifact", "sha256": "replace-with-64-char-digest"},
+    {"path": "replace-with-second-artifact", "sha256": "replace-with-64-char-digest"}
+  ],
+  "external_validity_limits": "Replace with workloads and conditions to which this case does not transfer.",
+  "review_at": "2026-09-12"
+}

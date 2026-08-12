@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "deployed",
+  "consumer": "public-ai-architect",
+  "canonical_sha256": "4e0d1783687918708a1655fb63d2ac3dece0d47939b9c11f4b81c7a19d5f2b4c",
+  "content_sha256": "326fc41aebe7ca8fb1d52eb5a8586aeff9dd7a31a747dced9acf0ae76c423ce9",
+  "artifact_sha256": "eac320b18fbf1683094ffc991f91dbbff30b0de44bb6d0673b7dd4b7c58dfde4",
+  "image_sha256": "1ec8fda1754926c296987c82b52107f6b3ebb2281c95c99db734ee54f129356a",
+  "deployed_at": "2026-08-12T23:32:31+02:00",
+  "approved_by": "Dom",
+  "approval_context": "Telegram deployment request on 2026-08-12",
+  "rollback": "Redeploy the prior public-ai-architect image and restore the previous release lock; immutable public wiki artifacts are retained by content digest.",
+  "note": "Digest-pinned public snapshot deployed after explicit human approval; live HTTPS and health checks passed."
+}

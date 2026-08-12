@@ -17,6 +17,17 @@ Deterministische Checks haben Vorrang. LLM-Judges dürfen ergänzen, müssen abe
 gegen menschlich gelabelte Beispiele kalibriert und mit Modell-/Prompt-Version
 protokolliert werden.
 
+`tools/judge_calibration.py` accepts only independently labeled and adjudicated
+cases whose digest matches the frozen seed. It reports false-pass rate,
+sensitivity, specificity and abstention coverage. The seed remains non-
+promotional until real human labels and frozen judge predictions are supplied.
+
+Protected selection/holdout data lives only in the untracked `evals/private/`
+control-plane mount. `tools/eval_control.py` verifies case-set and split digests,
+one release-scoped access-log event, distinct baseline/candidate identities,
+repeated runs, report digests and human approval. Repository placeholders are
+not accepted as evidence.
+
 ## Online-Metriken
 
 Retrieval-Latenz, End-to-End-Latenz, Kosten, Ergebnis-Abdeckung, Quellenklicks,

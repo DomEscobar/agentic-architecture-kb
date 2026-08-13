@@ -10,6 +10,52 @@ Markdown is the canonical source. Search indexes, graphs, reports, and LLM
 summaries are reproducible projections and must never replace the original
 sources.
 
+## How to use
+
+### Browse or give it to a coding agent
+
+Clone the repository and point your coding agent at the relevant lane:
+
+```bash
+git clone https://github.com/DomEscobar/agentic-architecture-kb.git
+cd agentic-architecture-kb
+```
+
+Then ask the agent to search before recommending, for example:
+
+```text
+Use this knowledge base to design recovery semantics for my tool-using agent.
+Start with the relevant runtime patterns and technique cards, preserve exact
+source references, and state which assumptions require repository inspection.
+```
+
+Start with `patterns/` for decision guidance, `techniques/` for machine-readable
+experiment candidates, `sources/` for evidence audits, and `cases/` for reusable
+application records. For consequential decisions, record the commit SHA used.
+
+### Search locally
+
+```bash
+python3 -m pip install -r requirements.txt
+make compile
+python3 tools/wiki.py search "tool-using agent recovery semantics" \
+  --privacy internal --status reviewed --limit 5
+```
+
+### Ask the public service
+
+For a quick single-turn lookup, call the stateless public API:
+
+```bash
+curl --fail-with-body https://ai-architect.huecki.com/api/v1/ask \
+  --header 'content-type: application/json' \
+  --data '{"question":"Design recovery semantics for a tool-using agent."}'
+```
+
+The API does not inspect the caller's repository and does not retain multi-turn
+state. Use the cloned knowledge base when the decision depends on local code,
+constraints, or continued agent work.
+
 ## Documentation
 
 - [System architecture](docs/architecture.md)

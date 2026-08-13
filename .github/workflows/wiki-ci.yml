@@ -1,4 +1,4 @@
-name: Wiki CI
+name: Knowledge Base CI
 
 on:
   push:

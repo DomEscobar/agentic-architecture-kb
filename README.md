@@ -1,28 +1,28 @@
-# Agentic Architect LLM Wiki
+# Agentic Architecture Knowledge Base
 
-Git-versionierte, lokale Wissensbasis für belastbare Architekturentscheidungen zu
-RAG, Agenten-Runtimes, Agenten-Memory, Evaluation und begrenzter
-Selbstverbesserung.
+A Git-versioned, local knowledge base for evidence-backed architecture decisions
+across RAG, agent runtimes, agent memory, evaluation, and bounded
+self-improvement.
 
-## Leitidee
+## Core principle
 
-Markdown ist die kanonische Quelle. Suchindizes, Graphen, Reports und
-LLM-Zusammenfassungen sind reproduzierbare Projektionen und dürfen nie die
-Originalquellen ersetzen.
+Markdown is the canonical source. Search indexes, graphs, reports, and LLM
+summaries are reproducible projections and must never replace the original
+sources.
 
-## Dokumentation
+## Documentation
 
-- [Systemarchitektur](docs/architecture.md)
-- [Recherche und Werkzeugauswahl](docs/research.md)
-- [MVP und Roadmap](docs/roadmap.md)
-- [ADR-0001: Markdown und Git als Source of Truth](docs/adr/0001-markdown-git-source-of-truth.md)
-- [Seitenschema](schemas/page.schema.json)
-- [Memory-Evaluation](evals/README.md)
-- [Runtime-Techniken: strukturierte Synthese](syntheses/agentic-runtime-techniques.md)
+- [System architecture](docs/architecture.md)
+- [Research and tool selection](docs/research.md)
+- [MVP and roadmap](docs/roadmap.md)
+- [ADR-0001: Markdown and Git as the source of truth](docs/adr/0001-markdown-git-source-of-truth.md)
+- [Page schema](schemas/page.schema.json)
+- [Memory evaluation](evals/README.md)
+- [Runtime techniques: structured synthesis](syntheses/agentic-runtime-techniques.md)
 - [Runtime Decision Guide](patterns/runtime-decision-guide.md)
 - [Runtime Safety Baseline](patterns/runtime-safety-baseline.md)
 - [Document-centric Hybrid RAG](patterns/document-centric-hybrid-rag.md)
-- [Case: Bauhelfer-KI RAG](cases/bauhelfer-ki-rag.md)
+- [Case: Bauhelfer AI RAG](cases/bauhelfer-ai-rag.md)
 - [RAG Pipeline Taxonomy](syntheses/rag-pipeline-taxonomy.md)
 - [PageIndex / Reasoning Tree Retrieval](patterns/pageindex-reasoning-tree-retrieval.md)
 - [Contextual Retrieval](patterns/contextual-retrieval.md)
@@ -38,48 +38,48 @@ Originalquellen ersetzen.
 - [LLM Judge Calibration](patterns/llm-judge-calibration.md)
 - [Online Evaluation and Rollout](patterns/online-evaluation-and-rollout.md)
 
-## Vault-Struktur
+## Knowledge-base structure
 
 ```text
-inbox/       ungeprüfte Eingänge
-sources/     Primärquellen und unveränderte Evidenz
-concepts/    stabile Begriffe und Mechanismen
-patterns/    Muster mit Einsatz- und Ausschlussbedingungen
-cases/       konkrete Architekturentscheidungen und Ergebnisse
-entities/    Personen, Projekte, Systeme und Organisationen
-syntheses/   belegte, aus Quellen abgeleitete Übersichten
-reports/     generierte Qualitäts- und Governance-Berichte
+inbox/       unreviewed inputs
+sources/     primary sources and unchanged evidence
+concepts/    stable concepts and mechanisms
+patterns/    patterns with use and exclusion conditions
+cases/       concrete architecture decisions and outcomes
+entities/    people, projects, systems, and organizations
+syntheses/   evidence-backed summaries derived from sources
+reports/     generated quality and governance reports
 ```
 
 ## Status
 
-Die deterministische MVP-Toolchain validiert Schema, IDs, Seitentypen, lokale
-Links, Provenienz und Relationsziele. Sie kompiliert alle kanonischen Seiten in
-eine vollständig rekonstruierbare JSON-Projektion. Autonomes Schreiben in den
-kanonischen Bereich ist nicht aktiviert.
+The deterministic toolchain validates schemas, IDs, page types, local links,
+provenance, and relation targets. It compiles every canonical page into a fully
+reconstructable JSON projection. Autonomous writes to the canonical content
+area are disabled.
 
-## Lokale Qualitätsprüfung
+## Local quality checks
 
 ```bash
 python3 -m pip install -r requirements.txt
 make check
 ```
 
-`make lint` verändert keine Dateien. `make compile` schreibt ausschließlich die
-ignorierten Projektionen `build/wiki.json` und `reports/quality.json`. GitHub
-Actions führt denselben Check bei Pushes und Pull Requests aus.
+`make lint` does not modify files. `make compile` writes only the ignored
+projections `build/wiki.json` and `reports/quality.json`. GitHub Actions runs the
+same checks for pushes and pull requests.
 
-## Lokale Suche
+## Local search
 
-`make compile` erzeugt zusätzlich `indexes/wiki.sqlite`. Jede Markdown-Sektion
-erhält eine stabile zitierfähige ID aus Seiten-ID und Überschriftenpfad.
+`make compile` also creates `indexes/wiki.sqlite`. Every Markdown section gets a
+stable, citable ID derived from its page ID and heading path.
 
 ```bash
 python3 tools/wiki.py search "hybrid retrieval BM25" \
   --privacy internal --status reviewed --limit 5
 ```
 
-Die Suche verwendet zunächst striktes FTS5-AND und fällt bei null Treffern auf
-OR zurück. JSON-Traces unter `reports/retrieval-traces/` enthalten Query,
-Filter, alle gerankten Kandidaten und die tatsächlich geladenen Vollabschnitte.
-Index und Traces sind rekonstruierbare, von Git ignorierte Projektionen.
+Search starts with strict FTS5 AND matching and falls back to OR matching when
+there are no results. JSON traces under `reports/retrieval-traces/` contain the
+query, filters, all ranked candidates, and the full sections that were loaded.
+Indexes and traces are reconstructable projections ignored by Git.

@@ -17,111 +17,112 @@ relations:
 
 # Agentic Runtime Techniques
 
-## Kernaussage
+## Core claim
 
-Eine Runtime ist keine einzelne Agentenschleife. Die kleinste brauchbare
-Architektur kombiniert genau **eine primäre Kontrollschleife** mit den
-querschnittlichen Schichten, die Risiko, Dauer und Betriebsumgebung verlangen.
-Mehr Schleifen und mehr Agenten sind keine automatische Verbesserung.
+A runtime is not a single agent loop. The smallest useful architecture combines
+exactly **one primary control loop** with the cross-cutting layers required by
+risk, duration, and operating environment. More loops and more agents are not an
+automatic improvement.
 
-## A. Kontrollschleifen
+## A. Control loops
 
-### 1. Action Loop
+### 1. Action loop
 
 `observe -> reason/plan -> act -> observe -> stop/repeat`
 
-Für kurze, interaktive Tool-Aufgaben. Erforderlich sind Tool-Verträge,
-Fehlerbehandlung, Stop-Kriterium und harte Budgets. Allein ungeeignet für lange,
-irreversible oder korrektheitskritische Arbeit.
+For short, interactive tool tasks. Requires tool contracts, error handling, a
+stop condition, and hard budgets. Insufficient by itself for long-running,
+irreversible, or correctness-critical work.
 
-### 2. Plan-and-Execute
+### 2. Plan and execute
 
 `plan -> execute step -> observe -> revise -> next step`
 
-Für mehrstufige Arbeit mit sichtbarem Fortschritt. Plan als versioniertes
-Artefakt speichern und Stale-Plan-Erkennung vorsehen. Nicht einsetzen, wenn die
-Aufgabe in einem Schritt lösbar oder überwiegend explorativ ist.
+For multi-stage work with visible progress. Store the plan as a versioned
+artifact and detect stale plans. Do not use when the task is solvable in one
+step or is primarily exploratory.
 
-### 3. Verifier Loop
+### 3. Verifier loop
 
 `attempt -> deterministic check -> fix/finish/escalate`
 
-Für Aufgaben mit überprüfbaren Akzeptanzkriterien. Tests, Schemas und Invarianten
-haben Vorrang vor einem LLM-Judge. Verifier-Unabhängigkeit und Retry-Limit sind
-notwendig, weil ein schwacher Checker falsche Fertigmeldungen legitimiert.
+For tasks with verifiable acceptance criteria. Tests, schemas, and invariants
+take precedence over an LLM judge. Verifier independence and retry limits are
+necessary because a weak checker legitimizes false completion.
 
-### 4. Bounded Retry
+### 4. Bounded retry
 
 `bounded attempt -> explicit result/failure -> retry/fresh context/escalate`
 
-Zeit-, Kosten-, Schritt- und Kontextgrenzen machen Scheitern zu einem expliziten
-Zustand. Zwischen Versuchen wird nur typisierter State übertragen; sonst trägt
-ein frischer Kontext dieselben Fehler weiter.
+Time, cost, step, and context limits make failure an explicit state. Transfer
+only typed state between attempts; otherwise a fresh context carries the same
+errors forward.
 
-### 5. Reflection/Memory
+### 5. Reflection and memory
 
 `act -> evaluate -> candidate lesson -> validate/promote -> reuse`
 
-Reflexionen dürfen nicht direkt in kanonisches Memory geschrieben werden.
-Promotion benötigt wiederholte Evidenz, Provenienz, Ablaufdatum und Rollback.
+Reflections must not be written directly to canonical memory. Promotion requires
+repeated evidence, provenance, expiry, and rollback.
 
-### 6. Research Loop
+### 6. Research loop
 
 `question -> query batch -> read -> claim/evidence ledger -> gap analysis -> repeat`
 
-Die entscheidende Runtime-Komponente ist der Claim-/Evidence-Ledger, nicht der
-Webzugriff. Stoppen bei gedeckten Kernclaims, ausgeschöpftem Budget oder fehlender
-neuer Evidenz.
+The decisive runtime component is the claim/evidence ledger, not web access.
+Stop when core claims are covered, the budget is exhausted, or no new evidence
+appears.
 
-### 7. Experiment Loop
+### 7. Experiment loop
 
 `propose -> isolated run -> measure -> paired comparison -> keep/revert`
 
-Nur mit fixierter Baseline, kontrollierter Varianz und unveränderlichem
-Experiment-Log. Einzelne erfolgreiche Runs reichen nicht zur Promotion.
+Use only with a fixed baseline, controlled variance, and immutable experiment
+log. One successful run is insufficient for promotion.
 
-### 8. Multi-Agent Orchestration
+### 8. Multi-agent orchestration
 
 `decompose -> typed tasks -> isolated workers -> typed results -> review/merge`
 
-Nur einsetzen, wenn getrennte Kontexte, Werkzeuge, Autoritäten oder echte
-Parallelität den Koordinationsaufwand überwiegen. Tiefe, Turns und Fan-out
-begrenzen; Ownership und Merge-Semantik explizit machen.
+Use only when separate contexts, tools, authorities, or genuine parallelism
+outweigh coordination cost. Bound depth, turns, and fan-out; make ownership and
+merge semantics explicit.
 
-### 9. Durable Runtime
+### 9. Durable runtime
 
 `load -> work -> checkpoint -> wait -> resume`
 
-Benötigt persistente Zustandsmaschine, idempotente Schritte, Lease/Single-runner,
-Retry/Backoff, Migrationen und Recovery-Semantik. Ein langer Chatturn ist kein
-durabler Workflow.
+Requires a persistent state machine, idempotent steps, lease or single-runner
+semantics, retry/backoff, migrations, and recovery semantics. A long chat turn is
+not a durable workflow.
 
-### 10. Coding Harness
+### 10. Coding harness
 
 `isolate -> edit -> test -> review -> merge/revert`
 
-Git-Diff, Worktree/Branch, ausführbare Checks, Reviewer und Rollback bilden die
-Runtime-Grenze. Ohne belastbare Tests bleibt auch ein Multi-Agent-Review schwach.
+Git diffs, worktree or branch isolation, executable checks, review, and rollback
+form the runtime boundary. Without strong tests, even multi-agent review remains
+weak.
 
-## B. Querschnittliche Runtime-Schichten
+## B. Cross-cutting runtime layers
 
-1. **Test-time Compute:** mehrere Kandidaten nur unter hartem Compute-Budget und
-   mit belastbarem Selektor.
-2. **HITL/Governance:** riskante Aktionen als resumable Interrupt modellieren,
-   nicht als informelle Rückfrage.
-3. **Security/Capabilities:** Trust Zones, Least Privilege und Action Firewall
-   vor Toolausführung.
-4. **Context/Memory:** Packing, Paging, Retrieval-Caps, Promotion und Forgetting.
-5. **Harness/Composition:** Agentenkern von Session, UI, Queue und Persistenz
-   trennen.
-6. **Protocols:** MCP/A2A nur an Grenzen, an denen Portabilität oder Remote-
-   Interoperabilität tatsächlich gebraucht wird.
-7. **Observability/Provenance:** append-only Events, Run Receipts, Claim- und
-   Artifact-IDs sowie replaybare Zustandsübergänge.
-8. **Cost/Serving:** Budgets, Model Routing, Caching und Latenz-SLOs als Runtime-
-   Policy statt Prompt-Hinweis.
+1. **Test-time compute:** generate multiple candidates only under a hard compute
+   budget and with a reliable selector.
+2. **HITL/governance:** model risky actions as resumable interrupts, not informal
+   questions.
+3. **Security/capabilities:** enforce trust zones, least privilege, and an action
+   firewall before tool execution.
+4. **Context/memory:** packing, paging, retrieval caps, promotion, and forgetting.
+5. **Harness/composition:** separate the agent core from session, UI, queue, and
+   persistence.
+6. **Protocols:** use MCP/A2A only at boundaries that genuinely require
+   portability or remote interoperability.
+7. **Observability/provenance:** append-only events, run receipts, claim and
+   artifact IDs, and replayable state transitions.
+8. **Cost/serving:** budgets, model routing, caching, and latency SLOs as runtime
+   policy rather than prompt suggestions.
 
-## Kompositionsregel
+## Composition rule
 
 ```text
 request
@@ -133,9 +134,9 @@ request
   -> result with provenance
 ```
 
-## Evidenzstatus
+## Evidence status
 
-Die Taxonomie ist eine nützliche Synthese, aber nicht experimentell als Ganzes
-validiert. Einzelne Techniken besitzen unterschiedliche Evidenz. Insbesondere
-2026-Patterns aus einzelnen Preprints bleiben Hypothesen beziehungsweise
-Kandidaten, bis unabhängige Replikation oder eigene Evals vorliegen.
+The taxonomy is a useful synthesis but has not been experimentally validated as
+a whole. Individual techniques have different evidence strength. In particular,
+2026 patterns from isolated preprints remain hypotheses or candidates until
+independent replication or local evaluations exist.

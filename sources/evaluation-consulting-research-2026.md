@@ -14,7 +14,7 @@ relations: []
 
 # Evaluation Consulting Research — August 2026
 
-Primärquellen und offizielle Implementierungsartefakte, geprüft am 2026-08-09:
+Primary sources and official implementation artifacts, reviewed on 2026-08-09:
 
 - Agentic Benchmark Checklist: https://arxiv.org/abs/2507.02825
 - AgentRewardBench: https://arxiv.org/abs/2504.08942

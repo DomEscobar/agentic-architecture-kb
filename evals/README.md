@@ -1,42 +1,43 @@
-# Memory- und Retrieval-Evaluation
+# Memory and Retrieval Evaluation
 
-## Offline-Suiten
+## Offline suites
 
-- **Recall/Precision:** bekannte relevante Abschnitte pro Anfrage.
-- **Temporal:** aktuelle Antwort gewinnt gegen superseded Claims.
-- **Contradiction:** Konflikt wird erkannt und nicht glattgebügelt.
-- **Premise awareness:** falsche Nutzerprämissen werden zurückgewiesen.
-- **Update:** Korrektur erscheint nach Compile im Retrieval.
-- **Forgetting:** gelöschter Inhalt erscheint weder lexikalisch noch semantisch.
-- **Privacy:** Cross-user-, Cross-project- und Restricted-Canaries liefern null
-  Treffer.
-- **Provenance:** Antwort-Claims zeigen auf tatsächlich geladene Abschnitte.
-- **Robustness:** Paraphrasen, Tippfehler und adversariale Prompt-Inhalte.
+- **Recall/Precision:** known relevant sections for each query.
+- **Temporal:** the current answer outranks superseded claims.
+- **Contradiction:** conflicts are detected rather than smoothed over.
+- **Premise awareness:** false user premises are rejected.
+- **Update:** a correction appears in retrieval after compilation.
+- **Forgetting:** deleted content appears in neither lexical nor semantic search.
+- **Privacy:** cross-user, cross-project, and restricted canaries return zero
+  results.
+- **Provenance:** answer claims point to sections that were actually loaded.
+- **Robustness:** paraphrases, typos, and adversarial prompt content.
 
-Deterministische Checks haben Vorrang. LLM-Judges dürfen ergänzen, müssen aber
-gegen menschlich gelabelte Beispiele kalibriert und mit Modell-/Prompt-Version
-protokolliert werden.
+Deterministic checks take priority. LLM judges may supplement them, but must be
+calibrated against human-labeled examples and logged with model and prompt
+versions.
 
 `tools/judge_calibration.py` accepts only independently labeled and adjudicated
 cases whose digest matches the frozen seed. It reports false-pass rate,
-sensitivity, specificity and abstention coverage. The seed remains non-
-promotional until real human labels and frozen judge predictions are supplied.
+sensitivity, specificity, and abstention coverage. The seed remains
+non-promotional until real human labels and frozen judge predictions are
+supplied.
 
-Protected selection/holdout data lives only in the untracked `evals/private/`
-control-plane mount. `tools/eval_control.py` verifies case-set and split digests,
-one release-scoped access-log event, distinct baseline/candidate identities,
-repeated runs, report digests and human approval. Repository placeholders are
-not accepted as evidence.
+Protected selection and holdout data lives only in the untracked
+`evals/private/` control-plane mount. `tools/eval_control.py` verifies case-set
+and split digests, one release-scoped access-log event, distinct baseline and
+candidate identities, repeated runs, report digests, and human approval.
+Repository placeholders are not accepted as evidence.
 
-## Online-Metriken
+## Online metrics
 
-Retrieval-Latenz, End-to-End-Latenz, Kosten, Ergebnis-Abdeckung, Quellenklicks,
-Korrekturen, Abstentionsrate, Stale-Quote und Privacy-Verstöße. Änderungen gehen
-über Replay, gepaarte Baseline, Canary, Kill Switch und Rollback.
+Retrieval latency, end-to-end latency, cost, result coverage, source clicks,
+corrections, abstention rate, stale-result rate, and privacy violations. Changes
+progress through replay, paired baselines, canary, kill switch, and rollback.
 
-## Consulting-Regression
+## Consulting regression
 
-`consulting-cases.json` definiert verpflichtende Entscheidungselemente für
-Brownfield-, Greenfield-, Judge-, Coding-, Memory-, Multi-Agent-, Production-
-und Toolauswahlfragen. Feldvalidierte Ergebnisse werden getrennt als kanonische
-Case Records mit realer Evidenz aufgenommen.
+`consulting-cases.json` defines mandatory decision elements for brownfield,
+greenfield, judge, coding, memory, multi-agent, production, and tool-selection
+questions. Field-validated results are recorded separately as canonical case
+records with real evidence.

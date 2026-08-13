@@ -15,47 +15,47 @@ relations: []
 # Agentic Eval Evolution Runtime — Research Audit
 
 - Repository: https://github.com/DomEscobar/agentic-eval-evolution-runtime
-- untersuchter Commit: `f890e15790f4a1a60adcd835f3c7993c38efaf09`
-- Research-Permalink: https://github.com/DomEscobar/agentic-eval-evolution-runtime/tree/f890e15790f4a1a60adcd835f3c7993c38efaf09/research
-- abgerufen: 2026-08-09
+- Reviewed commit: `f890e15790f4a1a60adcd835f3c7993c38efaf09`
+- Research permalink: https://github.com/DomEscobar/agentic-eval-evolution-runtime/tree/f890e15790f4a1a60adcd835f3c7993c38efaf09/research
+- Retrieved: 2026-08-09
 
-## Enthaltene Research-Lanes
+## Included research lanes
 
-- generischer Agentic-Eval- und Evolution-Harness;
-- eval-geführte Code-Patch-Loops;
-- Qualität und Leakage-Schutz von Eval-Datensätzen.
+- Generic agent evaluation and evolution harness
+- Evaluation-guided code patch loops
+- Evaluation-dataset quality and leakage protection
 
-Jede Lane enthält Plan, Quellenledger, Claims, Evidence-Auszüge, Pages und
-Bericht. Das ist auditierbarer als ein reiner Fließtext-Research-Report.
+Each lane contains a plan, source ledger, claims, evidence excerpts, pages, and
+a report. This is more auditable than a prose-only research report.
 
-## Belastbare Kernaussagen
+## Defensible core findings
 
-- Eval-Ausführung, Mutation und Promotion sind verschiedene Rollen.
-- Deterministische Orakel und harte Gates gehen vor gewichteten Soft Scores.
-- Train/Development, Candidate Selection und versteckter Holdout benötigen
-  getrennte Informationsgrenzen.
-- Ein Patch Loop braucht unveränderliche Evaluatorflächen, Diff-/Dateigrenzen,
-  Budget, Archiv, Canary und Rollback.
-- Eine Dataset-Architektur ist noch kein valider Datensatz; Case-Gültigkeit,
-  Orakel, Repräsentativität und Leakage müssen gemessen werden.
-- Benchmark-Erfolg beweist nur Leistung auf dem gebundenen Dataset, Commit und
-  der gebundenen Konfiguration.
+- Evaluation execution, mutation, and promotion are distinct roles.
+- Deterministic oracles and hard gates take precedence over weighted soft scores.
+- Training/development, candidate selection, and hidden holdout data require
+  separate information boundaries.
+- A patch loop needs immutable evaluator surfaces, diff/file boundaries, a
+  budget, archive, canary, and rollback.
+- A dataset architecture is not yet a valid dataset; case validity, oracles,
+  representativeness, and leakage must be measured.
+- Benchmark success demonstrates performance only on the bound dataset, commit,
+  and configuration.
 
-## Claims mit notwendiger Herabstufung
+## Claims requiring lower confidence
 
-- Neue 2026-Preprints zu autonomer Evolution sind meist E2–E3 und nicht breit
-  repliziert.
-- Einzelne Verbesserungszahlen aus kleinen SWE-bench-Subsets generalisieren
-  nicht auf andere Repositories oder Aufgabenverteilungen.
-- GitHub-Stars messen Aufmerksamkeit, nicht Eval-Validität oder Production
-  Readiness.
-- Ein LLM-Judge ist nicht durch ein separates Modell automatisch unabhängig;
-  Rubrik, Daten, Modellfamilie und Fehlerkorrelation müssen kalibriert werden.
-- Ein zusammengesetzter Dataset-Quality-Score darf keine fehlenden Orakel oder
-  Leakage hinter einem Mittelwert verstecken.
+- New 2026 preprints on autonomous evolution are mostly E2–E3 and not broadly
+  replicated.
+- Isolated improvement figures from small SWE-bench subsets do not generalize to
+  other repositories or task distributions.
+- GitHub stars measure attention, not evaluation validity or production
+  readiness.
+- A separate model does not automatically make an LLM judge independent;
+  rubric, data, model family, and correlated errors require calibration.
+- A composite dataset-quality score must not hide missing oracles or leakage
+  behind an average.
 
-## Urteil
+## Assessment
 
-Die Research-Struktur ist eine gute Hypothesen- und Quellenbasis. Sie wird als
-sekundäre Synthesequelle verwendet; starke Architekturclaims werden zusätzlich
-gegen die jeweiligen Papers, offiziellen Repositories oder Standards geprüft.
+The research structure is a useful hypothesis and source base. It is used as a
+secondary synthesis source; strong architecture claims are also checked against
+the relevant papers, official repositories, or standards.

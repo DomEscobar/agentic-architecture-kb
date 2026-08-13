@@ -17,12 +17,12 @@ relations: []
 
 ## Decision
 
-Primary evidence and reviewed project observations enter `llm-wiki`, which is the
+Primary evidence and reviewed project observations enter `agentic-architecture-kb`, which is the
 canonical technical knowledge source. Two consumers are produced only downstream:
 
-`evidence -> llm-wiki -> Memory Wiki projection`
+`evidence -> agentic-architecture-kb -> Memory Wiki projection`
 
-`evidence -> llm-wiki -> approved public snapshot`
+`evidence -> agentic-architecture-kb -> approved public snapshot`
 
 `wiki-sources` is frozen as legacy migration input. Chat history, `MEMORY.md` and
 daily notes retain decisions and context; they do not become canonical technical

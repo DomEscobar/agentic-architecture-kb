@@ -14,7 +14,7 @@ relations: []
 
 # Agent Evaluation Research — August 2026
 
-Aktuelle Primärquellen, geprüft am 2026-08-09:
+Current primary sources, reviewed on 2026-08-09:
 
 - Agentic Benchmark Checklist:
   https://arxiv.org/abs/2507.02825
@@ -37,42 +37,41 @@ Aktuelle Primärquellen, geprüft am 2026-08-09:
 
 ### Benchmark validity — E4 direction, E3 measurements
 
-Die Agentic Benchmark Checklist zeigt konkrete Fehler in Task Setup und Reward
-Design, die Rankings stark verzerren können. Der generalisierbare Schluss ist
-nicht eine bestimmte Prozentzahl, sondern: Der Evaluator und die Aufgaben
-selbst brauchen Tests, adversariale Negativfälle und eine Validitätsprüfung.
+The Agentic Benchmark Checklist identifies concrete errors in task setup and
+reward design that can materially distort rankings. The generalizable conclusion
+is not a particular percentage: evaluators and tasks themselves require tests,
+adversarial negatives, and validity checks.
 
 ### Trajectory judges — E3, workload-bound
 
-AgentRewardBench vergleicht automatische Evaluatoren gegen expertengelabelte
-Web-Agent-Trajektorien. AJ-Bench erweitert den Judge um aktive
-Umgebungsinteraktion. Beide stützen Kalibrierung gegen menschliche oder
-deterministische Referenzen; sie beweisen keinen universellen Judge.
+AgentRewardBench compares automated evaluators against expert-labeled web-agent
+trajectories. AJ-Bench extends the judge with active environment interaction.
+Both support calibration against human or deterministic references; neither
+demonstrates a universal judge.
 
-### Long-horizon evidence — E2–E3, neu
+### Long-horizon evidence — E2–E3, new
 
-TRACE akkumuliert Evidenz über entfernte Schritte statt nur einzelne Fenster
-oder den finalen Output zu beurteilen. Das ist besonders für Sabotage und lange
-kausale Ketten relevant, stammt aber aus zehn SHADE-Arena-Domains und ist noch
-kein allgemeiner Produktionsstandard.
+TRACE accumulates evidence across distant steps instead of judging only local
+windows or final output. This is relevant to sabotage and long causal chains,
+but the evidence comes from ten SHADE-Arena domains and is not yet a general
+production standard.
 
-### Deterministische stateful evaluation — E2, starkes Pattern
+### Deterministic stateful evaluation — E2, strong pattern
 
-GroundEval prüft Search-, Fetch-, Access- und Zeitpfade gegen Zustandswahrheit.
-Das Pattern passt zu agentischen Systemen mit kontrollierbarer Umgebung. Die
-Publikation ist sehr neu und ihre Fallstudien ersetzen keine unabhängige
-Replikation.
+GroundEval checks search, fetch, access, and temporal paths against state truth.
+The pattern fits agentic systems with controlled environments. The publication
+is very recent, and its case studies do not replace independent replication.
 
-### Eval-guided optimization — E3 innerhalb getesteter Tasks
+### Evaluation-guided optimization — E3 within tested tasks
 
-GEPA verwendet Trajektorien und textuelle Reflexion, um Promptvarianten über
-eine Pareto-Selektion zu entwickeln. Die berichtete Sample Efficiency gilt für
-die untersuchten Tasks. Für sichere Selbstverbesserung bleiben Holdout,
-unveränderliche Gates, Patchgrenzen, Canary und Rollback zusätzlich nötig.
+GEPA uses trajectories and textual reflection to evolve prompt variants through
+Pareto selection. Its reported sample efficiency applies to the tested tasks.
+Safe self-improvement still requires holdouts, immutable gates, patch
+boundaries, canaries, and rollback.
 
-### Contamination resistance — konvergierende E3-Evidenz
+### Contamination resistance — converging E3 evidence
 
-SWE-bench Illusion findet Hinweise auf Memorisation und Artefaktnutzung.
-SWE-bench Live verwendet neuere, ausführbare Repositoryaufgaben. Daraus folgt:
-öffentliche statische Benchmarks sind Entwicklungsbaselines, aber keine
-ausreichende finale Evidenz für generalisierbare Coding-Agent-Fähigkeit.
+SWE-bench Illusion finds indications of memorization and artifact exploitation.
+SWE-bench Live uses newer executable repository tasks. Public static benchmarks
+are therefore development baselines, not sufficient final evidence of
+generalizable coding-agent capability.

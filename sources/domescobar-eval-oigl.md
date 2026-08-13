@@ -15,56 +15,57 @@ relations: []
 # DomEscobar/Eval-Oigl
 
 - Repository: https://github.com/DomEscobar/Eval-Oigl
-- untersuchter Commit: `b8d6a13d3220afb3f6ddc4d5f0e350f70142653f`
+- Reviewed commit: `b8d6a13d3220afb3f6ddc4d5f0e350f70142653f`
 - Permalink: https://github.com/DomEscobar/Eval-Oigl/tree/b8d6a13d3220afb3f6ddc4d5f0e350f70142653f
-- abgerufen: 2026-08-09
-- Sprache/Toolchain: Go 1.23
-- Lizenz: Im untersuchten Commit wurde keine LICENSE-Datei gefunden; daher keine
-  Open-Source-Lizenz annehmen.
+- Retrieved: 2026-08-09
+- Language/toolchain: Go 1.23
+- License: no LICENSE file was found in the reviewed commit; do not assume an
+  open-source license.
 
-## Verifizierter Stand
+## Verified state
 
-`go test ./...` lief am untersuchten Commit über alle Pakete erfolgreich. Das
-belegt interne Testkonsistenz, nicht die externe Validität der Eval-Metriken.
+`go test ./...` passed across all packages at the reviewed commit. This
+demonstrates internal test consistency, not external validity of the evaluation
+metrics.
 
-OIGL implementiert einen vom System under Test getrennten Eval-Harness mit:
+OIGL implements an evaluation harness separated from the system under test with:
 
-- versionierten Eval Packs für Targets, Capabilities, Cases und Manifest;
-- vollständigem Pack-, Manifest- und Konfigurations-Hash;
-- unabhängiger Identität von Runtime und optionalem LLM-Judge;
-- mechanischen Scorern für Toolwahl, Argumente, verbotene Tools, Trace-Schritte,
-  Grounding, Terminalzustand und Budgets;
-- kausaler Verknüpfung von Tool Calls und Observations über IDs;
-- Attempt Receipts, Campaigns, Events, Recovery und read-only Reports;
-- separaten Full-, Targeted- und Confirmation-Runs;
-- expliziter Acceptance, die Pack-Hash, Commit, Coverage, Scorer und Bindings
-  erneut prüft.
+- Versioned evaluation packs for targets, capabilities, cases, and manifest
+- Complete pack, manifest, and configuration hashes
+- Independent identities for the runtime and optional LLM judge
+- Mechanical scorers for tool choice, arguments, forbidden tools, trace steps,
+  grounding, terminal state, and budgets
+- Causal linking of tool calls and observations through IDs
+- Attempt receipts, campaigns, events, recovery, and read-only reports
+- Separate full, targeted, and confirmation runs
+- Explicit acceptance that rechecks pack hash, commit, coverage, scorers, and
+  bindings
 
-## Starke Architekturentscheidungen
+## Strong architecture decisions
 
-1. Der Harness importiert keine Produktionsruntime; HTTP/JSON ist die Grenze.
-2. Eval-Bedeutung lebt im versionierten Pack, nicht in CLI-Defaults.
-3. Mechanische Evidenz wird vor semantischer Plausibilität geprüft.
-4. Ein PASS wird erst nach separater Confirmation explizit akzeptiert.
-5. Reports präsentieren persistierte Evidenz, ändern aber keine Kampagne.
+1. The harness does not import the production runtime; HTTP/JSON is the boundary.
+2. Evaluation semantics live in the versioned pack, not CLI defaults.
+3. Mechanical evidence is checked before semantic plausibility.
+4. A PASS is explicitly accepted only after separate confirmation.
+5. Reports present persisted evidence but do not mutate a campaign.
 
-## Grenzen und offene Risiken
+## Limits and open risks
 
-- Ein grüner interner Testlauf kalibriert weder Cases noch LLM-Judge gegen
-  menschliche Labels.
-- Eine einzige Confirmation schützt nicht gegen stochastische Flakiness; die
-  nötige Wiederholungszahl muss pro Slice empirisch bestimmt werden.
-- Das Packmodell enthält keine eigenständige, für den Optimierer abgeschottete
-  Holdout-/Redteam-Verwaltung.
-- Kein universeller Trace darf erzwungen werden: alternative korrekte
-  Trajektorien müssen erlaubt bleiben, während kausale Invarianten gelten.
-- Live Targets und Judge-Endpunkte können Kosten oder Side Effects erzeugen;
-  Packs sind deshalb ausführbare, reviewpflichtige Konfiguration.
-- Externe Outcome- und Judge-Validierung wurde in diesem Audit nicht gefunden.
+- A passing internal test run calibrates neither cases nor the LLM judge against
+  human labels.
+- One confirmation does not protect against stochastic flakiness; required
+  repetitions must be determined empirically per slice.
+- The pack model has no separate holdout/red-team management isolated from the
+  optimizer.
+- No universal trace should be imposed: alternative correct trajectories must
+  remain valid while causal invariants are enforced.
+- Live targets and judge endpoints can create cost or side effects; packs are
+  therefore executable configurations that require review.
+- This audit found no external outcome or judge validation.
 
-## Evidenzgrad
+## Evidence level
 
-E3 für die beobachtete Implementierung und die erfolgreichen Repositorytests.
-E1–E2 für Aussagen über allgemeine Messvalidität, bis OIGL gegen menschlich
-gelabelte Trajektorien, absichtlich defekte Agents und reale Failure Slices
-kalibriert wurde.
+E3 for the observed implementation and passing repository tests. E1–E2 for
+claims about general measurement validity until OIGL is calibrated against
+human-labeled trajectories, deliberately defective agents, and real failure
+slices.

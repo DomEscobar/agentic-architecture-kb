@@ -19,25 +19,25 @@ relations:
 
 # Document-centric Hybrid RAG
 
-## Winning Conditions
+## Winning conditions
 
-Dieses Pattern passt, wenn Dokumentstruktur und exakte Werte gleichermaßen
-wichtig sind: Angebote, Verträge, technische Spezifikationen,
-Leistungsverzeichnisse, Rechnungen oder regulatorische Unterlagen.
+This pattern fits when document structure and exact values are equally
+important: offers, contracts, technical specifications, bills of quantities,
+invoices, or regulatory documents.
 
-## Architektur
+## Architecture
 
 ### Ingestion
 
-1. Original unveränderlich und außerhalb des Code-Repositories speichern.
-2. Tenant, Projekt, Dokumenttyp und Retention vor Parsing festlegen.
-3. Layout-, Tabellen-, OCR- und Seiteninformationen extrahieren.
-4. Parseroutput und Parser-/Konfigurationsversion speichern.
-5. Nach Überschrift, Tabelle, Position oder Seite strukturieren; fixe
-   Tokenfenster nur als Fallback.
-6. Chunk mit stabiler ID, Dokumentversion, Seitenanker, Typ, Confidence und
-   kompaktem Kontextkopf versehen.
-7. Lexikalischen und semantischen Index reproduzierbar erzeugen.
+1. Store the original immutably and outside the code repository.
+2. Set tenant, project, document type, and retention before parsing.
+3. Extract layout, table, OCR, and page information.
+4. Store parser output and parser/configuration versions.
+5. Segment by heading, table, line item, or page; use fixed token windows only
+   as a fallback.
+6. Attach a stable ID, document version, page anchor, type, confidence, and
+   compact context header to each chunk.
+7. Build lexical and semantic indexes reproducibly.
 
 ### Retrieval
 
@@ -51,33 +51,32 @@ intent/scope
  -> evidence pack with stable anchors
 ```
 
-ACL und Projektfilter müssen vor ANN/Ranking gelten. RRF ist ein guter Default,
-weil es Ränge statt unkalibrierter Scores fusioniert. Top-k-Werte sind keine
-Best Practices, sondern per Dataset zu bestimmende Parameter.
+ACL and project filters must apply before ANN and ranking. RRF is a strong
+default because it fuses ranks instead of uncalibrated scores. Top-k values are
+dataset-specific parameters, not universal best practices.
 
 ### Generation
 
-- Evidence Pack und Output-Schema explizit trennen.
-- Jede fachliche Aussage und jedes kritische Feld auf Source-ID und Seitenanker
-  beziehen.
-- Annahme, unbekannt und widersprüchlich als eigene Zustände modellieren.
-- Rechenbare Werte deterministisch berechnen und validieren.
-- Externe oder irreversible Ausgabe erst nach menschlicher Freigabe.
+- Separate the evidence pack explicitly from the output schema.
+- Link every domain claim and critical field to a source ID and page anchor.
+- Model assumed, unknown, and contradictory as distinct states.
+- Compute and validate calculable values deterministically.
+- Require human approval before external or irreversible output.
 
-## Nicht verwenden
+## Do not use
 
-- Für kleine, vollständig strukturierte Datensätze: direkte SQL/API-Abfrage ist
-  einfacher und präziser.
-- Für exakte Tabellenaggregation: Parser plus strukturierte Datenbank gewinnt
-  häufig gegen Text-RAG.
-- Für einmalige, kurze Dokumente: Long-context kann als Baseline günstiger sein.
+- For small, fully structured datasets: direct SQL or API queries are simpler
+  and more precise.
+- For exact table aggregation: a parser plus structured database often
+  outperforms text RAG.
+- For one-off short documents: long context may be the cheaper baseline.
 
-## Failure Detection
+## Failure detection
 
-- Parse-Goldens pro Dokumenttyp;
-- Retrieval-Ablationen und per-slice Metriken;
-- Cross-scope Canaries;
-- Citation-/Anchor-Validator;
-- Unsupported-Claim- und Missing-field-Checks;
-- Indexmanifest- und Löschungsprüfung;
-- Latenz, Kosten und Reranker-Fallback im Trace.
+- Parse goldens per document type
+- Retrieval ablations and per-slice metrics
+- Cross-scope canaries
+- Citation and anchor validation
+- Unsupported-claim and missing-field checks
+- Index-manifest and deletion checks
+- Latency, cost, and reranker fallback in the trace

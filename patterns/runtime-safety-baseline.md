@@ -17,44 +17,45 @@ relations:
 
 # Runtime Safety Baseline
 
-Diese Baseline gilt unabhängig vom gewählten Agenten-Framework.
+This baseline applies regardless of the selected agent framework.
 
-## Vor dem Run
+## Before the run
 
-- Originalintention unveränderlich erfassen.
-- Nutzer, Projekt und Datenschutz-Scope bestimmen.
-- Kontext als trusted instruction, trusted data oder untrusted evidence labeln.
-- minimale, zeitlich begrenzte Capabilities ausstellen.
-- Budgets für Zeit, Tokens, Kosten, Calls, Delegationstiefe und Fan-out setzen.
+- Record the original intent immutably.
+- Determine user, project, and privacy scope.
+- Label context as trusted instruction, trusted data, or untrusted evidence.
+- Issue minimal, time-limited capabilities.
+- Set budgets for time, tokens, cost, calls, delegation depth, and fan-out.
 
-## Während des Runs
+## During the run
 
 Separate conversational checkpoints from external side effects. Non-idempotent
-effects need runtime-generated causal IDs, commit-time authority checks and a
-transactional or reconcilable effect ledger; replaying chat state is insufficient.
+effects need runtime-generated causal IDs, commit-time authority checks, and a
+transactional or reconcilable effect ledger; replaying chat state is
+insufficient.
 
-- jeden Zustandsübergang und Toolversuch append-only protokollieren;
-- Toolargumente gegen Schema und Policy prüfen;
-- vorgeschlagene Aktionen erneut gegen Originalintention und Trust Zone prüfen;
-- Side Effects mit Idempotency Key oder Saga/Compensation schützen;
-- No-progress-, Repeat- und Budget-Breaker erzwingen;
-- vor riskanten oder irreversiblen Aktionen resumable Approval Interrupt.
+- Record every state transition and tool attempt in an append-only log.
+- Validate tool arguments against schema and policy.
+- Recheck proposed actions against the original intent and trust zone.
+- Protect side effects with idempotency keys or saga/compensation semantics.
+- Enforce no-progress, repetition, and budget breakers.
+- Use a resumable approval interrupt before risky or irreversible actions.
 
-## Nach dem Run
+## After the run
 
-- Verifier entscheidet anhand expliziter Akzeptanzkriterien;
-- Run Receipt enthält Inputs/Outputs als Referenzen, Toolresultate, Kosten,
-  Zustandsübergänge und Provenienz;
-- Secrets und private Inhalte gemäß Policy redigieren;
-- Memory-Lektionen nur als Inbox-Kandidaten schreiben;
-- Recovery-, Replay- und Rollback-Pfad regelmäßig testen.
+- Let a verifier decide against explicit acceptance criteria.
+- Include referenced inputs/outputs, tool results, cost, state transitions, and
+  provenance in the run receipt.
+- Redact secrets and private content according to policy.
+- Write memory lessons only as inbox candidates.
+- Test recovery, replay, and rollback paths regularly.
 
-## Minimale Evals
+## Minimum evaluations
 
-- Prompt-Injection über Toolresultat, Webseite und Memory;
-- Capability-Eskalation und Cross-project-Zugriff;
-- doppelte Zustellung und Crash zwischen Side Effect und Checkpoint;
-- unendliche Schleife, No-progress und Budgetüberschreitung;
-- fehlerhafter Verifier und falsche Fertigmeldung;
-- Replay nach Schema-/State-Migration;
-- Löschung eines Memory-Eintrags einschließlich aller Projektionen.
+- Prompt injection through tool output, web pages, and memory
+- Capability escalation and cross-project access
+- Duplicate delivery and crash between side effect and checkpoint
+- Infinite loops, no progress, and budget overruns
+- Faulty verifier and false completion report
+- Replay after schema or state migration
+- Deletion of a memory entry across all projections

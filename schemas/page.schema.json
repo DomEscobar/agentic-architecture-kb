@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agentic-architect.local/schemas/page.schema.json",
-  "title": "LLM Wiki page metadata",
+  "title": "Agentic Architecture Knowledge Base page metadata",
   "type": "object",
   "required": ["id", "type", "title", "status", "privacy", "created_at", "updated_at"],
   "properties": {

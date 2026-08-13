@@ -4,17 +4,17 @@
   "promotion_authority": false,
   "metrics": ["Recall@5", "MRR", "nDCG@5", "p95_ms", "privacy_violations"],
   "cases": [
-    {"id":"de-parser-scan","query":"Welcher Parser für gescannte mehrspaltige PDFs mit Tabellen?","relevant_page_ids":["pattern-parser-technique-catalog","pattern-parser-routing-matrix"],"slice":"de-paraphrase"},
+    {"id":"en-parser-scan","query":"Which parser should handle scanned multi-column PDFs with tables?","relevant_page_ids":["pattern-parser-technique-catalog","pattern-parser-routing-matrix"],"slice":"en-paraphrase"},
     {"id":"en-parser-office","query":"fast local Office and EPUB conversion without OCR","relevant_page_ids":["pattern-parser-technique-catalog"],"slice":"en-exact"},
-    {"id":"de-chunk-code","query":"Wie chunke ich Quellcode entlang Funktionen und Klassen?","relevant_page_ids":["pattern-chunking-technique-catalog"],"slice":"de-paraphrase"},
+    {"id":"en-chunk-code","query":"How should source code be chunked along function and class boundaries?","relevant_page_ids":["pattern-chunking-technique-catalog"],"slice":"en-paraphrase"},
     {"id":"en-chunk-fact","query":"atomic proposition chunks for fine-grained fact lookup","relevant_page_ids":["pattern-chunking-technique-catalog"],"slice":"en-exact"},
-    {"id":"de-embedding-migrate","query":"Embedding-Modell ohne Downtime mit Rollback migrieren","relevant_page_ids":["pattern-embedding-selection-migration","pattern-embedding-technique-catalog"],"slice":"de-paraphrase"},
+    {"id":"en-embedding-migrate","query":"Migrate an embedding model without downtime and with rollback","relevant_page_ids":["pattern-embedding-selection-migration","pattern-embedding-technique-catalog"],"slice":"en-paraphrase"},
     {"id":"en-embedding-language","query":"multilingual code-switch dense retrieval evaluation","relevant_page_ids":["pattern-embedding-technique-catalog"],"slice":"en-paraphrase"},
-    {"id":"de-visual-chart","query":"RAG über Charts Tabellen und Diagramme mit Regionszitaten","relevant_page_ids":["pattern-multimodal-rag-technique-catalog","pattern-multimodal-document-retrieval"],"slice":"de-paraphrase"},
+    {"id":"en-visual-chart","query":"RAG over charts, tables, and diagrams with region-level citations","relevant_page_ids":["pattern-multimodal-rag-technique-catalog","pattern-multimodal-document-retrieval"],"slice":"en-paraphrase"},
     {"id":"en-hybrid","query":"BM25 dense reciprocal rank fusion exact identifiers","relevant_page_ids":["pattern-retrieval-context-technique-catalog"],"slice":"en-exact"},
-    {"id":"de-citation","query":"Ungültige verkürzte Quellenlabels nach der Antwort prüfen","relevant_page_ids":["pattern-retrieval-context-technique-catalog"],"slice":"de-paraphrase"},
+    {"id":"en-citation","query":"Detect invalid shortened source labels after answer generation","relevant_page_ids":["pattern-retrieval-context-technique-catalog"],"slice":"en-paraphrase"},
     {"id":"en-runtime-effects","query":"retry non-idempotent side effects causal ledger commit authorization","relevant_page_ids":["pattern-runtime-safety-baseline"],"slice":"en-exact"},
-    {"id":"de-memory-poison","query":"Vergiftete Erinnerungen quarantänen und nicht als Procedure promoten","relevant_page_ids":["pattern-memory-poisoning-defense","pattern-memory-write-and-promotion"],"slice":"de-paraphrase"},
+    {"id":"en-memory-poison","query":"Quarantine poisoned memories and prevent procedural promotion","relevant_page_ids":["pattern-memory-poisoning-defense","pattern-memory-write-and-promotion"],"slice":"en-paraphrase"},
     {"id":"en-rsi-evaluator","query":"optimizer rewrites evaluator objective epoch holdout rollback","relevant_page_ids":["pattern-rsi-evidence-boundary"],"slice":"en-paraphrase"}
   ]
 }

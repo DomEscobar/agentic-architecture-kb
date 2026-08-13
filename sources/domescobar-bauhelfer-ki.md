@@ -15,11 +15,11 @@ relations: []
 # DomEscobar/bauhelfer-ki
 
 - Repository: https://github.com/DomEscobar/bauhelfer-ki
-- untersuchter Commit: `6671de4277b57e6aa06c1cf06abdad43fd72ac20`
-- Commit-Permalink: https://github.com/DomEscobar/bauhelfer-ki/tree/6671de4277b57e6aa06c1cf06abdad43fd72ac20
-- abgerufen: 2026-08-08
+- Reviewed commit: `6671de4277b57e6aa06c1cf06abdad43fd72ac20`
+- Commit permalink: https://github.com/DomEscobar/bauhelfer-ki/tree/6671de4277b57e6aa06c1cf06abdad43fd72ac20
+- Retrieved: 2026-08-08
 
-## Untersuchte Artefakte
+## Reviewed artifacts
 
 - `RAG.md`, `RAG_METHODIK_2026.md`, `docs/RAG-DeepResearch-2026.md`
 - `apps/api/src/services/ingestion.ts`
@@ -28,19 +28,20 @@ relations: []
 - `apps/api/src/providers/reranker.ts`
 - `apps/api/src/services/agent/contextAssembly.ts`
 - `apps/api/src/services/agent/citations.ts`
-- `apps/api/src/services/documentEvidence.ts` und zugehörige Tests
+- `apps/api/src/services/documentEvidence.ts` and related tests
 - `apps/api/migrations/001_init.sql`
-- Retrieval- und Angebots-Eval-Harness unter `eval/`
+- Retrieval and offer evaluation harness under `eval/`
 
-## Datenschutzgrenze
+## Privacy boundary
 
-Das Repository enthält hochgeladene und geparste Projektartefakte unter
-`apps/api/data/`. Diese wurden weder als Wissensquelle ausgewertet noch in das
-Wiki übernommen. Ein öffentliches Code-Repository sollte keine realen Uploads,
-abgeleiteten Texte, Kundeninformationen oder lokale Storage-Pfade enthalten.
+The repository contains uploaded and parsed project artifacts under
+`apps/api/data/`. They were neither evaluated as knowledge sources nor imported
+into this knowledge base. A public code repository should not contain real
+uploads, derived text, customer information, or local storage paths.
 
-## Verwendungsregel
+## Use rule
 
-Der Code belegt die konkrete Implementierung des Cases. Zahlen, Rankings und
-Marktvergleiche aus den Research-Dokumenten sind Repo-Claims und werden erst
-nach Prüfung ihrer Primärquellen in allgemeine Empfehlungen promoted.
+The code demonstrates the concrete implementation of the case. Figures,
+rankings, and market comparisons in its research documents remain repository
+claims and are promoted to general recommendations only after their primary
+sources are reviewed.

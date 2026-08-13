@@ -30,7 +30,7 @@ def main() -> int:
         "",
         f"Canonical SHA-256: `{canonical_sha}`",
         "",
-        "This is a generated, one-way projection. The canonical source is `llm-wiki`;",
+        "This is a generated, one-way projection. The canonical source is `agentic-architecture-kb`;",
         "edits here must never reverse-sync into the canonical repository.",
         "",
     ]

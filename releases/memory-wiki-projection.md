@@ -1,8 +1,8 @@
 # Agentic Architect canonical projection
 
-Canonical SHA-256: `4e0d1783687918708a1655fb63d2ac3dece0d47939b9c11f4b81c7a19d5f2b4c`
+Canonical SHA-256: `47929a9c583e11bf7ac05993c70aabdc425c703bac0f03479047f373b57953d4`
 
-This is a generated, one-way projection. The canonical source is `llm-wiki`;
+This is a generated, one-way projection. The canonical source is `agentic-architecture-kb`;
 edits here must never reverse-sync into the canonical repository.
 
 ## Agent Memory Consulting Regression Cases
@@ -38,33 +38,32 @@ case, treats raw transcripts as canonical memory, omits write authority,
 merges run state with durable facts, relies only on QA accuracy, or promises
 deletion without lineage-aware verification.
 
-## Bauhelfer-KI RAG
+## Bauhelfer AI RAG
 
 Canonical ID: `case-bauhelfer-ki-rag`  
 Type: `case` · Privacy: `internal` · Confidence: `0.88`  
 Sources: `source-domescobar-bauhelfer-ki`
 
-# Case: Bauhelfer-KI RAG
+# Case: Bauhelfer AI RAG
 
-## Kontext
+## Context
 
-Ein deutschsprachiger Angebotsassistent verarbeitet heterogene Bau- und
-Handwerksunterlagen wie Leistungsverzeichnisse, Preislisten, Office-Dateien,
-Scans und Fotos. Das Ergebnis ist kein freier Chattext, sondern ein prüfbarer,
-editierbarer Angebotsentwurf mit Positionen, Mengen, Preisen, Annahmen und
-Quellen.
+A German-language estimating assistant processes heterogeneous construction and
+trade documents such as bills of quantities, price lists, office files, scans,
+and photos. Its output is not unconstrained chat text, but an auditable, editable
+offer draft with line items, quantities, prices, assumptions, and sources.
 
-## Relevante Constraints
+## Relevant constraints
 
-- exakte IDs, Positionsnummern, Einheiten, Beträge und Seiten sind wichtiger als
-  bloße semantische Ähnlichkeit;
-- Tabellen, Layout und Reading Order tragen Bedeutung;
-- Retrieval muss Organisation und Projekt strikt isolieren;
-- falsche Zuordnung zwischen Kunden oder Projekten ist ein schwerer Fehler;
-- unbekannte Werte müssen offen bleiben statt plausibel ergänzt zu werden;
-- ein Nutzer genehmigt das Ergebnis vor PDF beziehungsweise externer Wirkung.
+- Exact IDs, item numbers, units, amounts, and pages matter more than semantic
+  similarity alone.
+- Tables, layout, and reading order carry meaning.
+- Retrieval must strictly isolate organizations and projects.
+- Misattributing content across customers or projects is a severe failure.
+- Unknown values must remain explicit rather than being plausibly completed.
+- A user approves the result before PDF generation or any external effect.
 
-## Implementiertes Muster
+## Implemented pattern
 
 ```text
 upload
@@ -84,81 +83,83 @@ upload
  -> human approval
 ```
 
-Postgres hält App-Daten, Metadaten, Full-Text-Index und pgvector gemeinsam. Die
-Embedding-Spalte hat 1536 Dimensionen; OpenAI und Gemini sind Provideroptionen,
-wobei gekürzte Gemini-Vektoren normalisiert werden. Der Ingestion-Worker
-verarbeitet Embeddings in Batches von 64.
+Postgres stores application data, metadata, the full-text index, and pgvector
+together. The embedding column has 1,536 dimensions; OpenAI and Gemini are
+provider options, with truncated Gemini vectors normalized. The ingestion worker
+processes embeddings in batches of 64.
 
-## Was an diesem Pattern stark ist
+## Strengths of this pattern
 
-- Tenant- und Projektfilter liegen innerhalb der Dense- und FTS-SQL-Abfragen,
-  also vor der Ergebnisauswahl.
-- Strukturierte Chunks behalten Seite, Heading Path und Typ.
-- Contextual Headers verbessern die Selbstbeschreibung isolierter Chunks.
-- RRF verbindet semantische und exakte Treffer ohne inkompatible Rohscores zu
-  addieren.
-- Evidence Bundles werden gegen tatsächlich zum Projekt gehörende Datei-IDs
-  validiert.
-- Dokument-Snapshots frieren Quellrevision und Evidence ein; stale Revisionen
-  und Cross-project Evidence werden abgelehnt.
-- Fehlende oder externe Evidenz erzeugt Review-Bedarf statt erfundener Sicherheit.
+- Tenant and project filters are enforced inside dense and FTS SQL queries,
+  before result selection.
+- Structured chunks preserve page, heading path, and type.
+- Contextual headers improve the self-description of isolated chunks.
+- RRF combines semantic and exact matches without adding incompatible raw scores.
+- Evidence bundles are validated against file IDs that actually belong to the
+  project.
+- Document snapshots freeze source revision and evidence; stale revisions and
+  cross-project evidence are rejected.
+- Missing or external evidence creates a review requirement instead of false
+  confidence.
 
-## Schwächen und offene Risiken
+## Weaknesses and open risks
 
 ### Evaluation
 
-Das eingecheckte Retrieval-Testset enthält nur eine Frage. Der Harness wertet
-einen Source-Hit aus und gibt denselben Wert als Context Precision und Context
-Recall aus. Das misst weder Rankingqualität noch echte Precision/Recall. Es
-fehlen insbesondere harte Negativfälle, Tabellenzellen, OCR-Fehler,
-Cross-project Leakage, widersprüchliche Dokumentversionen und temporale Updates.
+The committed retrieval test set contains only one question. The harness scores
+a source hit and reports the same value as both context precision and context
+recall. This measures neither ranking quality nor genuine precision/recall.
+Missing cases include hard negatives, table cells, OCR errors, cross-project
+leakage, conflicting document versions, and temporal updates.
 
 ### Reranking
 
-Der optionale LLM-Reranker sieht nur die ersten 500 Zeichen jedes Chunks. Für
-Tabellen oder spätere Evidenz kann das falsche Rankings erzeugen. Er benötigt
-eine Offline-Baseline gegen RRF allein, Latenz-/Kostenmessung und ein
-fehlertolerantes Fallback.
+The optional LLM reranker sees only the first 500 characters of each chunk. For
+tables or evidence appearing later, this can produce incorrect rankings. It
+needs an offline baseline against RRF alone, latency and cost measurements, and
+a fault-tolerant fallback.
 
-### Heuristische Poison-Filter
+### Heuristic poison filters
 
-Bekannte Parser-Fallbacktexte und Mehrprojektübersichten werden über deutsche
-Substring-Regeln entfernt. Das ist als Incident-Fix verständlich, aber fragil.
-Die robustere Lösung sind typisierte Ingestion-Status-, Herkunfts- und
-Scope-Metadaten, die schon vor Retrieval deterministisch gefiltert werden.
+Known parser fallback text and multi-project summaries are removed through
+German substring rules. This is understandable as an incident fix but fragile.
+The more robust solution is typed ingestion status, origin, and scope metadata
+that is filtered deterministically before retrieval.
 
-### Index- und Provider-Migration
+### Index and provider migration
 
-Die Dimension ist an das Datenbankschema gekoppelt. Ein Wechsel von Modell,
-Dimension, Normalisierung oder Chunker benötigt ein Index-Manifest, parallelen
-Rebuild, Recall-Vergleich und atomaren Cutover.
+The embedding dimension is coupled to the database schema. Changes to model,
+dimension, normalization, or chunker require an index manifest, parallel
+rebuild, recall comparison, and atomic cutover.
 
-### Repository-Hygiene
+### Repository hygiene
 
-Upload- und Parsed-Verzeichnisse dürfen nicht in öffentlichen Source-Control-
-Verläufen liegen. Löschen im aktuellen Commit entfernt sie nicht aus der
-Git-Historie. Erforderlich sind Secret/PII-Prüfung, History-Bereinigung nach
-Review, Storage außerhalb des Repos und CI-Guards gegen erneutes Einchecken.
+Upload and parsed-output directories must not appear in public source-control
+history. Deleting them in the current commit does not remove them from Git
+history. Required controls are secret/PII scanning, reviewed history cleanup,
+storage outside the repository, and CI guards against recommitting the data.
 
-## Empfohlene nächste Evals
+## Recommended next evaluations
 
-1. 10–20 repräsentative Projektmappen, getrennt nach PDF, Scan, XLSX und Foto.
-2. Mindestens 100 Retrieval-Fragen mit vollständigen Relevance Labels, nicht nur
-   einer erwarteten Quelle.
-3. Metriken pro Stufe: Parse Field Accuracy, Recall@k, nDCG@k, MRR, Context
-   Precision, Citation Correctness, Unsupported Claim Rate und Position Field
-   Accuracy.
-4. Ablationen: FTS, Dense, Hybrid/RRF und Hybrid+Reranker.
-5. Negativsuite für Tenant-/Projekt-Leakage, gelöschte Dateien, poisoned chunks,
-   veraltete Versionen und fehlende Preise.
-6. Replay mit Kosten und p50/p95-Latenz; Canary und Feature Flag für Reranking.
+1. Use 10–20 representative project folders, sliced by PDF, scan, XLSX, and
+   photo.
+2. Create at least 100 retrieval questions with complete relevance labels, not
+   merely one expected source.
+3. Measure each stage: parse-field accuracy, Recall@k, nDCG@k, MRR, context
+   precision, citation correctness, unsupported-claim rate, and line-item field
+   accuracy.
+4. Run ablations for FTS, dense, hybrid/RRF, and hybrid plus reranker.
+5. Add a negative suite for tenant/project leakage, deleted files, poisoned
+   chunks, stale versions, and missing prices.
+6. Replay with cost and p50/p95 latency; protect reranking with a canary and
+   feature flag.
 
-## Wiederverwendbares Ergebnis
+## Reusable conclusion
 
-Für dokumentzentrierte Fachanwendungen gewinnt eine pipelineweite Architektur:
-Parsing-Qualität, Scope-Filter, strukturierte Chunks, Hybrid Retrieval,
-Evidence-Verträge und deterministische Postconditions sind gemeinsam
-entscheidend. Die Wahl der Vector-Datenbank allein erklärt die Qualität nicht.
+Document-centric domain applications need a pipeline-wide architecture. Parsing
+quality, scope filters, structured chunks, hybrid retrieval, evidence contracts,
+and deterministic postconditions jointly determine quality. Vector-database
+choice alone does not.
 
 ## Public AI Architect V1
 
@@ -603,25 +604,25 @@ Sources: `source-domescobar-bauhelfer-ki`
 
 # Document-centric Hybrid RAG
 
-## Winning Conditions
+## Winning conditions
 
-Dieses Pattern passt, wenn Dokumentstruktur und exakte Werte gleichermaßen
-wichtig sind: Angebote, Verträge, technische Spezifikationen,
-Leistungsverzeichnisse, Rechnungen oder regulatorische Unterlagen.
+This pattern fits when document structure and exact values are equally
+important: offers, contracts, technical specifications, bills of quantities,
+invoices, or regulatory documents.
 
-## Architektur
+## Architecture
 
 ### Ingestion
 
-1. Original unveränderlich und außerhalb des Code-Repositories speichern.
-2. Tenant, Projekt, Dokumenttyp und Retention vor Parsing festlegen.
-3. Layout-, Tabellen-, OCR- und Seiteninformationen extrahieren.
-4. Parseroutput und Parser-/Konfigurationsversion speichern.
-5. Nach Überschrift, Tabelle, Position oder Seite strukturieren; fixe
-   Tokenfenster nur als Fallback.
-6. Chunk mit stabiler ID, Dokumentversion, Seitenanker, Typ, Confidence und
-   kompaktem Kontextkopf versehen.
-7. Lexikalischen und semantischen Index reproduzierbar erzeugen.
+1. Store the original immutably and outside the code repository.
+2. Set tenant, project, document type, and retention before parsing.
+3. Extract layout, table, OCR, and page information.
+4. Store parser output and parser/configuration versions.
+5. Segment by heading, table, line item, or page; use fixed token windows only
+   as a fallback.
+6. Attach a stable ID, document version, page anchor, type, confidence, and
+   compact context header to each chunk.
+7. Build lexical and semantic indexes reproducibly.
 
 ### Retrieval
 
@@ -635,36 +636,35 @@ intent/scope
  -> evidence pack with stable anchors
 ```
 
-ACL und Projektfilter müssen vor ANN/Ranking gelten. RRF ist ein guter Default,
-weil es Ränge statt unkalibrierter Scores fusioniert. Top-k-Werte sind keine
-Best Practices, sondern per Dataset zu bestimmende Parameter.
+ACL and project filters must apply before ANN and ranking. RRF is a strong
+default because it fuses ranks instead of uncalibrated scores. Top-k values are
+dataset-specific parameters, not universal best practices.
 
 ### Generation
 
-- Evidence Pack und Output-Schema explizit trennen.
-- Jede fachliche Aussage und jedes kritische Feld auf Source-ID und Seitenanker
-  beziehen.
-- Annahme, unbekannt und widersprüchlich als eigene Zustände modellieren.
-- Rechenbare Werte deterministisch berechnen und validieren.
-- Externe oder irreversible Ausgabe erst nach menschlicher Freigabe.
+- Separate the evidence pack explicitly from the output schema.
+- Link every domain claim and critical field to a source ID and page anchor.
+- Model assumed, unknown, and contradictory as distinct states.
+- Compute and validate calculable values deterministically.
+- Require human approval before external or irreversible output.
 
-## Nicht verwenden
+## Do not use
 
-- Für kleine, vollständig strukturierte Datensätze: direkte SQL/API-Abfrage ist
-  einfacher und präziser.
-- Für exakte Tabellenaggregation: Parser plus strukturierte Datenbank gewinnt
-  häufig gegen Text-RAG.
-- Für einmalige, kurze Dokumente: Long-context kann als Baseline günstiger sein.
+- For small, fully structured datasets: direct SQL or API queries are simpler
+  and more precise.
+- For exact table aggregation: a parser plus structured database often
+  outperforms text RAG.
+- For one-off short documents: long context may be the cheaper baseline.
 
-## Failure Detection
+## Failure detection
 
-- Parse-Goldens pro Dokumenttyp;
-- Retrieval-Ablationen und per-slice Metriken;
-- Cross-scope Canaries;
-- Citation-/Anchor-Validator;
-- Unsupported-Claim- und Missing-field-Checks;
-- Indexmanifest- und Löschungsprüfung;
-- Latenz, Kosten und Reranker-Fallback im Trace.
+- Parse goldens per document type
+- Retrieval ablations and per-slice metrics
+- Cross-scope canaries
+- Citation and anchor validation
+- Unsupported-claim and missing-field checks
+- Index-manifest and deletion checks
+- Latency, cost, and reranker fallback in the trace
 
 ## Embedding Selection and Migration
 
@@ -1683,38 +1683,37 @@ Sources: `source-domescobar-agentic-runtime-techniques`
 
 # Runtime Decision Guide
 
-## Auswahl nach dominanter Anforderung
+## Select by dominant requirement
 
-- Kurze Tool-Aufgabe: Action Loop + Stopper + Fehlerbehandlung.
-- Mehrstufige Aufgabe: Plan-and-Execute + typisierter Task-State.
-- Objektiv prüfbares Ergebnis: Verifier Loop; deterministische Checks zuerst.
-- Offene Recherche: Research Loop + Claim/Evidence-Ledger + Gap Analysis.
-- Codeänderung: Coding Harness + Isolation + Tests + Rollback.
-- Hintergrundarbeit: durable Workflow + Queue + Checkpoints + Idempotenz.
-- Riskante externe Aktion: Approval Interrupt + Audit + Edit/Reject-Pfad.
-- Mehrere Spezialisten: Supervisor/Planner-Executor nur bei separatem Kontext,
-  Werkzeug, Authority oder messbarer Parallelität.
-- Wiederkehrende Sitzungen: kontrollierte Memory-Promotion + Forgetting.
-- Harte Reasoning-Aufgabe: Test-time Compute nur mit Budget und Verifier.
+- Short tool task: action loop, stopper, and error handling.
+- Multi-stage task: plan-and-execute with typed task state.
+- Objectively verifiable result: verifier loop; deterministic checks first.
+- Open-ended research: research loop, claim/evidence ledger, and gap analysis.
+- Code change: coding harness, isolation, tests, and rollback.
+- Background work: durable workflow, queue, checkpoints, and idempotency.
+- Risky external action: approval interrupt, audit, and edit/reject path.
+- Multiple specialists: supervisor or planner/executor only when roles require
+  separate context, tools, authority, or measurable parallelism.
+- Recurring sessions: controlled memory promotion and forgetting.
+- Difficult reasoning task: test-time compute only with a budget and verifier.
 
-## Entscheidungsfragen
+## Decision questions
 
-1. Welche objektive Done-Bedingung existiert?
-2. Kann ein Schritt externe, finanzielle oder irreversible Wirkung haben?
-3. Muss der Run Prozessausfälle überleben?
-4. Welche Zustände müssen exakt replaybar sein?
-5. Sind Schritte idempotent; falls nein, welche Kompensation existiert?
-6. Brauchen Rollen getrennten Kontext, Tools oder Berechtigungen?
-7. Welche maximale Zeit, Kosten, Toolcalls, Tiefe und Fan-out gelten?
-8. Was ist der Kill Switch, und wie wird zurückgerollt?
-9. Welche Offline-Replays und Online-Signale beweisen Verbesserung?
+1. What objective done condition exists?
+2. Can a step have an external, financial, or irreversible effect?
+3. Must the run survive process failure?
+4. Which states must be exactly replayable?
+5. Are steps idempotent; if not, what compensation exists?
+6. Do roles need separate context, tools, or permissions?
+7. What are the maximum time, cost, tool-call, depth, and fan-out budgets?
+8. What is the kill switch, and how is the system rolled back?
+9. Which offline replays and online signals demonstrate improvement?
 
 ## Default
 
-Starte mit einem Agenten, einer primären Schleife, typisiertem State,
-deterministischen Checks, harten Budgets und vollständigem Trace. Füge
-Orchestrierung erst hinzu, wenn ein konkretes Eval-Defizit die zusätzliche
-Komplexität rechtfertigt.
+Start with one agent, one primary loop, typed state, deterministic checks, hard
+budgets, and a complete trace. Add orchestration only when a concrete evaluation
+deficit justifies the additional complexity.
 
 ## Runtime Safety Baseline
 
@@ -1724,47 +1723,48 @@ Sources: `source-domescobar-agentic-runtime-techniques`
 
 # Runtime Safety Baseline
 
-Diese Baseline gilt unabhängig vom gewählten Agenten-Framework.
+This baseline applies regardless of the selected agent framework.
 
-## Vor dem Run
+## Before the run
 
-- Originalintention unveränderlich erfassen.
-- Nutzer, Projekt und Datenschutz-Scope bestimmen.
-- Kontext als trusted instruction, trusted data oder untrusted evidence labeln.
-- minimale, zeitlich begrenzte Capabilities ausstellen.
-- Budgets für Zeit, Tokens, Kosten, Calls, Delegationstiefe und Fan-out setzen.
+- Record the original intent immutably.
+- Determine user, project, and privacy scope.
+- Label context as trusted instruction, trusted data, or untrusted evidence.
+- Issue minimal, time-limited capabilities.
+- Set budgets for time, tokens, cost, calls, delegation depth, and fan-out.
 
-## Während des Runs
+## During the run
 
 Separate conversational checkpoints from external side effects. Non-idempotent
-effects need runtime-generated causal IDs, commit-time authority checks and a
-transactional or reconcilable effect ledger; replaying chat state is insufficient.
+effects need runtime-generated causal IDs, commit-time authority checks, and a
+transactional or reconcilable effect ledger; replaying chat state is
+insufficient.
 
-- jeden Zustandsübergang und Toolversuch append-only protokollieren;
-- Toolargumente gegen Schema und Policy prüfen;
-- vorgeschlagene Aktionen erneut gegen Originalintention und Trust Zone prüfen;
-- Side Effects mit Idempotency Key oder Saga/Compensation schützen;
-- No-progress-, Repeat- und Budget-Breaker erzwingen;
-- vor riskanten oder irreversiblen Aktionen resumable Approval Interrupt.
+- Record every state transition and tool attempt in an append-only log.
+- Validate tool arguments against schema and policy.
+- Recheck proposed actions against the original intent and trust zone.
+- Protect side effects with idempotency keys or saga/compensation semantics.
+- Enforce no-progress, repetition, and budget breakers.
+- Use a resumable approval interrupt before risky or irreversible actions.
 
-## Nach dem Run
+## After the run
 
-- Verifier entscheidet anhand expliziter Akzeptanzkriterien;
-- Run Receipt enthält Inputs/Outputs als Referenzen, Toolresultate, Kosten,
-  Zustandsübergänge und Provenienz;
-- Secrets und private Inhalte gemäß Policy redigieren;
-- Memory-Lektionen nur als Inbox-Kandidaten schreiben;
-- Recovery-, Replay- und Rollback-Pfad regelmäßig testen.
+- Let a verifier decide against explicit acceptance criteria.
+- Include referenced inputs/outputs, tool results, cost, state transitions, and
+  provenance in the run receipt.
+- Redact secrets and private content according to policy.
+- Write memory lessons only as inbox candidates.
+- Test recovery, replay, and rollback paths regularly.
 
-## Minimale Evals
+## Minimum evaluations
 
-- Prompt-Injection über Toolresultat, Webseite und Memory;
-- Capability-Eskalation und Cross-project-Zugriff;
-- doppelte Zustellung und Crash zwischen Side Effect und Checkpoint;
-- unendliche Schleife, No-progress und Budgetüberschreitung;
-- fehlerhafter Verifier und falsche Fertigmeldung;
-- Replay nach Schema-/State-Migration;
-- Löschung eines Memory-Eintrags einschließlich aller Projektionen.
+- Prompt injection through tool output, web pages, and memory
+- Capability escalation and cross-project access
+- Duplicate delivery and crash between side effect and checkpoint
+- Infinite loops, no progress, and budget overruns
+- Faulty verifier and false completion report
+- Replay after schema or state migration
+- Deletion of a memory entry across all projections
 
 ## Scaling RAG Baselines
 
@@ -1923,7 +1923,7 @@ Sources: none
 
 # Agent Evaluation Research — August 2026
 
-Aktuelle Primärquellen, geprüft am 2026-08-09:
+Current primary sources, reviewed on 2026-08-09:
 
 - Agentic Benchmark Checklist:
   https://arxiv.org/abs/2507.02825
@@ -1946,45 +1946,44 @@ Aktuelle Primärquellen, geprüft am 2026-08-09:
 
 ### Benchmark validity — E4 direction, E3 measurements
 
-Die Agentic Benchmark Checklist zeigt konkrete Fehler in Task Setup und Reward
-Design, die Rankings stark verzerren können. Der generalisierbare Schluss ist
-nicht eine bestimmte Prozentzahl, sondern: Der Evaluator und die Aufgaben
-selbst brauchen Tests, adversariale Negativfälle und eine Validitätsprüfung.
+The Agentic Benchmark Checklist identifies concrete errors in task setup and
+reward design that can materially distort rankings. The generalizable conclusion
+is not a particular percentage: evaluators and tasks themselves require tests,
+adversarial negatives, and validity checks.
 
 ### Trajectory judges — E3, workload-bound
 
-AgentRewardBench vergleicht automatische Evaluatoren gegen expertengelabelte
-Web-Agent-Trajektorien. AJ-Bench erweitert den Judge um aktive
-Umgebungsinteraktion. Beide stützen Kalibrierung gegen menschliche oder
-deterministische Referenzen; sie beweisen keinen universellen Judge.
+AgentRewardBench compares automated evaluators against expert-labeled web-agent
+trajectories. AJ-Bench extends the judge with active environment interaction.
+Both support calibration against human or deterministic references; neither
+demonstrates a universal judge.
 
-### Long-horizon evidence — E2–E3, neu
+### Long-horizon evidence — E2–E3, new
 
-TRACE akkumuliert Evidenz über entfernte Schritte statt nur einzelne Fenster
-oder den finalen Output zu beurteilen. Das ist besonders für Sabotage und lange
-kausale Ketten relevant, stammt aber aus zehn SHADE-Arena-Domains und ist noch
-kein allgemeiner Produktionsstandard.
+TRACE accumulates evidence across distant steps instead of judging only local
+windows or final output. This is relevant to sabotage and long causal chains,
+but the evidence comes from ten SHADE-Arena domains and is not yet a general
+production standard.
 
-### Deterministische stateful evaluation — E2, starkes Pattern
+### Deterministic stateful evaluation — E2, strong pattern
 
-GroundEval prüft Search-, Fetch-, Access- und Zeitpfade gegen Zustandswahrheit.
-Das Pattern passt zu agentischen Systemen mit kontrollierbarer Umgebung. Die
-Publikation ist sehr neu und ihre Fallstudien ersetzen keine unabhängige
-Replikation.
+GroundEval checks search, fetch, access, and temporal paths against state truth.
+The pattern fits agentic systems with controlled environments. The publication
+is very recent, and its case studies do not replace independent replication.
 
-### Eval-guided optimization — E3 innerhalb getesteter Tasks
+### Evaluation-guided optimization — E3 within tested tasks
 
-GEPA verwendet Trajektorien und textuelle Reflexion, um Promptvarianten über
-eine Pareto-Selektion zu entwickeln. Die berichtete Sample Efficiency gilt für
-die untersuchten Tasks. Für sichere Selbstverbesserung bleiben Holdout,
-unveränderliche Gates, Patchgrenzen, Canary und Rollback zusätzlich nötig.
+GEPA uses trajectories and textual reflection to evolve prompt variants through
+Pareto selection. Its reported sample efficiency applies to the tested tasks.
+Safe self-improvement still requires holdouts, immutable gates, patch
+boundaries, canaries, and rollback.
 
-### Contamination resistance — konvergierende E3-Evidenz
+### Contamination resistance — converging E3 evidence
 
-SWE-bench Illusion findet Hinweise auf Memorisation und Artefaktnutzung.
-SWE-bench Live verwendet neuere, ausführbare Repositoryaufgaben. Daraus folgt:
-öffentliche statische Benchmarks sind Entwicklungsbaselines, aber keine
-ausreichende finale Evidenz für generalisierbare Coding-Agent-Fähigkeit.
+SWE-bench Illusion finds indications of memorization and artifact exploitation.
+SWE-bench Live uses newer executable repository tasks. Public static benchmarks
+are therefore development baselines, not sufficient final evidence of
+generalizable coding-agent capability.
 
 ## Agent Memory Evaluation Security and Privacy 2026
 
@@ -2360,50 +2359,50 @@ Sources: none
 # Agentic Eval Evolution Runtime — Research Audit
 
 - Repository: https://github.com/DomEscobar/agentic-eval-evolution-runtime
-- untersuchter Commit: `f890e15790f4a1a60adcd835f3c7993c38efaf09`
-- Research-Permalink: https://github.com/DomEscobar/agentic-eval-evolution-runtime/tree/f890e15790f4a1a60adcd835f3c7993c38efaf09/research
-- abgerufen: 2026-08-09
+- Reviewed commit: `f890e15790f4a1a60adcd835f3c7993c38efaf09`
+- Research permalink: https://github.com/DomEscobar/agentic-eval-evolution-runtime/tree/f890e15790f4a1a60adcd835f3c7993c38efaf09/research
+- Retrieved: 2026-08-09
 
-## Enthaltene Research-Lanes
+## Included research lanes
 
-- generischer Agentic-Eval- und Evolution-Harness;
-- eval-geführte Code-Patch-Loops;
-- Qualität und Leakage-Schutz von Eval-Datensätzen.
+- Generic agent evaluation and evolution harness
+- Evaluation-guided code patch loops
+- Evaluation-dataset quality and leakage protection
 
-Jede Lane enthält Plan, Quellenledger, Claims, Evidence-Auszüge, Pages und
-Bericht. Das ist auditierbarer als ein reiner Fließtext-Research-Report.
+Each lane contains a plan, source ledger, claims, evidence excerpts, pages, and
+a report. This is more auditable than a prose-only research report.
 
-## Belastbare Kernaussagen
+## Defensible core findings
 
-- Eval-Ausführung, Mutation und Promotion sind verschiedene Rollen.
-- Deterministische Orakel und harte Gates gehen vor gewichteten Soft Scores.
-- Train/Development, Candidate Selection und versteckter Holdout benötigen
-  getrennte Informationsgrenzen.
-- Ein Patch Loop braucht unveränderliche Evaluatorflächen, Diff-/Dateigrenzen,
-  Budget, Archiv, Canary und Rollback.
-- Eine Dataset-Architektur ist noch kein valider Datensatz; Case-Gültigkeit,
-  Orakel, Repräsentativität und Leakage müssen gemessen werden.
-- Benchmark-Erfolg beweist nur Leistung auf dem gebundenen Dataset, Commit und
-  der gebundenen Konfiguration.
+- Evaluation execution, mutation, and promotion are distinct roles.
+- Deterministic oracles and hard gates take precedence over weighted soft scores.
+- Training/development, candidate selection, and hidden holdout data require
+  separate information boundaries.
+- A patch loop needs immutable evaluator surfaces, diff/file boundaries, a
+  budget, archive, canary, and rollback.
+- A dataset architecture is not yet a valid dataset; case validity, oracles,
+  representativeness, and leakage must be measured.
+- Benchmark success demonstrates performance only on the bound dataset, commit,
+  and configuration.
 
-## Claims mit notwendiger Herabstufung
+## Claims requiring lower confidence
 
-- Neue 2026-Preprints zu autonomer Evolution sind meist E2–E3 und nicht breit
-  repliziert.
-- Einzelne Verbesserungszahlen aus kleinen SWE-bench-Subsets generalisieren
-  nicht auf andere Repositories oder Aufgabenverteilungen.
-- GitHub-Stars messen Aufmerksamkeit, nicht Eval-Validität oder Production
-  Readiness.
-- Ein LLM-Judge ist nicht durch ein separates Modell automatisch unabhängig;
-  Rubrik, Daten, Modellfamilie und Fehlerkorrelation müssen kalibriert werden.
-- Ein zusammengesetzter Dataset-Quality-Score darf keine fehlenden Orakel oder
-  Leakage hinter einem Mittelwert verstecken.
+- New 2026 preprints on autonomous evolution are mostly E2–E3 and not broadly
+  replicated.
+- Isolated improvement figures from small SWE-bench subsets do not generalize to
+  other repositories or task distributions.
+- GitHub stars measure attention, not evaluation validity or production
+  readiness.
+- A separate model does not automatically make an LLM judge independent;
+  rubric, data, model family, and correlated errors require calibration.
+- A composite dataset-quality score must not hide missing oracles or leakage
+  behind an average.
 
-## Urteil
+## Assessment
 
-Die Research-Struktur ist eine gute Hypothesen- und Quellenbasis. Sie wird als
-sekundäre Synthesequelle verwendet; starke Architekturclaims werden zusätzlich
-gegen die jeweiligen Papers, offiziellen Repositories oder Standards geprüft.
+The research structure is a useful hypothesis and source base. It is used as a
+secondary synthesis source; strong architecture claims are also checked against
+the relevant papers, official repositories, or standards.
 
 ## DomEscobar agentic-runtime-techniques
 
@@ -2414,12 +2413,12 @@ Sources: none
 # DomEscobar/agentic-runtime-techniques
 
 - Repository: https://github.com/DomEscobar/agentic-runtime-techniques
-- untersuchter Commit: `fad44983c626e27e86554a7afac2cbfb2473ddad`
-- Commit-Permalink: https://github.com/DomEscobar/agentic-runtime-techniques/tree/fad44983c626e27e86554a7afac2cbfb2473ddad
-- abgerufen: 2026-08-08
-- Lizenz laut Repository: MIT
+- Reviewed commit: `fad44983c626e27e86554a7afac2cbfb2473ddad`
+- Commit permalink: https://github.com/DomEscobar/agentic-runtime-techniques/tree/fad44983c626e27e86554a7afac2cbfb2473ddad
+- Retrieved: 2026-08-08
+- Repository license: MIT
 
-## Untersuchte Artefakte
+## Reviewed artifacts
 
 - `README.md`
 - `docs/taxonomy.md`
@@ -2429,23 +2428,22 @@ Sources: none
 - `docs/tier-list.md`
 - `data/techniques.yml`
 - `data/security-governance-patterns.yml`
-- Claim-, Evidence- und Source-Ledger unter `research/`
+- Claim, evidence, and source ledgers under `research/`
 
-## Beobachtung
+## Observation
 
-Das Repository katalogisiert Runtime-Mechanismen, nicht bloß Frameworks. Es
-trennt zehn Loop-Shapes von acht querschnittlichen Runtime-Layern und enthält
-einen maschinenlesbaren Katalog mit 79 Einträgen. Für viele Einträge werden
-Primärquellen angegeben; die Evidenzstärke variiert jedoch von etablierten
-Papers und offiziellen Spezifikationen bis zu einzelnen frischen Preprints oder
-Implementierungsnotizen.
+The repository catalogs runtime mechanisms rather than frameworks alone. It
+separates ten loop shapes from eight cross-cutting runtime layers and contains a
+machine-readable catalog with 79 entries. Many entries cite primary sources,
+but evidence strength ranges from established papers and official
+specifications to individual recent preprints or implementation notes.
 
-## Verwendungsregel
+## Use rule
 
-Wir behandeln Definitionen, Kategorien und Tool-Verweise als
-Repository-Beobachtungen. Tiering, Benchmarkwerte und Aussagen über Wirksamkeit
-sind zunächst Claims dieses Repositories. Sie werden erst nach Prüfung der
-verlinkten Primärquelle als eigenständige Wiki-Claims promoted.
+Definitions, categories, and tool references are treated as repository
+observations. Tiers, benchmark values, and effectiveness statements remain
+claims of that repository until the linked primary source is reviewed; only then
+may they be promoted to independent knowledge-base claims.
 
 ## DomEscobar bauhelfer-ki
 
@@ -2456,11 +2454,11 @@ Sources: none
 # DomEscobar/bauhelfer-ki
 
 - Repository: https://github.com/DomEscobar/bauhelfer-ki
-- untersuchter Commit: `6671de4277b57e6aa06c1cf06abdad43fd72ac20`
-- Commit-Permalink: https://github.com/DomEscobar/bauhelfer-ki/tree/6671de4277b57e6aa06c1cf06abdad43fd72ac20
-- abgerufen: 2026-08-08
+- Reviewed commit: `6671de4277b57e6aa06c1cf06abdad43fd72ac20`
+- Commit permalink: https://github.com/DomEscobar/bauhelfer-ki/tree/6671de4277b57e6aa06c1cf06abdad43fd72ac20
+- Retrieved: 2026-08-08
 
-## Untersuchte Artefakte
+## Reviewed artifacts
 
 - `RAG.md`, `RAG_METHODIK_2026.md`, `docs/RAG-DeepResearch-2026.md`
 - `apps/api/src/services/ingestion.ts`
@@ -2469,22 +2467,23 @@ Sources: none
 - `apps/api/src/providers/reranker.ts`
 - `apps/api/src/services/agent/contextAssembly.ts`
 - `apps/api/src/services/agent/citations.ts`
-- `apps/api/src/services/documentEvidence.ts` und zugehörige Tests
+- `apps/api/src/services/documentEvidence.ts` and related tests
 - `apps/api/migrations/001_init.sql`
-- Retrieval- und Angebots-Eval-Harness unter `eval/`
+- Retrieval and offer evaluation harness under `eval/`
 
-## Datenschutzgrenze
+## Privacy boundary
 
-Das Repository enthält hochgeladene und geparste Projektartefakte unter
-`apps/api/data/`. Diese wurden weder als Wissensquelle ausgewertet noch in das
-Wiki übernommen. Ein öffentliches Code-Repository sollte keine realen Uploads,
-abgeleiteten Texte, Kundeninformationen oder lokale Storage-Pfade enthalten.
+The repository contains uploaded and parsed project artifacts under
+`apps/api/data/`. They were neither evaluated as knowledge sources nor imported
+into this knowledge base. A public code repository should not contain real
+uploads, derived text, customer information, or local storage paths.
 
-## Verwendungsregel
+## Use rule
 
-Der Code belegt die konkrete Implementierung des Cases. Zahlen, Rankings und
-Marktvergleiche aus den Research-Dokumenten sind Repo-Claims und werden erst
-nach Prüfung ihrer Primärquellen in allgemeine Empfehlungen promoted.
+The code demonstrates the concrete implementation of the case. Figures,
+rankings, and market comparisons in its research documents remain repository
+claims and are promoted to general recommendations only after their primary
+sources are reviewed.
 
 ## DomEscobar Eval-Oigl
 
@@ -2495,59 +2494,60 @@ Sources: none
 # DomEscobar/Eval-Oigl
 
 - Repository: https://github.com/DomEscobar/Eval-Oigl
-- untersuchter Commit: `b8d6a13d3220afb3f6ddc4d5f0e350f70142653f`
+- Reviewed commit: `b8d6a13d3220afb3f6ddc4d5f0e350f70142653f`
 - Permalink: https://github.com/DomEscobar/Eval-Oigl/tree/b8d6a13d3220afb3f6ddc4d5f0e350f70142653f
-- abgerufen: 2026-08-09
-- Sprache/Toolchain: Go 1.23
-- Lizenz: Im untersuchten Commit wurde keine LICENSE-Datei gefunden; daher keine
-  Open-Source-Lizenz annehmen.
+- Retrieved: 2026-08-09
+- Language/toolchain: Go 1.23
+- License: no LICENSE file was found in the reviewed commit; do not assume an
+  open-source license.
 
-## Verifizierter Stand
+## Verified state
 
-`go test ./...` lief am untersuchten Commit über alle Pakete erfolgreich. Das
-belegt interne Testkonsistenz, nicht die externe Validität der Eval-Metriken.
+`go test ./...` passed across all packages at the reviewed commit. This
+demonstrates internal test consistency, not external validity of the evaluation
+metrics.
 
-OIGL implementiert einen vom System under Test getrennten Eval-Harness mit:
+OIGL implements an evaluation harness separated from the system under test with:
 
-- versionierten Eval Packs für Targets, Capabilities, Cases und Manifest;
-- vollständigem Pack-, Manifest- und Konfigurations-Hash;
-- unabhängiger Identität von Runtime und optionalem LLM-Judge;
-- mechanischen Scorern für Toolwahl, Argumente, verbotene Tools, Trace-Schritte,
-  Grounding, Terminalzustand und Budgets;
-- kausaler Verknüpfung von Tool Calls und Observations über IDs;
-- Attempt Receipts, Campaigns, Events, Recovery und read-only Reports;
-- separaten Full-, Targeted- und Confirmation-Runs;
-- expliziter Acceptance, die Pack-Hash, Commit, Coverage, Scorer und Bindings
-  erneut prüft.
+- Versioned evaluation packs for targets, capabilities, cases, and manifest
+- Complete pack, manifest, and configuration hashes
+- Independent identities for the runtime and optional LLM judge
+- Mechanical scorers for tool choice, arguments, forbidden tools, trace steps,
+  grounding, terminal state, and budgets
+- Causal linking of tool calls and observations through IDs
+- Attempt receipts, campaigns, events, recovery, and read-only reports
+- Separate full, targeted, and confirmation runs
+- Explicit acceptance that rechecks pack hash, commit, coverage, scorers, and
+  bindings
 
-## Starke Architekturentscheidungen
+## Strong architecture decisions
 
-1. Der Harness importiert keine Produktionsruntime; HTTP/JSON ist die Grenze.
-2. Eval-Bedeutung lebt im versionierten Pack, nicht in CLI-Defaults.
-3. Mechanische Evidenz wird vor semantischer Plausibilität geprüft.
-4. Ein PASS wird erst nach separater Confirmation explizit akzeptiert.
-5. Reports präsentieren persistierte Evidenz, ändern aber keine Kampagne.
+1. The harness does not import the production runtime; HTTP/JSON is the boundary.
+2. Evaluation semantics live in the versioned pack, not CLI defaults.
+3. Mechanical evidence is checked before semantic plausibility.
+4. A PASS is explicitly accepted only after separate confirmation.
+5. Reports present persisted evidence but do not mutate a campaign.
 
-## Grenzen und offene Risiken
+## Limits and open risks
 
-- Ein grüner interner Testlauf kalibriert weder Cases noch LLM-Judge gegen
-  menschliche Labels.
-- Eine einzige Confirmation schützt nicht gegen stochastische Flakiness; die
-  nötige Wiederholungszahl muss pro Slice empirisch bestimmt werden.
-- Das Packmodell enthält keine eigenständige, für den Optimierer abgeschottete
-  Holdout-/Redteam-Verwaltung.
-- Kein universeller Trace darf erzwungen werden: alternative korrekte
-  Trajektorien müssen erlaubt bleiben, während kausale Invarianten gelten.
-- Live Targets und Judge-Endpunkte können Kosten oder Side Effects erzeugen;
-  Packs sind deshalb ausführbare, reviewpflichtige Konfiguration.
-- Externe Outcome- und Judge-Validierung wurde in diesem Audit nicht gefunden.
+- A passing internal test run calibrates neither cases nor the LLM judge against
+  human labels.
+- One confirmation does not protect against stochastic flakiness; required
+  repetitions must be determined empirically per slice.
+- The pack model has no separate holdout/red-team management isolated from the
+  optimizer.
+- No universal trace should be imposed: alternative correct trajectories must
+  remain valid while causal invariants are enforced.
+- Live targets and judge endpoints can create cost or side effects; packs are
+  therefore executable configurations that require review.
+- This audit found no external outcome or judge validation.
 
-## Evidenzgrad
+## Evidence level
 
-E3 für die beobachtete Implementierung und die erfolgreichen Repositorytests.
-E1–E2 für Aussagen über allgemeine Messvalidität, bis OIGL gegen menschlich
-gelabelte Trajektorien, absichtlich defekte Agents und reale Failure Slices
-kalibriert wurde.
+E3 for the observed implementation and passing repository tests. E1–E2 for
+claims about general measurement validity until OIGL is calibrated against
+human-labeled trajectories, deliberately defective agents, and real failure
+slices.
 
 ## Multilingual Embedding Evaluation Evidence 2025
 
@@ -2636,7 +2636,7 @@ Sources: none
 
 # Evaluation Consulting Research — August 2026
 
-Primärquellen und offizielle Implementierungsartefakte, geprüft am 2026-08-09:
+Primary sources and official implementation artifacts, reviewed on 2026-08-09:
 
 - Agentic Benchmark Checklist: https://arxiv.org/abs/2507.02825
 - AgentRewardBench: https://arxiv.org/abs/2504.08942
@@ -3693,111 +3693,112 @@ Sources: `source-domescobar-agentic-runtime-techniques`
 
 # Agentic Runtime Techniques
 
-## Kernaussage
+## Core claim
 
-Eine Runtime ist keine einzelne Agentenschleife. Die kleinste brauchbare
-Architektur kombiniert genau **eine primäre Kontrollschleife** mit den
-querschnittlichen Schichten, die Risiko, Dauer und Betriebsumgebung verlangen.
-Mehr Schleifen und mehr Agenten sind keine automatische Verbesserung.
+A runtime is not a single agent loop. The smallest useful architecture combines
+exactly **one primary control loop** with the cross-cutting layers required by
+risk, duration, and operating environment. More loops and more agents are not an
+automatic improvement.
 
-## A. Kontrollschleifen
+## A. Control loops
 
-### 1. Action Loop
+### 1. Action loop
 
 `observe -> reason/plan -> act -> observe -> stop/repeat`
 
-Für kurze, interaktive Tool-Aufgaben. Erforderlich sind Tool-Verträge,
-Fehlerbehandlung, Stop-Kriterium und harte Budgets. Allein ungeeignet für lange,
-irreversible oder korrektheitskritische Arbeit.
+For short, interactive tool tasks. Requires tool contracts, error handling, a
+stop condition, and hard budgets. Insufficient by itself for long-running,
+irreversible, or correctness-critical work.
 
-### 2. Plan-and-Execute
+### 2. Plan and execute
 
 `plan -> execute step -> observe -> revise -> next step`
 
-Für mehrstufige Arbeit mit sichtbarem Fortschritt. Plan als versioniertes
-Artefakt speichern und Stale-Plan-Erkennung vorsehen. Nicht einsetzen, wenn die
-Aufgabe in einem Schritt lösbar oder überwiegend explorativ ist.
+For multi-stage work with visible progress. Store the plan as a versioned
+artifact and detect stale plans. Do not use when the task is solvable in one
+step or is primarily exploratory.
 
-### 3. Verifier Loop
+### 3. Verifier loop
 
 `attempt -> deterministic check -> fix/finish/escalate`
 
-Für Aufgaben mit überprüfbaren Akzeptanzkriterien. Tests, Schemas und Invarianten
-haben Vorrang vor einem LLM-Judge. Verifier-Unabhängigkeit und Retry-Limit sind
-notwendig, weil ein schwacher Checker falsche Fertigmeldungen legitimiert.
+For tasks with verifiable acceptance criteria. Tests, schemas, and invariants
+take precedence over an LLM judge. Verifier independence and retry limits are
+necessary because a weak checker legitimizes false completion.
 
-### 4. Bounded Retry
+### 4. Bounded retry
 
 `bounded attempt -> explicit result/failure -> retry/fresh context/escalate`
 
-Zeit-, Kosten-, Schritt- und Kontextgrenzen machen Scheitern zu einem expliziten
-Zustand. Zwischen Versuchen wird nur typisierter State übertragen; sonst trägt
-ein frischer Kontext dieselben Fehler weiter.
+Time, cost, step, and context limits make failure an explicit state. Transfer
+only typed state between attempts; otherwise a fresh context carries the same
+errors forward.
 
-### 5. Reflection/Memory
+### 5. Reflection and memory
 
 `act -> evaluate -> candidate lesson -> validate/promote -> reuse`
 
-Reflexionen dürfen nicht direkt in kanonisches Memory geschrieben werden.
-Promotion benötigt wiederholte Evidenz, Provenienz, Ablaufdatum und Rollback.
+Reflections must not be written directly to canonical memory. Promotion requires
+repeated evidence, provenance, expiry, and rollback.
 
-### 6. Research Loop
+### 6. Research loop
 
 `question -> query batch -> read -> claim/evidence ledger -> gap analysis -> repeat`
 
-Die entscheidende Runtime-Komponente ist der Claim-/Evidence-Ledger, nicht der
-Webzugriff. Stoppen bei gedeckten Kernclaims, ausgeschöpftem Budget oder fehlender
-neuer Evidenz.
+The decisive runtime component is the claim/evidence ledger, not web access.
+Stop when core claims are covered, the budget is exhausted, or no new evidence
+appears.
 
-### 7. Experiment Loop
+### 7. Experiment loop
 
 `propose -> isolated run -> measure -> paired comparison -> keep/revert`
 
-Nur mit fixierter Baseline, kontrollierter Varianz und unveränderlichem
-Experiment-Log. Einzelne erfolgreiche Runs reichen nicht zur Promotion.
+Use only with a fixed baseline, controlled variance, and immutable experiment
+log. One successful run is insufficient for promotion.
 
-### 8. Multi-Agent Orchestration
+### 8. Multi-agent orchestration
 
 `decompose -> typed tasks -> isolated workers -> typed results -> review/merge`
 
-Nur einsetzen, wenn getrennte Kontexte, Werkzeuge, Autoritäten oder echte
-Parallelität den Koordinationsaufwand überwiegen. Tiefe, Turns und Fan-out
-begrenzen; Ownership und Merge-Semantik explizit machen.
+Use only when separate contexts, tools, authorities, or genuine parallelism
+outweigh coordination cost. Bound depth, turns, and fan-out; make ownership and
+merge semantics explicit.
 
-### 9. Durable Runtime
+### 9. Durable runtime
 
 `load -> work -> checkpoint -> wait -> resume`
 
-Benötigt persistente Zustandsmaschine, idempotente Schritte, Lease/Single-runner,
-Retry/Backoff, Migrationen und Recovery-Semantik. Ein langer Chatturn ist kein
-durabler Workflow.
+Requires a persistent state machine, idempotent steps, lease or single-runner
+semantics, retry/backoff, migrations, and recovery semantics. A long chat turn is
+not a durable workflow.
 
-### 10. Coding Harness
+### 10. Coding harness
 
 `isolate -> edit -> test -> review -> merge/revert`
 
-Git-Diff, Worktree/Branch, ausführbare Checks, Reviewer und Rollback bilden die
-Runtime-Grenze. Ohne belastbare Tests bleibt auch ein Multi-Agent-Review schwach.
+Git diffs, worktree or branch isolation, executable checks, review, and rollback
+form the runtime boundary. Without strong tests, even multi-agent review remains
+weak.
 
-## B. Querschnittliche Runtime-Schichten
+## B. Cross-cutting runtime layers
 
-1. **Test-time Compute:** mehrere Kandidaten nur unter hartem Compute-Budget und
-   mit belastbarem Selektor.
-2. **HITL/Governance:** riskante Aktionen als resumable Interrupt modellieren,
-   nicht als informelle Rückfrage.
-3. **Security/Capabilities:** Trust Zones, Least Privilege und Action Firewall
-   vor Toolausführung.
-4. **Context/Memory:** Packing, Paging, Retrieval-Caps, Promotion und Forgetting.
-5. **Harness/Composition:** Agentenkern von Session, UI, Queue und Persistenz
-   trennen.
-6. **Protocols:** MCP/A2A nur an Grenzen, an denen Portabilität oder Remote-
-   Interoperabilität tatsächlich gebraucht wird.
-7. **Observability/Provenance:** append-only Events, Run Receipts, Claim- und
-   Artifact-IDs sowie replaybare Zustandsübergänge.
-8. **Cost/Serving:** Budgets, Model Routing, Caching und Latenz-SLOs als Runtime-
-   Policy statt Prompt-Hinweis.
+1. **Test-time compute:** generate multiple candidates only under a hard compute
+   budget and with a reliable selector.
+2. **HITL/governance:** model risky actions as resumable interrupts, not informal
+   questions.
+3. **Security/capabilities:** enforce trust zones, least privilege, and an action
+   firewall before tool execution.
+4. **Context/memory:** packing, paging, retrieval caps, promotion, and forgetting.
+5. **Harness/composition:** separate the agent core from session, UI, queue, and
+   persistence.
+6. **Protocols:** use MCP/A2A only at boundaries that genuinely require
+   portability or remote interoperability.
+7. **Observability/provenance:** append-only events, run receipts, claim and
+   artifact IDs, and replayable state transitions.
+8. **Cost/serving:** budgets, model routing, caching, and latency SLOs as runtime
+   policy rather than prompt suggestions.
 
-## Kompositionsregel
+## Composition rule
 
 ```text
 request
@@ -3809,12 +3810,12 @@ request
   -> result with provenance
 ```
 
-## Evidenzstatus
+## Evidence status
 
-Die Taxonomie ist eine nützliche Synthese, aber nicht experimentell als Ganzes
-validiert. Einzelne Techniken besitzen unterschiedliche Evidenz. Insbesondere
-2026-Patterns aus einzelnen Preprints bleiben Hypothesen beziehungsweise
-Kandidaten, bis unabhängige Replikation oder eigene Evals vorliegen.
+The taxonomy is a useful synthesis but has not been experimentally validated as
+a whole. Individual techniques have different evidence strength. In particular,
+2026 patterns from isolated preprints remain hypotheses or candidates until
+independent replication or local evaluations exist.
 
 ## Evaluation Workload Blueprints
 

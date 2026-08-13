@@ -1,90 +1,89 @@
-# Deep Research: Architektur und Tools
+# Deep Research: Architecture and Tools
 
-Stand: 2026-08-08. Bevorzugt wurden offizielle Dokumentationen, Repositories und
-Forschungsarbeiten. Vendor-Aussagen gelten als Implementierungsbelege, nicht als
-unabhängiger Qualitätsnachweis.
+Status: 2026-08-08. Official documentation, repositories, and research papers
+were preferred. Vendor claims count as implementation evidence, not independent
+quality evidence.
 
-## Befunde
+## Findings
 
-### Memory braucht getrennte Scopes und Schreibzeitpunkte
+### Memory needs separate scopes and write timings
 
-LangGraphs Dokumentation trennt Thread-State von sitzungsübergreifendem Memory
-und unterscheidet semantisches, episodisches und prozedurales Gedächtnis. Sie
-beschreibt außerdem Hot-Path- und asynchrones Schreiben mit unterschiedlichen
-Latenz- und Freshness-Eigenschaften. Das stützt getrennte Stores und einen
-asynchronen, prüfbaren Promotion-Pfad.
+LangGraph documentation separates thread state from cross-session memory and
+distinguishes semantic, episodic, and procedural memory. It also describes
+hot-path and asynchronous writes with different latency and freshness
+properties. This supports separate stores and an asynchronous, auditable
+promotion path.
 
-Quelle: https://docs.langchain.com/oss/python/concepts/memory
+Source: https://docs.langchain.com/oss/python/concepts/memory
 
-### Der Index darf nicht die Wahrheitsschicht sein
+### The index must not be the truth layer
 
-SQLite FTS5 bietet lokale Volltextsuche und BM25 ohne zusätzlichen Dienst. Für
-den MVP genügt das zusammen mit einem reproduzierbaren Embedding-Index.
+SQLite FTS5 provides local full-text search and BM25 without another service.
+For the MVP, this is sufficient together with a reproducible embedding index.
 
-Quelle: https://www.sqlite.org/fts5.html
+Source: https://www.sqlite.org/fts5.html
 
-pgvector unterstützt exakte und approximative Vektorsuche sowie Hybrid Search
-mit PostgreSQL Full Text Search. Die Dokumentation weist zugleich darauf hin,
-dass ANN Recall gegen Geschwindigkeit tauscht und gefilterte ANN-Abfragen zu
-weniger Treffern führen können. Postgres ist deshalb eine Scale-up-Option, kein
-notwendiger MVP-Baustein.
+pgvector supports exact and approximate vector search as well as hybrid search
+with PostgreSQL full-text search. Its documentation also notes that ANN trades
+recall for speed and that filtered ANN queries may return fewer results.
+Postgres is therefore a scale-up option, not a required MVP component.
 
-Quelle: https://github.com/pgvector/pgvector
+Source: https://github.com/pgvector/pgvector
 
-### Evaluation muss mehr als Fact Recall messen
+### Evaluation must measure more than fact recall
 
-MemoryAgentBench benennt accurate retrieval, test-time learning, long-range
-understanding und selective forgetting als getrennte Fähigkeiten. Der allgemeine
-Agent-Eval-Survey fordert zusätzlich realistischere, fortlaufend aktualisierte
-Tests für Robustheit, Sicherheit und Kosteneffizienz.
+MemoryAgentBench separates accurate retrieval, test-time learning, long-range
+understanding, and selective forgetting. The broader agent-evaluation survey
+also calls for more realistic, continuously updated tests of robustness,
+security, and cost efficiency.
 
-Quellen:
+Sources:
 
 - https://arxiv.org/abs/2507.05257
 - https://arxiv.org/abs/2503.16416
 
-### Checkpoints sind Runtime-State, nicht Wiki-Wissen
+### Checkpoints are runtime state, not knowledge-base content
 
-LangGraphs Persistence-Modell speichert Zustand schrittweise und ermöglicht
-Resume, Human-in-the-loop und Time-travel Debugging. Das ist sinnvoll für die
-Runtime, darf aber nicht mit geprüften Wissensclaims vermischt werden.
+LangGraph's persistence model stores state incrementally and enables resume,
+human-in-the-loop, and time-travel debugging. This is useful for the runtime but
+must not be mixed with reviewed knowledge claims.
 
-Quelle: https://docs.langchain.com/oss/python/langgraph/persistence
+Source: https://docs.langchain.com/oss/python/langgraph/persistence
 
-## Werkzeugentscheidung
+## Tool decisions
 
-### MVP: empfohlen
+### Recommended for the MVP
 
-- **Git + Markdown:** kanonische, diffbare Quelle und Rollback.
-- **Obsidian:** optionale menschliche Oberfläche für Links und Properties; kein
-  Laufzeit-Dependency.
-- **JSON Schema + eigener Linter:** deterministische Struktur- und Policy-Checks.
-- **SQLite FTS5:** lokaler lexikalischer Index.
-- **Embeddings + einfacher lokaler Vector Store:** semantischer Recall; Modell-
-  und Chunker-Version zwingend im Manifest.
-- **Reciprocal Rank Fusion:** transparente Fusion von Volltext und Vektoren.
-- **pytest/Fixtures:** reproduzierbare Retrieval-, Update-, Privacy- und
-  Forgetting-Evals.
-- **OpenTelemetry:** Traces und Metriken mit redigierten Inhalten; die GenAI-
-  Konventionen entwickeln sich weiter und müssen versioniert werden.
+- **Git + Markdown:** canonical, diffable source and rollback.
+- **Obsidian:** optional human interface for links and properties; not a runtime
+  dependency.
+- **JSON Schema + custom linter:** deterministic structure and policy checks.
+- **SQLite FTS5:** local lexical index.
+- **Embeddings + simple local vector store:** semantic recall; model and chunker
+  versions are mandatory in the manifest.
+- **Reciprocal Rank Fusion:** transparent fusion of full-text and vector results.
+- **pytest/fixtures:** reproducible retrieval, update, privacy, and forgetting
+  evaluations.
+- **OpenTelemetry:** traces and metrics with redacted content; evolving GenAI
+  conventions must be versioned.
 
-Quelle: https://opentelemetry.io/docs/specs/semconv/
+Source: https://opentelemetry.io/docs/specs/semconv/
 
-### Später, nur bei gemessenem Bedarf
+### Later, only when measurement justifies it
 
-- **Postgres + pgvector:** mehrere Writer, ACL-Abfragen, hohe Dokumentzahl oder
-  zentraler Dienst.
-- **Cross-Encoder-Reranker:** wenn Offline-Evals einen relevanten Precision-Gewinn
-  innerhalb des Latenzbudgets zeigen.
-- **Property Graph:** erst wenn Multi-Hop-Fragen in der Eval-Suite scheitern;
-  Beziehungen zunächst aus Markdown-Metadaten projizieren.
-- **LangGraph oder vergleichbare Runtime:** wenn langlaufende Workflows,
-  Checkpoints und Recovery tatsächlich gebraucht werden. Das Wiki selbst bleibt
-  runtime-unabhängig.
+- **Postgres + pgvector:** multiple writers, ACL queries, high document counts,
+  or a central service.
+- **Cross-encoder reranker:** when offline evaluations show a meaningful
+  precision gain within the latency budget.
+- **Property graph:** only when multi-hop questions fail in the evaluation suite;
+  initially project relationships from Markdown metadata.
+- **LangGraph or a comparable runtime:** when long-running workflows,
+  checkpoints, and recovery are genuinely needed. The knowledge base itself
+  remains runtime-independent.
 
-### Nicht empfohlen im MVP
+### Not recommended for the MVP
 
-- autonome Promotion von Chat-Inhalten;
-- ein proprietärer Vector Store als einzige Kopie;
-- automatische Skill-/Prompt-Umschreibung aus einzelnen Erfolgen;
-- Knowledge Graph, Vector DB und Agent-Framework gleichzeitig einzuführen.
+- autonomous promotion of chat content;
+- a proprietary vector store as the only copy;
+- automatic skill or prompt rewrites based on isolated successes;
+- introducing a knowledge graph, vector database, and agent framework at once.

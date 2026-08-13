@@ -100,13 +100,13 @@ class WikiToolTests(unittest.TestCase):
         for case in cases:
             self.assertGreaterEqual(len(case["expects"]), 6)
 
-    def test_retrieval_eval_pack_has_language_and_query_slices(self):
+    def test_retrieval_eval_pack_has_query_style_slices(self):
         payload = json.loads((MODULE_PATH.parents[1] / "evals/wiki-retrieval-v1.json").read_text())
         self.assertFalse(payload["promotion_authority"])
         self.assertGreaterEqual(len(payload["cases"]), 12)
         slices = {case["slice"] for case in payload["cases"]}
-        self.assertTrue(any(item.startswith("de-") for item in slices))
-        self.assertTrue(any(item.startswith("en-") for item in slices))
+        self.assertTrue(any(item.endswith("-exact") for item in slices))
+        self.assertTrue(any(item.endswith("-paraphrase") for item in slices))
 
     def test_section_ids_are_stable_and_unique(self):
         pages, errors = wiki.load_pages()

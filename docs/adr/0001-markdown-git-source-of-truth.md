@@ -1,31 +1,30 @@
-# ADR-0001: Markdown und Git als Source of Truth
+# ADR-0001: Markdown and Git as the Source of Truth
 
 - Status: accepted
-- Datum: 2026-08-08
+- Date: 2026-08-08
 
-## Kontext
+## Context
 
-Das Wiki muss durch Menschen lesbar, lokal betreibbar, überprüfbar, korrigierbar
-und unabhängig von Embedding-Modellen oder Datenbankprodukten sein.
+The knowledge base must be human-readable, locally operable, auditable,
+correctable, and independent of embedding models or database products.
 
-## Entscheidung
+## Decision
 
-Kanonische Inhalte werden als Markdown mit validiertem YAML-Frontmatter in Git
-gespeichert. Volltext-, Vektor- und Graphindizes sind abgeleitete Artefakte.
+Canonical content is stored in Git as Markdown with validated YAML frontmatter.
+Full-text, vector, and graph indexes are derived artifacts.
 
-## Konsequenzen
+## Consequences
 
-Positiv: einfache Reviews, Diffs, Backups und Rollbacks; kein Lock-in; ein
-defekter oder veralteter Index kann vollständig neu gebaut werden.
+Positive: simple reviews, diffs, backups, and rollbacks; no lock-in; a broken or
+stale index can be rebuilt completely.
 
-Negativ: konkurrierende Writer und sehr große Korpora benötigen später eine
-Transaktionsschicht; Schemaänderungen brauchen Migrationen; Zugriffsrechte auf
-Feldebene sind im Dateisystem begrenzt.
+Negative: concurrent writers and very large corpora may eventually require a
+transaction layer; schema changes require migrations; field-level access control
+is limited in a filesystem.
 
-## Alternativen
+## Alternatives
 
-- Postgres als Primärspeicher gewinnt bei vielen gleichzeitigen Schreibern und
-  komplexen ACL-Abfragen.
-- Ein Property Graph gewinnt bei häufigen, evaluierten Multi-Hop-Abfragen.
-- Ein SaaS-Vector-Store gewinnt nur, wenn Betriebsentlastung wichtiger als
-  lokale Kontrolle und Portabilität ist.
+- Postgres is preferable for many concurrent writers and complex ACL queries.
+- A property graph is preferable for frequent, evaluated multi-hop queries.
+- A SaaS vector store is preferable only when reduced operational burden matters
+  more than local control and portability.

@@ -1,4 +1,4 @@
-The canonical technical source is the digest-pinned `llm-wiki` projection, not
+The canonical technical source is the digest-pinned `agentic-architecture-kb` projection, not
 the frozen legacy `wiki-sources` pages. It contains the reviewed architecture
 knowledge across RAG, runtimes, memory, evaluation and bounded self-improvement,
 plus the validated Technique Card catalog.

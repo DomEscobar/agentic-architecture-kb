@@ -1,82 +1,83 @@
-# Systemarchitektur
+# System Architecture
 
-## Ziele und Annahmen
+## Goals and assumptions
 
-Das System unterstützt zunächst einen Nutzer und einen Architektur-Agenten,
-läuft lokal, verarbeitet überwiegend Markdown und soll nachvollziehbare
-technische Empfehlungen liefern. Vorrang haben Korrektheit, Provenienz,
-Korrekturrechte und einfache Wiederherstellung; extreme Skalierung ist kein
-MVP-Ziel.
+The system initially supports one user and one architecture agent, runs locally,
+processes mostly Markdown, and should produce traceable technical
+recommendations. Correctness, provenance, correction rights, and simple recovery
+take priority; extreme scale is not an MVP goal.
 
-## Schichten
+## Layers
 
-1. **Run State:** aktueller Kontext und Checkpoints; nicht automatisch dauerhaft.
-2. **Episodic Log:** verdichtete Sitzungen mit Entscheidungen, Aktionen,
-   Ergebnissen und offenen Punkten.
-3. **Personal Memory:** stabile Präferenzen, Projekte und Constraints, strikt
-   nach Nutzer und Datenschutzklasse getrennt.
-4. **Knowledge Wiki:** Quellen, Konzepte, Muster, Cases und Synthesen.
-5. **Derived Indexes:** Volltext, Embeddings und Beziehungen; vollständig
-   löschbar und aus Git rekonstruierbar.
+1. **Run State:** current context and checkpoints; not automatically durable.
+2. **Episodic Log:** condensed sessions with decisions, actions, outcomes, and
+   open items.
+3. **Personal Memory:** stable preferences, projects, and constraints, strictly
+   separated by user and privacy class.
+4. **Architecture Knowledge Base:** sources, concepts, patterns, cases, and
+   syntheses.
+5. **Derived Indexes:** full text, embeddings, and relationships; fully
+   disposable and reconstructable from Git.
 
-## Write Path
+## Write path
 
 ```text
-Chat/Quelle -> unveränderter Eingang -> Extraktion -> Inbox
-           -> Schema- und Policy-Prüfung -> menschliche Freigabe
-           -> kanonische Seite -> Compile/Lint -> abgeleitete Indizes
+Chat/source -> immutable input -> extraction -> inbox
+            -> schema and policy checks -> human approval
+            -> canonical page -> compile/lint -> derived indexes
 ```
 
-Automatische Extraktion erzeugt Kandidaten, keine Wahrheit. Eine Promotion
-benötigt Seitentyp, stabile ID, Provenienz, Datenschutzklasse, Konfidenz,
-Zeitbezug und Review-Datum. Änderungen an bestehendem Wissen werden als
-Korrektur, Ergänzung oder Widerspruch modelliert.
+Automated extraction creates candidates, not truth. Promotion requires a page
+type, stable ID, provenance, privacy class, confidence, temporal scope, and
+review date. Changes to existing knowledge are modeled as corrections,
+additions, or contradictions.
 
-## Read Path
+## Read path
 
-1. Anfrage klassifizieren und Scope bestimmen.
-2. Deterministisch nach Nutzer, Projekt, Datenschutz, Status und Zeit filtern.
-3. Kandidaten parallel über Links/IDs, Volltext und Embeddings abrufen.
-4. Rankings per Reciprocal Rank Fusion zusammenführen.
-5. Kleine Kandidatenmenge optional reranken.
-6. Quellenabschnitte laden, Antwort erzeugen und Claim-zu-Quelle-Bezug prüfen.
-7. Retrieval-Trace ohne unnötige private Inhalte protokollieren.
+1. Classify the request and determine scope.
+2. Filter deterministically by user, project, privacy, status, and time.
+3. Retrieve candidates in parallel through links/IDs, full text, and embeddings.
+4. Merge rankings with Reciprocal Rank Fusion.
+5. Optionally rerank a small candidate set.
+6. Load source sections, generate the answer, and verify claim-to-source links.
+7. Record a retrieval trace without unnecessary private content.
 
-Vektorsuche ist damit ein Recall-Kanal, nicht der Wahrheitsrichter.
+Vector search is a recall channel, not the arbiter of truth.
 
-## Datenmodell
+## Data model
 
-Pflichtfelder stehen in `schemas/page.schema.json`. Wesentliche Relationen:
+Required fields are defined in `schemas/page.schema.json`. Key relationships:
 
-- `supports`, `contradicts`, `supersedes` für Claims;
-- `applies_to`, `depends_on`, `evaluated_by` für Architekturwissen;
-- `derived_from` für Synthesen;
-- `reviewed_at`, `valid_from`, `valid_until` für zeitliche Gültigkeit.
+- `supports`, `contradicts`, and `supersedes` for claims;
+- `applies_to`, `depends_on`, and `evaluated_by` for architecture knowledge;
+- `derived_from` for syntheses;
+- `reviewed_at`, `valid_from`, and `valid_until` for temporal validity.
 
-Jede Löschung entfernt die kanonische Seite oder das erlaubte Feld, baut alle
-Projektionen neu und prüft anschließend mit einem Negativtest, dass der Inhalt
-nicht mehr abrufbar ist.
+Every deletion removes the canonical page or permitted field, rebuilds all
+projections, and then uses a negative test to confirm that the content is no
+longer retrievable.
 
-## Failure Boundaries und Erkennung
+## Failure boundaries and detection
 
-- **Falsche Promotion:** Inbox/Freigabe und Audit-Log.
-- **Stale Knowledge:** Review-Datum, Quellen-Freshness und Stale-Report.
-- **Widersprüche:** explizite Kanten und Contradiction-Report.
-- **Retrieval Leakage:** ACL vor semantischer Suche, Tenant-Negativtests.
-- **Index Drift:** Index-Manifest mit Modell, Dimensionen, Chunker und Hash;
-  Änderungen erzwingen einen vollständigen Rebuild.
-- **Halluzinierte Provenienz:** nur existierende IDs/Abschnitte zitierbar;
-  Antwort-Claims werden gegen geladene Quellen geprüft.
-- **Agentische Selbstmutation:** keine automatische Änderung von Policies,
-  Prompts oder Skills ohne Eval, Review, Canary und Rollback.
+- **Incorrect promotion:** inbox/approval gate and audit log.
+- **Stale knowledge:** review date, source freshness, and stale report.
+- **Contradictions:** explicit edges and contradiction report.
+- **Retrieval leakage:** ACL enforcement before semantic search and tenant
+  negative tests.
+- **Index drift:** index manifest with model, dimensions, chunker, and hash;
+  changes force a complete rebuild.
+- **Fabricated provenance:** only existing IDs and sections are citable; answer
+  claims are checked against loaded sources.
+- **Agentic self-mutation:** no automatic policy, prompt, or skill changes
+  without evaluation, review, canary, and rollback.
 
-## Betrieb
+## Operations
 
-Jeder Build validiert JSON Schema, tote Links, doppelte IDs, fehlende Quellen,
-Widersprüche, veraltete Seiten und Datenschutzmarkierungen. Git liefert Review,
-Diff und Rollback. Backups müssen Repository und private Rohquellen getrennt
-abdecken; abgeleitete Indizes brauchen kein eigenes Backup.
+Every build validates JSON Schema, dead links, duplicate IDs, missing sources,
+contradictions, stale pages, and privacy markers. Git provides review, diffs, and
+rollback. Backups must cover the repository and private raw sources separately;
+derived indexes need no independent backup.
 
-Telemetry umfasst Query-Klasse, Filter, Kandidaten-IDs, Ranks, Latenzen,
-Tokenkosten, verwendete Quellen und Nutzerfeedback. Prompts oder Inhalte werden
-nur gemäß Datenschutzklasse erfasst.
+Telemetry includes query class, filters, candidate IDs, ranks, latency, token
+cost, sources used, and user feedback. Prompts or content are recorded only as
+allowed by their privacy class.

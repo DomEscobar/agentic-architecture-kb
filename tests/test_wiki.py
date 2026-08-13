@@ -247,6 +247,41 @@ class WikiToolTests(unittest.TestCase):
             }.issubset(ids)
         )
 
+    def test_security_catalog_and_redteam_cover_runtime_rag_and_memory(self):
+        root = MODULE_PATH.parents[1]
+        techniques, errors = wiki.load_techniques()
+        self.assertEqual(errors, [])
+        ids = {card["technique_id"] for card in techniques}
+        expected = {
+            "runtime.security.capability-policy-gateway",
+            "runtime.security.delegated-short-lived-identity",
+            "runtime.security.isolated-tool-sandbox",
+            "runtime.security.mcp-plugin-admission",
+            "runtime.security.budget-kill-switch",
+            "retrieval.security.source-admission-quarantine",
+            "retrieval.security.authorization-first",
+            "retrieval.security.untrusted-context-separation",
+            "retrieval.security.independent-source-corroboration",
+            "retrieval.security.index-integrity-monitor",
+            "retrieval.security.citation-gate",
+            "memory.security.influence-gated-write",
+        }
+        self.assertTrue(expected.issubset(ids))
+        payload = json.loads((root / "evals" / "redteam-sentinels-v1.json").read_text())
+        case_ids = {case["id"] for case in payload["cases"]}
+        self.assertTrue(
+            {
+                "retrieval-goal-hijack",
+                "confused-deputy-rag",
+                "mcp-manifest-drift",
+                "approval-replay",
+                "correlated-source-spoof",
+                "sandbox-egress",
+                "poisoned-memory-promotion",
+                "security-service-outage",
+            }.issubset(case_ids)
+        )
+
     def test_runtime_build_vs_adopt_is_retrievable(self):
         pages, errors = wiki.load_pages()
         self.assertEqual(errors, [])

@@ -24,4 +24,4 @@ drift:
 test:
 	python3 -m unittest discover -s tests -v
 
-check: lint test compile
+check: lint compile test

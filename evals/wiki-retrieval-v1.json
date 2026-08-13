@@ -15,6 +15,9 @@
     {"id":"en-citation","query":"Detect invalid shortened source labels after answer generation","relevant_page_ids":["pattern-retrieval-context-technique-catalog"],"slice":"en-paraphrase"},
     {"id":"en-runtime-effects","query":"retry non-idempotent side effects causal ledger commit authorization","relevant_page_ids":["pattern-runtime-safety-baseline"],"slice":"en-exact"},
     {"id":"en-memory-poison","query":"Quarantine poisoned memories and prevent procedural promotion","relevant_page_ids":["pattern-memory-poisoning-defense","pattern-memory-write-and-promotion"],"slice":"en-paraphrase"},
-    {"id":"en-rsi-evaluator","query":"optimizer rewrites evaluator objective epoch holdout rollback","relevant_page_ids":["pattern-rsi-evidence-boundary"],"slice":"en-paraphrase"}
+    {"id":"en-rsi-evaluator","query":"optimizer rewrites evaluator objective epoch holdout rollback","relevant_page_ids":["pattern-rsi-evidence-boundary"],"slice":"en-paraphrase"},
+    {"id":"en-security-mcp-config","query":"malicious pull request MCP project configuration privileged runner","relevant_page_ids":["pattern-mcp-and-agent-extension-security","source-agentic-security-verification-2026-08"],"slice":"en-paraphrase"},
+    {"id":"en-security-adaptive-eval","query":"adaptive prompt injection benchmark benign utility external state","relevant_page_ids":["pattern-agent-security-evaluation-and-tooling"],"slice":"en-paraphrase"},
+    {"id":"en-security-sandbox","query":"agent sandbox microVM egress host mount credentials","relevant_page_ids":["pattern-agent-sandbox-selection"],"slice":"en-exact"}
   ]
 }

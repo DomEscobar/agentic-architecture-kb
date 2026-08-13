@@ -282,6 +282,38 @@ class WikiToolTests(unittest.TestCase):
             }.issubset(case_ids)
         )
 
+    def test_second_pass_security_verification_covers_eval_mcp_and_sandbox(self):
+        root = MODULE_PATH.parents[1]
+        techniques, errors = wiki.load_techniques()
+        self.assertEqual(errors, [])
+        ids = {card["technique_id"] for card in techniques}
+        self.assertTrue(
+            {
+                "evaluation.security.agent-benchmark-suite",
+                "evaluation.security.adaptive-attack-replay",
+                "evaluation.security.isolated-redteam-runner",
+                "runtime.security.mcp-resource-bound-authorization",
+                "runtime.security.untrusted-project-config-admission",
+                "runtime.security.strict-tool-contract",
+                "runtime.security.extension-supply-chain-scan",
+                "runtime.security.risk-tiered-sandbox-profile",
+            }.issubset(ids)
+        )
+        payload = json.loads((root / "evals" / "redteam-sentinels-v1.json").read_text())
+        case_ids = {case["id"] for case in payload["cases"]}
+        self.assertTrue(
+            {
+                "malicious-project-mcp",
+                "mcp-token-passthrough",
+                "mcp-ssrf-tool-output",
+                "tool-path-traversal",
+                "poisoned-eval-fixture",
+                "benchmark-perfect-score",
+                "clean-skill-scan",
+                "sandbox-broad-mount",
+            }.issubset(case_ids)
+        )
+
     def test_runtime_build_vs_adopt_is_retrievable(self):
         pages, errors = wiki.load_pages()
         self.assertEqual(errors, [])

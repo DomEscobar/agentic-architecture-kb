@@ -2,13 +2,13 @@
   "schema_version": 1,
   "status": "deployed",
   "consumer": "public-ai-architect",
-  "canonical_sha256": "4e0d1783687918708a1655fb63d2ac3dece0d47939b9c11f4b81c7a19d5f2b4c",
-  "content_sha256": "326fc41aebe7ca8fb1d52eb5a8586aeff9dd7a31a747dced9acf0ae76c423ce9",
-  "artifact_sha256": "eac320b18fbf1683094ffc991f91dbbff30b0de44bb6d0673b7dd4b7c58dfde4",
-  "image_sha256": "1ec8fda1754926c296987c82b52107f6b3ebb2281c95c99db734ee54f129356a",
-  "deployed_at": "2026-08-12T23:32:31+02:00",
+  "canonical_sha256": "6fb9cb8f93fa5c7d140239e2565d0b5c830762ea57962d918c9787f7d716459c",
+  "content_sha256": "07aeb42c107e25c5734ec2ea1dbac306826358faec7005da4e0c7ed8dcaadda4",
+  "artifact_sha256": "032ee8463d5897d8023f621d8ac789211ab6a7077ddfe004a6e9303a212f73f5",
+  "image_sha256": "5beee779c22e3d8bf7a3f3b22a8f9b39f21602c541ec5a1b3cf4d4906dd0232c",
+  "deployed_at": "2026-08-13T17:29:07+02:00",
   "approved_by": "Dom",
-  "approval_context": "Telegram deployment request on 2026-08-12",
-  "rollback": "Redeploy the prior public-ai-architect image and restore the previous release lock; immutable public wiki artifacts are retained by content digest.",
-  "note": "Digest-pinned public snapshot deployed after explicit human approval; live HTTPS and health checks passed."
+  "approval_context": "Telegram request to update the AI Architect on 2026-08-13",
+  "rollback": "Redeploy image sha256:1ec8fda1754926c296987c82b52107f6b3ebb2281c95c99db734ee54f129356a and restore content digest 326fc41aebe7ca8fb1d52eb5a8586aeff9dd7a31a747dced9acf0ae76c423ce9.",
+  "note": "Digest-pinned public snapshot deployed after explicit human approval; local and live HTTPS health checks passed."
 }

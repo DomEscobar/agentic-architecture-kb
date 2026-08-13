@@ -224,6 +224,63 @@ class WikiToolTests(unittest.TestCase):
                     query,
                 )
 
+    def test_runtime_adoption_catalog_covers_implementation_tiers(self):
+        techniques, errors = wiki.load_techniques()
+        self.assertEqual(errors, [])
+        ids = {
+            card["technique_id"]
+            for card in techniques
+            if card["technique_id"].startswith("runtime.")
+        }
+        self.assertTrue(
+            {
+                "runtime.custom-minimal-runtime",
+                "runtime.langgraph-runtime",
+                "runtime.deepagents-harness",
+                "runtime.deerflow-harness",
+                "runtime.openclaw-platform",
+                "runtime.openai-agents-sdk",
+                "runtime.pydantic-ai-runtime",
+                "runtime.google-adk-runtime",
+                "runtime.microsoft-agent-framework",
+                "runtime.temporal-durable-substrate",
+            }.issubset(ids)
+        )
+
+    def test_runtime_build_vs_adopt_is_retrievable(self):
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        queries = [
+            "Deep Agents long horizon harness sandbox",
+            "DeerFlow gateway channels sandbox",
+            "OpenClaw multi channel operational platform",
+            "custom minimal loop versus framework",
+            "Temporal durable workflow process restart",
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "wiki.sqlite"
+            wiki.build_fts(pages, index)
+            for query in queries:
+                result = wiki.search_fts(
+                    query,
+                    privacy=["public"],
+                    status=["reviewed"],
+                    trace=False,
+                    db_path=index,
+                )
+                self.assertGreater(result["candidate_count"], 0, query)
+                self.assertTrue(
+                    any(
+                        item["page_id"]
+                        in {
+                            "pattern-runtime-build-vs-adopt",
+                            "source-agent-runtime-framework-landscape-2026-08",
+                        }
+                        for item in result["results"]
+                    ),
+                    query,
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

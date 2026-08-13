@@ -67,6 +67,7 @@ constraints, or continued agent work.
 - [Runtime techniques: structured synthesis](syntheses/agentic-runtime-techniques.md)
 - [Runtime Decision Guide](patterns/runtime-decision-guide.md)
 - [Runtime Safety Baseline](patterns/runtime-safety-baseline.md)
+- [Runtime Build Versus Adopt Decision](patterns/runtime-build-vs-adopt.md)
 - [Document-centric Hybrid RAG](patterns/document-centric-hybrid-rag.md)
 - [Case: Bauhelfer AI RAG](cases/bauhelfer-ai-rag.md)
 - [RAG Pipeline Taxonomy](syntheses/rag-pipeline-taxonomy.md)

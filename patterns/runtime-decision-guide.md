@@ -6,13 +6,16 @@ status: reviewed
 privacy: internal
 confidence: 0.85
 created_at: 2026-08-08T16:45:00+02:00
-updated_at: 2026-08-08T16:45:00+02:00
+updated_at: 2026-08-13T12:45:00+02:00
 review_at: 2026-11-08
 source_ids:
   - source-domescobar-agentic-runtime-techniques
+  - source-agent-runtime-framework-landscape-2026-08
 relations:
   - predicate: derived_from
     target: source-domescobar-agentic-runtime-techniques
+  - predicate: depends_on
+    target: pattern-runtime-build-vs-adopt
 ---
 
 # Runtime Decision Guide
@@ -42,6 +45,24 @@ relations:
 7. What are the maximum time, cost, tool-call, depth, and fan-out budgets?
 8. What is the kill switch, and how is the system rolled back?
 9. Which offline replays and online signals demonstrate improvement?
+
+## Select the implementation tier
+
+- Use a custom minimal loop when the complete runtime is narrow, short-lived,
+  auditable and low-authority.
+- Use an SDK when tools, sessions, streaming, guardrails or tracing are required
+  but application code should own hosting and policy.
+- Use a graph runtime when explicit branching, checkpoints and approval resume
+  are material requirements.
+- Use an opinionated harness when workspaces, subagents, skills and long-context
+  management are all required and evaluated together.
+- Use an operational platform when gateways, channels, persistent sessions and
+  plugin operations are inside the product boundary.
+- Add a durable workflow substrate for long waits, distributed recovery and
+  process restarts; do not confuse checkpointing with external-effect safety.
+
+Apply the full release-specific trust and comparative-spike contract in
+[[runtime-build-vs-adopt]].
 
 ## Default
 

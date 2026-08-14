@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "projects": [
+    {"id":"NVIDIA/SkillSpector","repository":"https://github.com/NVIDIA/SkillSpector","risk":"high","review_days":60,"technique_ids":["runtime.security.extension-supply-chain-scan"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md"]}},
+    {"id":"VectifyAI/PageIndex","repository":"https://github.com/VectifyAI/PageIndex","risk":"medium","review_days":90,"technique_ids":["chunking.hierarchical.tree-navigation"],"watch":{"default_branch":true,"releases":true,"security":false,"license":true,"paths":["README.md"]}},
+    {"id":"allenai/olmocr","repository":"https://github.com/allenai/olmocr","risk":"medium","review_days":90,"technique_ids":["parser.vlm.olmocr"],"watch":{"default_branch":true,"releases":true,"security":false,"license":true,"paths":["README.md"]}},
+    {"id":"bytedance/deer-flow","repository":"https://github.com/bytedance/deer-flow","risk":"high","review_days":60,"technique_ids":["runtime.deerflow-harness"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md","docs"]}},
+    {"id":"cisco-ai-defense/skill-scanner","repository":"https://github.com/cisco-ai-defense/skill-scanner","risk":"high","review_days":60,"technique_ids":["runtime.security.extension-supply-chain-scan"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md"]}},
+    {"id":"datalab-to/marker","repository":"https://github.com/datalab-to/marker","risk":"medium","review_days":90,"technique_ids":["parser.pipeline.marker"],"watch":{"default_branch":true,"releases":true,"security":false,"license":true,"paths":["README.md"]}},
+    {"id":"firecrawl/anydoc","repository":"https://github.com/firecrawl/anydoc","risk":"medium","review_days":90,"technique_ids":["parser.native.anydoc"],"watch":{"default_branch":true,"releases":true,"security":false,"license":true,"paths":["README.md"]}},
+    {"id":"google/adk-python","repository":"https://github.com/google/adk-python","risk":"high","review_days":60,"technique_ids":["runtime.google-adk-runtime"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md","docs"]}},
+    {"id":"jsvine/pdfplumber","repository":"https://github.com/jsvine/pdfplumber","risk":"medium","review_days":90,"technique_ids":["parser.native.pdfplumber"],"watch":{"default_branch":true,"releases":true,"security":false,"license":true,"paths":["README.md"]}},
+    {"id":"kubernetes-sigs/agent-sandbox","repository":"https://github.com/kubernetes-sigs/agent-sandbox","risk":"high","review_days":60,"technique_ids":["runtime.security.isolated-tool-sandbox","runtime.security.risk-tiered-sandbox-profile"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md","docs"]}},
+    {"id":"langchain-ai/deepagents","repository":"https://github.com/langchain-ai/deepagents","risk":"high","review_days":60,"technique_ids":["runtime.deepagents-harness"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md","docs"]}},
+    {"id":"langchain-ai/langgraph","repository":"https://github.com/langchain-ai/langgraph","risk":"high","review_days":60,"technique_ids":["runtime.langgraph-runtime"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md","docs"]}},
+    {"id":"microsoft/PyRIT","repository":"https://github.com/microsoft/PyRIT","risk":"high","review_days":60,"technique_ids":["evaluation.security.isolated-redteam-runner"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md","doc"]}},
+    {"id":"microsoft/agent-governance-toolkit","repository":"https://github.com/microsoft/agent-governance-toolkit","risk":"high","review_days":60,"technique_ids":["runtime.security.capability-policy-gateway","runtime.security.mcp-plugin-admission"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md","docs"]}},
+    {"id":"microsoft/markitdown","repository":"https://github.com/microsoft/markitdown","risk":"medium","review_days":90,"technique_ids":["parser.pipeline.markitdown"],"watch":{"default_branch":true,"releases":true,"security":false,"license":true,"paths":["README.md"]}},
+    {"id":"openclaw/openclaw","repository":"https://github.com/openclaw/openclaw","risk":"high","review_days":60,"technique_ids":["runtime.openclaw-platform"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md","docs"]}},
+    {"id":"opendatalab/MinerU","repository":"https://github.com/opendatalab/MinerU","risk":"medium","review_days":90,"technique_ids":["parser.pipeline.mineru"],"watch":{"default_branch":true,"releases":true,"security":false,"license":true,"paths":["README.md","docs"]}},
+    {"id":"opensandbox-group/OpenSandbox","repository":"https://github.com/opensandbox-group/OpenSandbox","risk":"high","review_days":60,"technique_ids":["runtime.security.risk-tiered-sandbox-profile"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md","docs"]}},
+    {"id":"promptfoo/promptfoo","repository":"https://github.com/promptfoo/promptfoo","risk":"high","review_days":60,"technique_ids":["evaluation.security.isolated-redteam-runner"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md","site/docs"]}},
+    {"id":"temporalio/sdk-python","repository":"https://github.com/temporalio/sdk-python","risk":"high","review_days":60,"technique_ids":["runtime.temporal-durable-substrate"],"watch":{"default_branch":true,"releases":true,"security":true,"license":true,"paths":["README.md"]}},
+    {"id":"xberg-io/xberg","repository":"https://github.com/xberg-io/xberg","risk":"medium","review_days":90,"technique_ids":["parser.pipeline.xberg"],"watch":{"default_branch":true,"releases":true,"security":false,"license":true,"paths":["README.md"]}}
+  ],
+  "advisories": [
+    "https://github.com/advisories/GHSA-3q26-f695-pp76",
+    "https://github.com/advisories/GHSA-8q5r-mmjf-575q",
+    "https://github.com/advisories/GHSA-9mqq-jqxf-grvw"
+  ]
+}

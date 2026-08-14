@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-architect.local/schemas/project-registry.schema.json",
+  "type": "object",
+  "required": ["schema_version", "projects", "advisories"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "projects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "repository", "risk", "review_days", "technique_ids", "watch"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9.-]+/[A-Za-z0-9_.-]+$"},
+          "repository": {"type": "string", "pattern": "^https://github\\.com/[^/]+/[^/]+$"},
+          "risk": {"enum": ["medium", "high"]},
+          "review_days": {"enum": [30, 60, 90]},
+          "technique_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+          "watch": {
+            "type": "object",
+            "required": ["default_branch", "releases", "security", "license"],
+            "properties": {
+              "default_branch": {"const": true},
+              "releases": {"type": "boolean"},
+              "security": {"type": "boolean"},
+              "license": {"type": "boolean"},
+              "paths": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "advisories": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^https://github\\.com/advisories/GHSA-"}
+    }
+  },
+  "additionalProperties": false
+}

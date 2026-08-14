@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "primary_sources_required": true,
+    "independent_corroboration_for_quality_or_security_claims": true,
+    "forums_are_e1_discovery_only": true,
+    "direct_promotion_allowed": false,
+    "classifications": ["new-candidate", "confirmed", "possibly-stale", "contradiction", "security-critical", "weak-evidence", "no-material-change"]
+  },
+  "lanes": [
+    {"id":"agentic-runtime","queries":["agent runtime orchestration checkpoint recovery release notes", "agent framework durable execution approval resume benchmark", "MCP agent runtime security advisory tool execution"]},
+    {"id":"rag-retrieval","queries":["RAG retrieval parsing embedding reranking primary research benchmark", "retrieval authorization poisoning index integrity security advisory", "document AI parser release benchmark reproducibility"]},
+    {"id":"agentic-memory","queries":["agent memory architecture forgetting provenance benchmark", "agent memory poisoning temporal validity evaluation", "procedural memory promotion rollback agent research"]},
+    {"id":"evaluations-observability","queries":["agent evaluation trajectory benchmark deterministic verifier", "LLM judge calibration agent evaluation reproducibility", "agent observability tracing regression gate release"]},
+    {"id":"security","queries":["agentic application security specification advisory incident", "prompt injection tool agent benchmark adaptive attack", "agent sandbox MCP supply chain security advisory"]},
+    {"id":"bounded-improvement","queries":["bounded agent self improvement paired evaluation rollback", "prompt optimizer protected holdout canary research", "agent self modification safety evaluation reproduction"]}
+  ]
+}

@@ -29,9 +29,9 @@ Start with the relevant runtime patterns and technique cards, preserve exact
 source references, and state which assumptions require repository inspection.
 ```
 
-Start with `patterns/` for decision guidance, `techniques/` for machine-readable
-experiment candidates, `sources/` for evidence audits, and `cases/` for reusable
-application records. For consequential decisions, record the commit SHA used.
+Start with the generated [Knowledge Map](index.md), then load only the relevant
+patterns, technique cards, sources, and cases. For consequential decisions,
+record the commit SHA used.
 
 ### Search locally
 
@@ -58,38 +58,14 @@ constraints, or continued agent work.
 
 ## Documentation
 
+- [Knowledge Map](index.md)
 - [System architecture](docs/architecture.md)
 - [Research and tool selection](docs/research.md)
 - [MVP and roadmap](docs/roadmap.md)
 - [ADR-0001: Markdown and Git as the source of truth](docs/adr/0001-markdown-git-source-of-truth.md)
 - [Page schema](schemas/page.schema.json)
 - [Memory evaluation](evals/README.md)
-- [Runtime techniques: structured synthesis](syntheses/agentic-runtime-techniques.md)
-- [Runtime Decision Guide](patterns/runtime-decision-guide.md)
-- [Runtime Safety Baseline](patterns/runtime-safety-baseline.md)
-- [Runtime Build Versus Adopt Decision](patterns/runtime-build-vs-adopt.md)
-- [Agentic Runtime Security Boundary](patterns/agentic-runtime-security-boundary.md)
-- [RAG Security and Retrieval Governance](patterns/rag-security-and-retrieval-governance.md)
-- [Agentic RAG Security Architecture](patterns/agentic-rag-security-architecture.md)
-- [Agent Security Evaluation and Tooling](patterns/agent-security-evaluation-and-tooling.md)
-- [MCP and Agent Extension Security](patterns/mcp-and-agent-extension-security.md)
-- [Agent Sandbox Selection and Validation](patterns/agent-sandbox-selection.md)
-- [Document-centric Hybrid RAG](patterns/document-centric-hybrid-rag.md)
-- [Case: Bauhelfer AI RAG](cases/bauhelfer-ai-rag.md)
-- [RAG Pipeline Taxonomy](syntheses/rag-pipeline-taxonomy.md)
-- [PageIndex / Reasoning Tree Retrieval](patterns/pageindex-reasoning-tree-retrieval.md)
-- [Contextual Retrieval](patterns/contextual-retrieval.md)
-- [Graph-based Retrieval](patterns/graph-based-retrieval.md)
-- [Agentic and Corrective Retrieval](patterns/agentic-corrective-retrieval.md)
-- [Visual Late-interaction Retrieval](patterns/visual-late-interaction-retrieval.md)
-- [Agent Evaluation Techniques](syntheses/agent-evaluation-techniques.md)
-- [Evidence-first Agent Evaluation](patterns/evidence-first-agent-evaluation.md)
-- [Eval-guided Bounded Improvement Loop](patterns/eval-guided-improvement-loop.md)
 - [Evaluation Consulting Playbook](docs/evaluation-consulting-playbook.md)
-- [Evaluation Workload Blueprints](syntheses/evaluation-workload-blueprints.md)
-- [Evaluation Metric Catalog](concepts/evaluation-metric-catalog.md)
-- [LLM Judge Calibration](patterns/llm-judge-calibration.md)
-- [Online Evaluation and Rollout](patterns/online-evaluation-and-rollout.md)
 
 ## Knowledge-base structure
 
@@ -118,9 +94,9 @@ python3 -m pip install -r requirements.txt
 make check
 ```
 
-`make lint` does not modify files. `make compile` writes only the ignored
-projections `build/wiki.json` and `reports/quality.json`. GitHub Actions runs the
-same checks for pushes and pull requests.
+`make lint` does not modify files. `make compile` writes the tracked `index.md`
+plus the ignored projections `build/wiki.json` and `reports/quality.json`.
+GitHub Actions runs the same checks for pushes and pull requests.
 
 ## Local search
 

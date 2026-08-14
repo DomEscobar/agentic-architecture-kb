@@ -125,6 +125,31 @@ class WikiToolTests(unittest.TestCase):
         self.assertTrue(second["ok"], second.get("errors"))
         self.assertEqual(before, (root / "build/wiki.json").read_bytes())
 
+    def test_navigation_index_is_generated_from_canonical_projection(self):
+        root = MODULE_PATH.parents[1]
+        report = wiki.compile_wiki()
+        self.assertTrue(report["ok"], report.get("errors"))
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        techniques, errors = wiki.load_techniques()
+        self.assertEqual(errors, [])
+        claim_count = sum(1 for line in (root / "claims/ledger.jsonl").read_text().splitlines() if line.strip())
+        expected = wiki.render_navigation_index(pages, techniques, claim_count)
+        actual = (root / "index.md").read_text()
+        self.assertEqual(actual, expected)
+        self.assertIn("## Knowledge lanes", actual)
+        self.assertIn("## Machine interface", actual)
+        self.assertIn("build/wiki.json", actual)
+
+    def test_navigation_index_links_resolve(self):
+        root = MODULE_PATH.parents[1]
+        text = (root / "index.md").read_text()
+        links = wiki.MARKDOWN_LINK.findall(text)
+        self.assertGreater(len(links), 80)
+        for link in links:
+            target = (root / link.strip().strip("<>").split("#", 1)[0]).resolve()
+            self.assertTrue(target.exists(), link)
+
     def test_fts_search_filters_and_returns_citable_sections(self):
         pages, errors = wiki.load_pages()
         self.assertEqual(errors, [])

@@ -18,3 +18,4 @@ jobs:
           cache: pip
       - run: pip install --requirement requirements.txt
       - run: make check
+      - run: git diff --exit-code -- index.md

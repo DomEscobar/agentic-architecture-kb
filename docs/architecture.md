@@ -81,3 +81,19 @@ derived indexes need no independent backup.
 Telemetry includes query class, filters, candidate IDs, ranks, latency, token
 cost, sources used, and user feedback. Prompts or content are recorded only as
 allowed by their privacy class.
+
+## Freshness operations
+
+Freshness is split into detection, evidence review, and promotion. The explicit
+project registry in `freshness/projects.json` maps GitHub projects to affected
+technique cards. `tools/freshness.py repo-pulse` records default-branch heads,
+releases, archive state, and license signals without treating activity as
+evidence. `freshness/research-query-packs.json` defines the lane-specific
+research radar and forbids direct promotion.
+
+Automated runs may write ignored machine reports or `status: inbox` candidates.
+They may not rewrite reviewed claims, patterns, syntheses, or technique cards.
+Promotion still requires source admission, contradiction review, schema and
+retrieval tests, compile/lint, human approval, and a separately approved
+consumer release. Security-critical findings may alert immediately and mark a
+review as urgent, but do not bypass the evidence gate.

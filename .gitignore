@@ -10,4 +10,7 @@ __pycache__/
 build/
 reports/*.json
 reports/retrieval-traces/
+reports/repo-pulse-state.json
+reports/repo-pulse-latest.json
+reports/freshness-due-reviews.json
 *.pyc

@@ -2,13 +2,13 @@
   "schema_version": 1,
   "status": "deployed",
   "consumer": "public-ai-architect",
-  "canonical_sha256": "6fb9cb8f93fa5c7d140239e2565d0b5c830762ea57962d918c9787f7d716459c",
-  "content_sha256": "07aeb42c107e25c5734ec2ea1dbac306826358faec7005da4e0c7ed8dcaadda4",
-  "artifact_sha256": "032ee8463d5897d8023f621d8ac789211ab6a7077ddfe004a6e9303a212f73f5",
-  "image_sha256": "5beee779c22e3d8bf7a3f3b22a8f9b39f21602c541ec5a1b3cf4d4906dd0232c",
-  "deployed_at": "2026-08-13T17:29:07+02:00",
+  "canonical_sha256": "e4b070c47c68f7973872d1cc4e16c9e4507385d9b566c9356c393926c3d041f6",
+  "content_sha256": "849032e678ee367bbe706e086d9fe49663c1a8245f84bb5b1a77b86a1bb021d3",
+  "artifact_sha256": "9ec22e3ae38870af0848cabd7f817084a4a2935f536760a4fa2087767ba1e689",
+  "image_sha256": "649a3f6d15ec04b3b937482216851a5de5470a21a9d054ad0afb8390b17e8e2b",
+  "deployed_at": "2026-08-14T13:32:27+02:00",
   "approved_by": "Dom",
-  "approval_context": "Telegram request to update the AI Architect on 2026-08-13",
-  "rollback": "Redeploy image sha256:1ec8fda1754926c296987c82b52107f6b3ebb2281c95c99db734ee54f129356a and restore content digest 326fc41aebe7ca8fb1d52eb5a8586aeff9dd7a31a747dced9acf0ae76c423ce9.",
-  "note": "Digest-pinned public snapshot deployed after explicit human approval; local and live HTTPS health checks passed."
+  "approval_context": "Telegram request to add real streaming and update the wiki artifact on 2026-08-14",
+  "rollback": "Redeploy image sha256:5beee779c22e3d8bf7a3f3b22a8f9b39f21602c541ec5a1b3cf4d4906dd0232c and restore content digest 07aeb42c107e25c5734ec2ea1dbac306826358faec7005da4e0c7ed8dcaadda4.",
+  "note": "Digest-pinned public snapshot and validated provisional-to-final SSE contract deployed after explicit human approval; local and live HTTPS checks passed."
 }

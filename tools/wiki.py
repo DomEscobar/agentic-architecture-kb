@@ -39,6 +39,13 @@ REMOTE_SCHEMES = ("http://", "https://", "mailto:", "tel:", "data:")
 HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 TOKEN = re.compile(r"[\w-]+", re.UNICODE)
 
+# A claim may only reach `accepted` at or above the evidence level its kind
+# demands. Empirical claims assert a measured effect and therefore need the
+# strong-primary bar; normative claims assert a design or governance
+# requirement and are argued from an inspectable threat or failure model.
+MIN_ACCEPTED_LEVEL = {"empirical": 3, "normative": 2}
+EVIDENCE_LEVELS = {"E1": 1, "E2": 2, "E3": 3, "E4": 4}
+
 INDEX_LANES = {
     "RAG and knowledge systems": (
         "synthesis-rag-pipeline-taxonomy",
@@ -165,6 +172,56 @@ def load_techniques() -> tuple[list[dict[str, Any]], list[str]]:
         payload["_path"] = path.relative_to(ROOT).as_posix()
         techniques.append(payload)
     return techniques, errors
+
+
+def check_claim_promotion(claims: list[dict[str, Any]], by_id: dict[str, Any]) -> list[str]:
+    """Enforce the promotion contract that the evidence rubric states in prose."""
+    errors: list[str] = []
+    claims_by_id = {claim.get("id"): claim for claim in claims if claim.get("id")}
+    for claim in claims:
+        claim_id = claim.get("id", "<unknown>")
+        kind = claim.get("claim_kind")
+        level = EVIDENCE_LEVELS.get(claim.get("evidence_level", ""), 0)
+        status = claim.get("status")
+        if status == "accepted":
+            required = MIN_ACCEPTED_LEVEL.get(kind)
+            if required is not None and level < required:
+                errors.append(
+                    f"claims/ledger.jsonl: '{claim_id}': {kind} claim at "
+                    f"{claim.get('evidence_level')} may not be 'accepted'; "
+                    f"E{required} is the minimum for this claim kind"
+                )
+            auditable = [
+                source_id
+                for source_id in claim.get("source_ids", [])
+                if (page := by_id.get(source_id)) is not None
+                and page.metadata.get("auditability", "public") != "private"
+            ]
+            if not auditable:
+                errors.append(
+                    f"claims/ledger.jsonl: '{claim_id}': 'accepted' requires at least one "
+                    f"independently auditable source; all sources are marked private"
+                )
+        for target in claim.get("contradicts", []):
+            if target == claim_id:
+                errors.append(f"claims/ledger.jsonl: '{claim_id}': claim contradicts itself")
+                continue
+            counterpart = claims_by_id.get(target)
+            if counterpart is None:
+                errors.append(f"claims/ledger.jsonl: '{claim_id}': contradicts unknown claim '{target}'")
+                continue
+            if claim_id not in counterpart.get("contradicts", []):
+                errors.append(
+                    f"claims/ledger.jsonl: '{claim_id}': contradiction with '{target}' is not "
+                    f"declared on both sides"
+                )
+            for endpoint in (claim, counterpart):
+                if endpoint.get("status") not in ("contested", "superseded"):
+                    errors.append(
+                        f"claims/ledger.jsonl: '{endpoint.get('id')}': claim in a contradiction "
+                        f"edge must be 'contested' or 'superseded', not '{endpoint.get('status')}'"
+                    )
+    return sorted(set(errors))
 
 
 def render_navigation_index(
@@ -541,6 +598,7 @@ def lint() -> dict[str, Any]:
                 target = by_id.get(source_id)
                 if target is None or target.metadata.get("type") != "source":
                     errors.append(f"claims/ledger.jsonl:{line_number}: unknown source page '{source_id}'")
+        errors.extend(check_claim_promotion(claims, by_id))
 
     techniques, technique_errors = load_techniques()
     errors.extend(technique_errors)

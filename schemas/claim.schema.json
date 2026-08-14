@@ -3,16 +3,18 @@
   "$id": "https://agentic-architect.local/schemas/claim.schema.json",
   "title": "Durable claim ledger entry",
   "type": "object",
-  "required": ["id", "claim", "section_id", "evidence_level", "source_ids", "status", "scope", "review_at"],
+  "required": ["id", "claim", "claim_kind", "section_id", "evidence_level", "source_ids", "status", "scope", "review_at"],
   "properties": {
     "id": {"type": "string", "pattern": "^claim-[a-z0-9][a-z0-9-]{2,80}$"},
     "claim": {"type": "string", "minLength": 20},
+    "claim_kind": {"enum": ["empirical", "normative"]},
     "section_id": {"type": "string", "minLength": 5},
     "evidence_level": {"enum": ["E1", "E2", "E3", "E4"]},
     "source_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
     "status": {"enum": ["provisional", "accepted", "contested", "superseded"]},
     "scope": {"type": "string", "minLength": 10},
     "limits": {"type": "string"},
+    "contradicts": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^claim-[a-z0-9][a-z0-9-]{2,80}$"}},
     "review_at": {"type": "string", "format": "date"}
   },
   "additionalProperties": false

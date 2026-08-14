@@ -6,10 +6,11 @@ status: reviewed
 privacy: internal
 confidence: 0.88
 created_at: 2026-08-08T17:05:00+02:00
-updated_at: 2026-08-08T17:05:00+02:00
+updated_at: 2026-08-14T10:47:00+02:00
 review_at: 2026-11-08
 source_ids:
   - source-domescobar-bauhelfer-ki
+  - source-rag-radar-2026-08
 relations:
   - predicate: derived_from
     target: source-domescobar-bauhelfer-ki
@@ -18,6 +19,14 @@ relations:
 ---
 
 # Document-centric Hybrid RAG
+
+## Evidence boundary
+
+The originating implementation is a private repository. Winning conditions and
+pipeline shape below are a project-derived candidate. Lexical-plus-dense hybrid
+retrieval is independently evidenced; the typed offer-output contract is not.
+Do not treat this pattern as an accepted default until a public or otherwise
+auditable paired evaluation exists.
 
 ## Winning conditions
 

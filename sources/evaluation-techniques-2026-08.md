@@ -18,7 +18,7 @@ Primary sources checked on 2026-08-12:
 
 - [Agentic Benchmark Checklist, 2025](https://arxiv.org/abs/2507.02825)
 - [AgentRewardBench, 2025](https://arxiv.org/abs/2504.08942)
-- [RAGChecker, NeurIPS 2024](https://proceedings.neurips.cc/paper_files/paper/2024/hash/27229a2bd5bd22095b17e4d6f1334241-Abstract-Datasets_and_Benchmarks_Track.html)
+- [RAGChecker, NeurIPS 2024 Datasets and Benchmarks](https://arxiv.org/abs/2408.08067)
 - [GroundEval, 2026](https://arxiv.org/abs/2606.22737)
 - [Procedure-Aware Evaluation, 2026](https://arxiv.org/abs/2603.03116)
 - [SWE-bench Live, 2025](https://arxiv.org/abs/2505.23419)

@@ -48,10 +48,13 @@ Vector search is a recall channel, not the arbiter of truth.
 
 Required fields are defined in `schemas/page.schema.json`. Key relationships:
 
-- `supports`, `contradicts`, and `supersedes` for claims;
+- `supports`, `contradicts`, and `supersedes` for claims, with `claim_kind`
+  distinguishing empirical results from normative requirements;
 - `applies_to`, `depends_on`, and `evaluated_by` for architecture knowledge;
 - `derived_from` for syntheses;
-- `reviewed_at`, `valid_from`, and `valid_until` for temporal validity.
+- `reviewed_at`, `valid_from`, and `valid_until` for temporal validity;
+- `auditability: private` for sources whose artifacts cannot be retrieved by a
+  reader of this repository.
 
 Every deletion removes the canonical page or permitted field, rebuilds all
 projections, and then uses a negative test to confirm that the content is no
@@ -61,7 +64,8 @@ longer retrievable.
 
 - **Incorrect promotion:** inbox/approval gate and audit log.
 - **Stale knowledge:** review date, source freshness, and stale report.
-- **Contradictions:** explicit edges and contradiction report.
+- **Contradictions:** bidirectional claim edges; both endpoints must be
+  `contested` or `superseded`.
 - **Retrieval leakage:** ACL enforcement before semantic search and tenant
   negative tests.
 - **Index drift:** index manifest with model, dimensions, chunker, and hash;

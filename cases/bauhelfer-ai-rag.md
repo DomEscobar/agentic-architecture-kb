@@ -6,7 +6,7 @@ status: reviewed
 privacy: internal
 confidence: 0.88
 created_at: 2026-08-08T17:05:00+02:00
-updated_at: 2026-08-08T17:05:00+02:00
+updated_at: 2026-08-14T10:47:00+02:00
 review_at: 2026-10-08
 source_ids:
   - source-domescobar-bauhelfer-ki
@@ -18,6 +18,13 @@ relations:
 ---
 
 # Case: Bauhelfer AI RAG
+
+## Evidence boundary
+
+The implementation repository is private and not independently auditable from
+this knowledge base. The architecture below is owner-reported. Treat it as an
+E1 project snapshot: useful for hypothesizing eval slices, not as a measured
+field outcome or a public default.
 
 ## Context
 

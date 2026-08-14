@@ -6,7 +6,7 @@ status: reviewed
 privacy: internal
 confidence: 0.86
 created_at: 2026-08-08T18:55:00+02:00
-updated_at: 2026-08-08T18:55:00+02:00
+updated_at: 2026-08-14T10:47:00+02:00
 review_at: 2026-10-08
 source_ids:
   - source-rag-developments-2026-batch-1
@@ -33,6 +33,28 @@ relations:
 - Long context is an evaluated branch, not an excuse to skip evidence selection.
 - Stage-local metrics plus final grounded task success are necessary; neither
   retrieval nor answer scores alone diagnose the system.
+
+## Contested reranking and fusion benefit
+
+The audited evidence disagrees about whether adding a reranking or fusion stage
+reliably improves retrieval, and the disagreement is recorded rather than
+averaged away.
+
+For the added stage: the T2-RAGBench comparison over 23,088 financial text/table
+queries found hybrid retrieval followed by neural reranking to be its strongest
+tested two-stage pipeline, and the EACL 2026 conversational QA comparison found
+hybrid, reranking and HyDE methods outperforming vanilla RAG.
+
+Against the added stage: the 250-question biomedical controlled comparison put
+cross-encoder reranking only 0.005 ahead of a dense baseline on its composite
+score while multi-query lowered contextual precision, and practitioner reports
+include a measured reranker counterexample over roughly 10,000 queries.
+
+Neither side generalizes. The studies do not share a corpus, query distribution
+or relevance protocol, so the comparison that would settle the question has not
+been run. Treat the added stage as a measured candidate per workload, keep the
+single-stage baseline as a control, and slice by candidate depth and truncation,
+which is the mechanism both sides implicate.
 
 ## Recommended evaluation matrix
 

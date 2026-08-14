@@ -53,6 +53,14 @@ class WikiToolTests(unittest.TestCase):
         self.assertGreaterEqual(report["claim_count"], 55)
         self.assertEqual(report["claim_coverage"]["coverage_ratio"], 1.0)
         self.assertEqual(report["claim_coverage"]["uncovered_page_ids"], [])
+        claims = [
+            json.loads(line)
+            for line in (MODULE_PATH.parents[1] / "claims" / "ledger.jsonl").read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+        kinds = {claim["claim_kind"] for claim in claims}
+        self.assertEqual(kinds, {"empirical", "normative"})
+        self.assertTrue(any(claim["status"] == "contested" and claim.get("contradicts") for claim in claims))
 
     def test_parser_technique_catalog_is_complete_and_diverse(self):
         report = wiki.lint()
@@ -133,9 +141,9 @@ class WikiToolTests(unittest.TestCase):
         self.assertEqual(errors, [])
         techniques, errors = wiki.load_techniques()
         self.assertEqual(errors, [])
-        claim_count = sum(1 for line in (root / "claims/ledger.jsonl").read_text().splitlines() if line.strip())
+        claim_count = sum(1 for line in (root / "claims/ledger.jsonl").read_text(encoding="utf-8").splitlines() if line.strip())
         expected = wiki.render_navigation_index(pages, techniques, claim_count)
-        actual = (root / "index.md").read_text()
+        actual = (root / "index.md").read_text(encoding="utf-8")
         self.assertEqual(actual, expected)
         self.assertIn("## Knowledge lanes", actual)
         self.assertIn("## Machine interface", actual)
@@ -143,7 +151,7 @@ class WikiToolTests(unittest.TestCase):
 
     def test_navigation_index_links_resolve(self):
         root = MODULE_PATH.parents[1]
-        text = (root / "index.md").read_text()
+        text = (root / "index.md").read_text(encoding="utf-8")
         links = wiki.MARKDOWN_LINK.findall(text)
         self.assertGreater(len(links), 80)
         for link in links:

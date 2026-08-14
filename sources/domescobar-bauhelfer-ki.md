@@ -4,20 +4,33 @@ type: source
 title: DomEscobar bauhelfer-ki
 status: reviewed
 privacy: public
-confidence: 0.95
+confidence: 0.55
 created_at: 2026-08-08T17:05:00+02:00
-updated_at: 2026-08-08T17:05:00+02:00
+updated_at: 2026-08-14T10:47:00+02:00
 review_at: 2026-11-08
+auditability: private
 source_ids: []
 relations: []
 ---
 
 # DomEscobar/bauhelfer-ki
 
-- Repository: https://github.com/DomEscobar/bauhelfer-ki
+- Repository: `DomEscobar/bauhelfer-ki` (private; not publicly resolvable)
 - Reviewed commit: `6671de4277b57e6aa06c1cf06abdad43fd72ac20`
-- Commit permalink: https://github.com/DomEscobar/bauhelfer-ki/tree/6671de4277b57e6aa06c1cf06abdad43fd72ac20
 - Retrieved: 2026-08-08
+
+## Auditability
+
+This repository is private. The commit hash identifies the reviewed snapshot for
+the repository owner, but no reader outside that account can retrieve the code,
+re-run the review or contradict it. Everything below is therefore uncorroborated
+first-party testimony in the sense of the evidence rubric, regardless of how
+directly the artifacts were inspected.
+
+Claims resting only on this source stay `provisional` at E1 and may not be
+promoted to an accepted default. Where a claim also cites public evidence, the
+public source carries the promotion and this page supplies implementation
+detail only.
 
 ## Reviewed artifacts
 
@@ -34,14 +47,13 @@ relations: []
 
 ## Privacy boundary
 
-The repository contains uploaded and parsed project artifacts under
+The reviewed snapshot contained uploaded and parsed project artifacts under
 `apps/api/data/`. They were neither evaluated as knowledge sources nor imported
-into this knowledge base. A public code repository should not contain real
-uploads, derived text, customer information, or local storage paths.
+into this knowledge base.
 
 ## Use rule
 
-The code demonstrates the concrete implementation of the case. Figures,
-rankings, and market comparisons in its research documents remain repository
-claims and are promoted to general recommendations only after their primary
-sources are reviewed.
+This page records an owner-reviewed private snapshot. It is not a public
+implementation reference. Figures, rankings, and market comparisons in its
+research documents remain repository claims and are promoted to general
+recommendations only after independently auditable primary sources are reviewed.

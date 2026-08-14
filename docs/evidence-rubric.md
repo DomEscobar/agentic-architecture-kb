@@ -82,13 +82,19 @@ slices; do not convert them directly into defaults.
 
 ## Promotion and review
 
-- E0/E1: discovery or hypothesis only;
-- E2: experimental candidate behind a feature flag;
-- E3: provisional recommendation for matching workloads;
+- E0/E1: discovery or hypothesis only; never `accepted`.
+- Empirical E2: experimental candidate behind a feature flag; stay
+  `provisional`.
+- Normative E2: inspectable design or threat-model requirement; may be
+  `accepted` without borrowing empirical authority.
+- Empirical E3: bounded recommendation for matching workloads; may be
+  `accepted` with explicit scope and limits.
 - E4: strong recommendation within demonstrated bounds.
 
-Fast-moving claims receive a review date within 60–90 days. Promotion requires
-paired evaluation against the shared baseline. Regression, contradiction or
-failed replication changes status to `contested` or `superseded`; it is not
+Private sources (`auditability: private`) may document owner-reviewed snapshots.
+They cannot solely support an `accepted` claim. Fast-moving claims receive a
+review date within 60–90 days. Promotion requires paired evaluation against the
+shared baseline. Regression, contradiction or failed replication changes status
+to `contested` or `superseded` through an explicit bidirectional edge; it is not
 silently overwritten.
 

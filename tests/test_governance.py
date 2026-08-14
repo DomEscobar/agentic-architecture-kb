@@ -52,6 +52,99 @@ class GovernanceTests(unittest.TestCase):
         self.assertIn("case_set_file", required)
         self.assertNotIn("redteam_passed", schema["properties"])
 
+    def test_ledger_obeys_promotion_contract(self):
+        rows = [
+            json.loads(line)
+            for line in (ROOT / "claims/ledger.jsonl").read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+        by_id = {row["id"]: row for row in rows}
+        min_accepted = {"empirical": 3, "normative": 2}
+        levels = {"E1": 1, "E2": 2, "E3": 3, "E4": 4}
+        self.assertTrue(any(row["status"] == "contested" for row in rows))
+        for row in rows:
+            self.assertIn(row["claim_kind"], {"empirical", "normative"})
+            if row["status"] == "accepted":
+                self.assertGreaterEqual(levels[row["evidence_level"]], min_accepted[row["claim_kind"]], row["id"])
+            for target in row.get("contradicts", []):
+                counterpart = by_id[target]
+                self.assertIn(row["id"], counterpart["contradicts"])
+                self.assertIn(row["status"], {"contested", "superseded"})
+                self.assertIn(counterpart["status"], {"contested", "superseded"})
+
+    def test_private_sources_are_marked_unauditable(self):
+        for relative in (
+            "sources/domescobar-bauhelfer-ki.md",
+            "sources/domescobar-eval-oigl.md",
+        ):
+            text = (ROOT / relative).read_text(encoding="utf-8")
+            self.assertIn("auditability: private", text)
+            self.assertNotIn("https://github.com/DomEscobar/bauhelfer-ki", text)
+            self.assertNotIn("https://github.com/DomEscobar/Eval-Oigl", text)
+
+    def test_claim_promotion_rejects_forbidden_status_combinations(self):
+        module_path = ROOT / "tools/wiki.py"
+        spec = importlib.util.spec_from_file_location("wiki_promotion_test", module_path)
+        module = importlib.util.module_from_spec(spec)
+        assert spec and spec.loader
+        sys.modules[spec.name] = module
+        spec.loader.exec_module(module)
+
+        class Source:
+            def __init__(self, auditability="public"):
+                self.metadata = {"type": "source", "auditability": auditability}
+
+        public = {"source-public": Source("public")}
+        private = {"source-private": Source("private")}
+        self.assertTrue(
+            any("may not be 'accepted'" in error for error in module.check_claim_promotion(
+                [{"id": "claim-e1", "claim_kind": "normative", "evidence_level": "E1",
+                  "source_ids": ["source-public"], "status": "accepted"}],
+                public,
+            ))
+        )
+        self.assertTrue(
+            any("may not be 'accepted'" in error for error in module.check_claim_promotion(
+                [{"id": "claim-emp-e2", "claim_kind": "empirical", "evidence_level": "E2",
+                  "source_ids": ["source-public"], "status": "accepted"}],
+                public,
+            ))
+        )
+        self.assertTrue(
+            any("independently auditable" in error for error in module.check_claim_promotion(
+                [{"id": "claim-private", "claim_kind": "normative", "evidence_level": "E2",
+                  "source_ids": ["source-private"], "status": "accepted"}],
+                private,
+            ))
+        )
+        one_sided = module.check_claim_promotion(
+            [
+                {"id": "claim-a", "claim_kind": "empirical", "evidence_level": "E3",
+                 "source_ids": ["source-public"], "status": "contested",
+                 "contradicts": ["claim-b"]},
+                {"id": "claim-b", "claim_kind": "empirical", "evidence_level": "E2",
+                 "source_ids": ["source-public"], "status": "contested"},
+            ],
+            public,
+        )
+        self.assertTrue(any("not declared on both sides" in error for error in one_sided))
+        self.assertEqual(
+            module.check_claim_promotion(
+                [
+                    {"id": "claim-ok-norm", "claim_kind": "normative", "evidence_level": "E2",
+                     "source_ids": ["source-public"], "status": "accepted"},
+                    {"id": "claim-left", "claim_kind": "empirical", "evidence_level": "E3",
+                     "source_ids": ["source-public"], "status": "contested",
+                     "contradicts": ["claim-right"]},
+                    {"id": "claim-right", "claim_kind": "empirical", "evidence_level": "E2",
+                     "source_ids": ["source-public"], "status": "contested",
+                     "contradicts": ["claim-left"]},
+                ],
+                public,
+            ),
+            [],
+        )
+
     def test_eval_control_rejects_missing_private_evidence(self):
         module_path = ROOT / "tools/eval_control.py"
         spec = importlib.util.spec_from_file_location("eval_control_test", module_path)

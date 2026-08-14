@@ -5,10 +5,10 @@
   "canonical_sha256": "c244111637e492fc8fbc53c285cf884329130c440cdcdab889c94fce164bf3a6",
   "content_sha256": "e8edb7a1a6c92a5974ada7aa279f3a5093da47469868514a81da37402a6b70c9",
   "artifact_sha256": "870743e79f618f1812cb769239c63f2ad7312de213f98f54614950528b657a48",
-  "image_sha256": "d00addbc887d3b521d856bb503a376f3f695c2909d4195a43e2a7a4472942abd",
-  "deployed_at": "2026-08-14T20:06:00+02:00",
+  "image_sha256": "6661727ae3ca2f5f04584fd22bfc20084bce2e70aa976790ecadb2af2fd396ff",
+  "deployed_at": "2026-08-14T23:05:26+02:00",
   "approved_by": "Dom",
-  "approval_context": "Telegram request to implement the structured evidence investigator and test it live multi-turn on 2026-08-14",
-  "rollback": "Redeploy image sha256:8593d44b1da5e93728168580eaa2da1330121e3da6fb8898b716b5f911a802d7 with content digest 849032e678ee367bbe706e086d9fe49663c1a8245f84bb5b1a77b86a1bb021d3; it is tagged public-ai-architect-app:rollback-20260814-evidence-v3.",
-  "note": "Structured public wiki v3 and bounded evidence investigator deployed; 23/23 deterministic tests, a real three-turn conversation, and 9/9 adversarial live turns passed."
+  "approval_context": "Telegram request to replace the three landing-page example questions on 2026-08-14",
+  "rollback": "Redeploy image sha256:d00addbc887d3b521d856bb503a376f3f695c2909d4195a43e2a7a4472942abd with the same content digest; it is tagged public-ai-architect-app:rollback-20260814-before-examples.",
+  "note": "Replaced category-like demo prompts with concrete design, RAG diagnosis, and safe-go-live questions; 23/23 app tests and live HTML checks passed."
 }

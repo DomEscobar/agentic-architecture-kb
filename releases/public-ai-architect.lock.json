@@ -5,10 +5,10 @@
   "canonical_sha256": "e4b070c47c68f7973872d1cc4e16c9e4507385d9b566c9356c393926c3d041f6",
   "content_sha256": "849032e678ee367bbe706e086d9fe49663c1a8245f84bb5b1a77b86a1bb021d3",
   "artifact_sha256": "9ec22e3ae38870af0848cabd7f817084a4a2935f536760a4fa2087767ba1e689",
-  "image_sha256": "649a3f6d15ec04b3b937482216851a5de5470a21a9d054ad0afb8390b17e8e2b",
-  "deployed_at": "2026-08-14T13:32:27+02:00",
+  "image_sha256": "8593d44b1da5e93728168580eaa2da1330121e3da6fb8898b716b5f911a802d7",
+  "deployed_at": "2026-08-14T14:45:17+02:00",
   "approved_by": "Dom",
-  "approval_context": "Telegram request to add real streaming and update the wiki artifact on 2026-08-14",
-  "rollback": "Redeploy image sha256:5beee779c22e3d8bf7a3f3b22a8f9b39f21602c541ec5a1b3cf4d4906dd0232c and restore content digest 07aeb42c107e25c5734ec2ea1dbac306826358faec7005da4e0c7ed8dcaadda4.",
-  "note": "Digest-pinned public snapshot and validated provisional-to-final SSE contract deployed after explicit human approval; local and live HTTPS checks passed."
+  "approval_context": "Telegram request to deploy roomier diagrams and double the bounded runtime budget on 2026-08-14",
+  "rollback": "Redeploy image sha256:649a3f6d15ec04b3b937482216851a5de5470a21a9d054ad0afb8390b17e8e2b; the public content digest remains 849032e678ee367bbe706e086d9fe49663c1a8245f84bb5b1a77b86a1bb021d3.",
+  "note": "Roomier wrapped diagram nodes, 360-second bounded runtime budget, 420-second proxy envelope, and 15-second SSE heartbeat deployed after explicit human approval; live HTTPS checks passed."
 }

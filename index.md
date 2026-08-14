@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-08-14T10:47:00+02:00` · 88 pages · 64 claims · 129 technique cards
+Revision: `2026-08-14T20:02:00+02:00` · 88 pages · 64 claims · 129 technique cards
 
 ## Knowledge lanes
 

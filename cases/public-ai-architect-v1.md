@@ -6,7 +6,7 @@ status: reviewed
 privacy: internal
 confidence: 0.91
 created_at: 2026-08-12T18:43:00+02:00
-updated_at: 2026-08-12T18:43:00+02:00
+updated_at: 2026-08-14T20:02:00+02:00
 review_at: 2026-09-12
 source_ids:
   - source-public-ai-architect-validation-2026-08
@@ -27,28 +27,40 @@ tools. It runs in a hardened container and calls a bounded model API.
 
 ## Selected pattern
 
-`browser → host TLS proxy → stateless Node chat → allowlisted BM25 wiki → model API`
+`browser → host TLS proxy → stateless bounded controller → structured public wiki v3 → model API`
 
-The model receives exact evidence labels, has no tools, and returns Markdown.
-Architecture requests additionally produce bounded JSON validated and rendered
-as branded inline SVG. Sessions stay in the browser.
+The runtime decomposes each turn into checkable questions, retrieves candidate
+sections and claims, assesses support, scope and gaps, and may execute one
+targeted follow-up search. The draft streams to the browser, but only a final
+answer that passes exact-citation, runtime-consistency, disclosure and diagram
+schema gates is accepted. One bounded repair is allowed. The model has no tools;
+sessions stay in the browser.
 
 ## Measured outcome
 
-The technical runtime, multi-turn streaming and responsive diagram UI passed
-their scripted checks. Visual review found and fixed CSP animation failures,
-fullscreen containment/transparency, node collisions, text overflow and label
-overlap. A semantic review still found an impossible metric target and an
-invalid citation label.
+The structured public artifact contains 342 exact-addressable chunks, 24 public
+claims, 31 relations and six navigation lanes. No private page was promoted to
+expose the two canonical contradiction edges; contradiction traversal is tested
+synthetically and will activate only when public-reviewed edges exist.
+
+The deployed evidence-investigator runtime passed 23 deterministic unit,
+contract, privacy and release tests. A real three-turn support-agent conversation
+passed streaming, evidence-metadata, citation-resolution and context checks. A
+second adversarial live run passed 9/9 turns across irreversible side effects,
+prompt injection and deliberate evidence gaps; two turns used repair, no provider
+retry occurred, and observed turn latency ranged from 22.2 to 75.5 seconds.
 
 ## Decision
 
-The public V1 is technically usable but not semantically promoted as a reliable
-architecture authority. The champion remains gated by citation validity,
-unsupported-claim rate, calibrated decision quality and abuse/cost sentinels.
+The runtime no longer treats top-k retrieval as grounded truth: retrieved text is
+candidate evidence, the model-assisted assessor must select exact IDs and retain
+scope, limitations and missing support, and deterministic gates reject unresolved
+labels or hidden evidence gaps. This improves investigation discipline but is not
+a truth proof; semantic support and source independence still require evals.
 
 ## Next evidence
 
-Run the architecture-advice eval pack with blinded human labels, deterministic
-citation checks, prompt-injection and budget sentinels, then reserve a private
-promotion split. Store model, wiki snapshot, prompt and runtime hashes per run.
+Expand the private promotion split with human claim-to-span support labels,
+upstream-provenance independence checks, contradiction cases and calibrated
+abstention scoring. Compare the v3 investigator against the former flat-RAG
+baseline under paired quality, latency and cost slices.

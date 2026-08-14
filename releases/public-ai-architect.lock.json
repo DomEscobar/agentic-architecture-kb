@@ -2,13 +2,13 @@
   "schema_version": 1,
   "status": "deployed",
   "consumer": "public-ai-architect",
-  "canonical_sha256": "e4b070c47c68f7973872d1cc4e16c9e4507385d9b566c9356c393926c3d041f6",
-  "content_sha256": "849032e678ee367bbe706e086d9fe49663c1a8245f84bb5b1a77b86a1bb021d3",
-  "artifact_sha256": "9ec22e3ae38870af0848cabd7f817084a4a2935f536760a4fa2087767ba1e689",
-  "image_sha256": "8593d44b1da5e93728168580eaa2da1330121e3da6fb8898b716b5f911a802d7",
-  "deployed_at": "2026-08-14T14:45:17+02:00",
+  "canonical_sha256": "c244111637e492fc8fbc53c285cf884329130c440cdcdab889c94fce164bf3a6",
+  "content_sha256": "e8edb7a1a6c92a5974ada7aa279f3a5093da47469868514a81da37402a6b70c9",
+  "artifact_sha256": "870743e79f618f1812cb769239c63f2ad7312de213f98f54614950528b657a48",
+  "image_sha256": "d00addbc887d3b521d856bb503a376f3f695c2909d4195a43e2a7a4472942abd",
+  "deployed_at": "2026-08-14T20:06:00+02:00",
   "approved_by": "Dom",
-  "approval_context": "Telegram request to deploy roomier diagrams and double the bounded runtime budget on 2026-08-14",
-  "rollback": "Redeploy image sha256:649a3f6d15ec04b3b937482216851a5de5470a21a9d054ad0afb8390b17e8e2b; the public content digest remains 849032e678ee367bbe706e086d9fe49663c1a8245f84bb5b1a77b86a1bb021d3.",
-  "note": "Roomier wrapped diagram nodes, 360-second bounded runtime budget, 420-second proxy envelope, and 15-second SSE heartbeat deployed after explicit human approval; live HTTPS checks passed."
+  "approval_context": "Telegram request to implement the structured evidence investigator and test it live multi-turn on 2026-08-14",
+  "rollback": "Redeploy image sha256:8593d44b1da5e93728168580eaa2da1330121e3da6fb8898b716b5f911a802d7 with content digest 849032e678ee367bbe706e086d9fe49663c1a8245f84bb5b1a77b86a1bb021d3; it is tagged public-ai-architect-app:rollback-20260814-evidence-v3.",
+  "note": "Structured public wiki v3 and bounded evidence investigator deployed; 23/23 deterministic tests, a real three-turn conversation, and 9/9 adversarial live turns passed."
 }

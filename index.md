@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-08-14T20:02:00+02:00` · 88 pages · 64 claims · 129 technique cards
+Revision: `2026-08-17T08:05:00+02:00` · 93 pages · 74 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -70,7 +70,7 @@ These lists are generated from the same page metadata compiled into
 - [Evaluation Workload Blueprints](syntheses/evaluation-workload-blueprints.md)
 - [RAG Pipeline Taxonomy](syntheses/rag-pipeline-taxonomy.md)
 
-### Patterns (45)
+### Patterns (46)
 
 - [Agent Memory Brownfield Audit and Greenfield Intake](patterns/agent-memory-consulting-intake.md)
 - [Agent Memory Evaluation Blueprint](patterns/agent-memory-evaluation-blueprint.md)
@@ -105,6 +105,7 @@ These lists are generated from the same page metadata compiled into
 - [Parser Routing Matrix](patterns/parser-routing-matrix.md)
 - [Parser Selection and Ingestion Contract](patterns/parser-selection-contract.md)
 - [Parser Technique Catalog](patterns/parser-technique-catalog.md)
+- [Project-Specific Coding Agent Harness](patterns/project-coding-agent-harness.md)
 - [RAG Security and Retrieval Governance](patterns/rag-security-and-retrieval-governance.md)
 - [Recursive Self-Improvement Evidence Boundary](patterns/rsi-evidence-boundary.md)
 - [Retrieval, Reranking, and Context Assembly Technique Catalog](patterns/retrieval-context-technique-catalog.md)
@@ -129,7 +130,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (32)
+### Sources (36)
 
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
 - [Agent Evaluation Technique Evidence Audit August 2026](sources/evaluation-techniques-2026-08.md)
@@ -141,10 +142,12 @@ These lists are generated from the same page metadata compiled into
 - [Agent Runtime Mechanisms Evidence Audit August 2026](sources/runtime-techniques-2026-08.md)
 - [Agentic Runtime and RAG Security Evidence Audit August 2026](sources/agentic-security-landscape-2026-08.md)
 - [Agentic Security Cross-verification Audit August 2026](sources/agentic-security-verification-2026-08.md)
+- [Biweekly Agentic Architecture Research Radar 2026-08-16](inbox/research-radar-2026-08-16.md)
 - [Bounded Improvement Technique Evidence Audit August 2026](sources/bounded-improvement-techniques-2026-08.md)
 - [Bounded Self-Improvement Evidence 2025–2026](sources/bounded-self-improvement-2025-2026.md)
 - [Chunking Evidence Audit 2025–2026](sources/chunking-evidence-2025-2026.md)
 - [Chunking Landscape and Use-Case Audit August 2026](sources/chunking-landscape-2026-08.md)
+- [Coding Agent Harness and Skills Evidence Audit August 2026](sources/coding-agent-harness-and-skills-evidence-2026-08.md)
 - [Document Parsing Evidence Audit 2025–2026](sources/document-parsing-evidence-2026.md)
 - [DomEscobar Agentic Eval Evolution Research](sources/domescobar-agentic-eval-research.md)
 - [DomEscobar agentic-runtime-techniques](sources/domescobar-agentic-runtime-techniques.md)
@@ -152,6 +155,7 @@ These lists are generated from the same page metadata compiled into
 - [DomEscobar Eval-Oigl](sources/domescobar-eval-oigl.md)
 - [Embedding Selection and Migration Evidence Audit 2026-08](sources/embedding-landscape-2026-08.md)
 - [Evaluation Consulting Research August 2026](sources/evaluation-consulting-research-2026.md)
+- [Memory Operational Baselines and Tenancy Evidence Audit August 2026](sources/memory-operational-baselines-and-tenancy-2026-08.md)
 - [Multilingual Embedding Evaluation Evidence 2025](sources/embedding-evaluation-2025.md)
 - [Multimodal Document Retrieval Evidence 2025](sources/multimodal-document-retrieval-2025.md)
 - [Multimodal RAG Evidence Audit 2026-08](sources/multimodal-rag-landscape-2026-08.md)
@@ -162,6 +166,7 @@ These lists are generated from the same page metadata compiled into
 - [RAG Developments 2026 Research Batch 2](sources/rag-developments-2026-batch-2.md)
 - [RAG Research and Practitioner Radar August 2026](sources/rag-radar-2026-08.md)
 - [Retrieval, Reranking, and Context Assembly Evidence Audit August 2026](sources/retrieval-context-landscape-2026-08.md)
+- [Runtime Boundary Regression Evidence Audit August 2026](sources/runtime-boundary-regression-evidence-2026-08.md)
 - [VectifyAI PageIndex and Mafin 2.5 FinanceBench](sources/vectifyai-pageindex.md)
 
 ### Technique cards
@@ -169,13 +174,13 @@ These lists are generated from the same page metadata compiled into
 - [Chunking](techniques/chunking/) — 18 cards
 - [Context](techniques/context/) — 6 cards
 - [Embeddings](techniques/embeddings/) — 10 cards
-- [Evaluation](techniques/evaluation/) — 8 cards
+- [Evaluation](techniques/evaluation/) — 9 cards
 - [Memory](techniques/memory/) — 7 cards
 - [Multimodal](techniques/multimodal/) — 12 cards
 - [Parsers](techniques/parsers/) — 19 cards
 - [Retrieval](techniques/retrieval/) — 18 cards
 - [Rsi](techniques/rsi/) — 5 cards
-- [Runtime](techniques/runtime/) — 26 cards
+- [Runtime](techniques/runtime/) — 28 cards
 
 ## Machine interface
 

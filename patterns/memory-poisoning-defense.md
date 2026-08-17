@@ -6,12 +6,14 @@ status: reviewed
 privacy: internal
 confidence: 0.9
 created_at: 2026-08-09T16:10:00+02:00
-updated_at: 2026-08-09T16:10:00+02:00
+updated_at: 2026-08-17T08:05:00+02:00
 review_at: 2026-10-09
-source_ids: [source-agent-memory-evaluation-security-2026]
+source_ids: [source-agent-memory-evaluation-security-2026, source-memory-operational-baselines-and-tenancy-2026-08]
 relations:
   - predicate: derived_from
     target: source-agent-memory-evaluation-security-2026
+  - predicate: derived_from
+    target: source-memory-operational-baselines-and-tenancy-2026-08
 ---
 
 # Memory Poisoning Defense
@@ -33,3 +35,8 @@ activation success; persistence half-life; blast radius; defense false
 positive/negative rates; and clean-utility loss. Kill promotion if forbidden
 authority changes or cross-tenant exposure occur.
 
+For shared graph memory, attach owner or tenant scope to nodes, edges, facts and
+derived summaries. Exercise identical entity names across two owners and verify
+every read, write, merge, refresh, consolidation, deletion and rebuild path.
+Missing ownership metadata must fail closed; a query-time filter does not prove
+that background graph maintenance preserves scope.

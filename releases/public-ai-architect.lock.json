@@ -2,13 +2,15 @@
   "schema_version": 1,
   "status": "deployed",
   "consumer": "public-ai-architect",
-  "canonical_sha256": "c244111637e492fc8fbc53c285cf884329130c440cdcdab889c94fce164bf3a6",
-  "content_sha256": "e8edb7a1a6c92a5974ada7aa279f3a5093da47469868514a81da37402a6b70c9",
-  "artifact_sha256": "870743e79f618f1812cb769239c63f2ad7312de213f98f54614950528b657a48",
-  "image_sha256": "6661727ae3ca2f5f04584fd22bfc20084bce2e70aa976790ecadb2af2fd396ff",
-  "deployed_at": "2026-08-14T23:05:26+02:00",
-  "approved_by": "Dom",
-  "approval_context": "Telegram request to replace the three landing-page example questions on 2026-08-14",
-  "rollback": "Redeploy image sha256:d00addbc887d3b521d856bb503a376f3f695c2909d4195a43e2a7a4472942abd with the same content digest; it is tagged public-ai-architect-app:rollback-20260814-before-examples.",
-  "note": "Replaced category-like demo prompts with concrete design, RAG diagnosis, and safe-go-live questions; 23/23 app tests and live HTML checks passed."
+  "canonical_sha256": "478a943fed1184cf60a9a91f24afeda4799fbdd32ec86158227cf3e07eec9a4e",
+  "content_sha256": "0550ef11615cac71149a00477a1aa0bb99e895b1d3047e5a825c146149da4904",
+  "artifact_sha256": "b28671963df6a26310fd45016cf58cb88d2cab4a446c1461ba6300fe65381d62",
+  "image_sha256": "64f5055503467b846e6b7a5f42404836d21c6dd0a7c712c9350cf54e3bb68e2b",
+  "deployed_at": "2026-08-16T19:14:42+02:00",
+  "approved_by": "Dom via Telegram message 481",
+  "rollback": {
+    "image_sha256": "a2e153ff0109499f6cd79b331e5ea6ec373f7a35341698583f75b35f9f47bdf8",
+    "content_sha256": "0550ef11615cac71149a00477a1aa0bb99e895b1d3047e5a825c146149da4904"
+  },
+  "note": "UI v13 with 28 single-gap prompt starters and Public Wiki v3 deployed after explicit human approval."
 }

@@ -4,15 +4,18 @@ type: synthesis
 title: Agentic Runtime Techniques
 status: reviewed
 privacy: internal
-confidence: 0.82
+confidence: 0.84
 created_at: 2026-08-08T16:45:00+02:00
-updated_at: 2026-08-08T16:45:00+02:00
+updated_at: 2026-08-16T13:05:00+02:00
 review_at: 2026-11-08
 source_ids:
   - source-domescobar-agentic-runtime-techniques
+  - source-coding-agent-harness-and-skills-evidence-2026-08
 relations:
   - predicate: derived_from
     target: source-domescobar-agentic-runtime-techniques
+  - predicate: derived_from
+    target: source-coding-agent-harness-and-skills-evidence-2026-08
 ---
 
 # Agentic Runtime Techniques
@@ -102,7 +105,10 @@ not a durable workflow.
 
 Git diffs, worktree or branch isolation, executable checks, review, and rollback
 form the runtime boundary. Without strong tests, even multi-agent review remains
-weak.
+weak. Project instructions carry stable facts, skills carry repeated procedures,
+and hooks or CI enforce mechanical invariants. None of those prose surfaces
+replace sandbox and capability policy. Apply the full design and evaluation
+contract in [[project-coding-agent-harness]].
 
 ## B. Cross-cutting runtime layers
 

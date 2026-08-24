@@ -33,6 +33,7 @@ REPORTS_DIR = ROOT / "reports"
 INDEX_DIR = ROOT / "indexes"
 INDEX_PATH = INDEX_DIR / "wiki.sqlite"
 NAVIGATION_INDEX_PATH = ROOT / "index.md"
+TECHNIQUE_INDEX_PATH = ROOT / "technique-index.json"
 TRACE_DIR = REPORTS_DIR / "retrieval-traces"
 FRONTMATTER = re.compile(r"\A---\s*\n(.*?)\n---\s*(?:\n|\Z)", re.DOTALL)
 MARKDOWN_LINK = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
@@ -88,6 +89,12 @@ INDEX_LANES = {
         "pattern-rsi-evidence-boundary",
         "pattern-eval-guided-improvement-loop",
         "pattern-evaluation-statistical-decision-rules",
+    ),
+    "Coding agents and project harness": (
+        "pattern-project-coding-agent-harness",
+        "source-coding-agent-harness-and-skills-evidence-2026-08",
+        "pattern-agentic-runtime-security-boundary",
+        "pattern-runtime-safety-baseline",
     ),
 }
 
@@ -304,17 +311,37 @@ def render_navigation_index(
         "  -> build/wiki.json",
         "  -> indexes/wiki.sqlite",
         "  -> index.md",
+        "  -> technique-index.json",
         "",
         "claims/ledger.jsonl",
         "techniques/**/*.json",
         "schemas/*.json",
         "```",
         "",
+        "Resolve a `technique_id` through [`technique-index.json`](technique-index.json).",
+        "Use [`AGENTS.md`](AGENTS.md) for coding-agent consumption rules.",
         "Use [`README.md`](README.md) for setup and commands. Use this index for",
         "orientation, then search and load only the relevant canonical sections.",
         "",
     ])
     return "\n".join(lines)
+
+
+def render_technique_index(techniques: list[dict[str, Any]]) -> str:
+    """Render the tracked technique_id to path lookup table."""
+    entries = sorted(
+        (
+            {
+                "technique_id": technique["technique_id"],
+                "path": technique["_path"],
+                "name": technique["name"],
+                "stage": technique.get("stage"),
+            }
+            for technique in techniques
+        ),
+        key=lambda item: item["technique_id"],
+    )
+    return json.dumps({"techniques": entries}, ensure_ascii=False, indent=2) + "\n"
 
 
 def slugify(value: str) -> str:
@@ -669,6 +696,17 @@ def lint() -> dict[str, Any]:
     except ValueError as exc:
         errors.append(f"index.md: {exc}")
 
+    try:
+        expected_technique_index = render_technique_index(techniques)
+        if not TECHNIQUE_INDEX_PATH.exists():
+            errors.append("technique-index.json: missing generated technique index")
+        elif TECHNIQUE_INDEX_PATH.read_text(encoding="utf-8") != expected_technique_index:
+            errors.append(
+                "technique-index.json: generated technique index is stale; run 'python3 tools/wiki.py compile'"
+            )
+    except (KeyError, TypeError) as exc:
+        errors.append(f"technique-index.json: {exc}")
+
     eligible_claim_pages = {
         page.metadata["id"]
         for page in pages
@@ -714,6 +752,7 @@ def compile_wiki() -> dict[str, Any]:
     NAVIGATION_INDEX_PATH.write_text(
         render_navigation_index(pages, techniques, claim_count), encoding="utf-8"
     )
+    TECHNIQUE_INDEX_PATH.write_text(render_technique_index(techniques), encoding="utf-8")
     report = lint()
     if not report["ok"]:
         return report
@@ -777,6 +816,7 @@ def main() -> int:
             NAVIGATION_INDEX_PATH.write_text(
                 render_navigation_index(pages, techniques, claim_count), encoding="utf-8"
             )
+            TECHNIQUE_INDEX_PATH.write_text(render_technique_index(techniques), encoding="utf-8")
             report.update({"index": NAVIGATION_INDEX_PATH.as_posix(), "page_count": len(pages), "technique_count": len(techniques)})
     elif args.command == "index":
         pages, errors = load_pages()

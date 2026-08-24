@@ -30,8 +30,9 @@ source references, and state which assumptions require repository inspection.
 ```
 
 Start with the generated [Knowledge Map](index.md), then load only the relevant
-patterns, technique cards, sources, and cases. For consequential decisions,
-record the commit SHA used.
+patterns, technique cards, sources, and cases. Coding agents should also read
+[AGENTS.md](AGENTS.md) for lane entry points, search workflow, and citation
+rules. For consequential decisions, record the commit SHA used.
 
 ### Search locally
 
@@ -59,6 +60,7 @@ constraints, or continued agent work.
 ## Documentation
 
 - [Knowledge Map](index.md)
+- [Agent consumption contract](AGENTS.md)
 - [System architecture](docs/architecture.md)
 - [Research and tool selection](docs/research.md)
 - [Dated change ledger](changes/ledger.jsonl)

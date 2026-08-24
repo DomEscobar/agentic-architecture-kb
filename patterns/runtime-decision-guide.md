@@ -6,7 +6,7 @@ status: reviewed
 privacy: internal
 confidence: 0.85
 created_at: 2026-08-08T16:45:00+02:00
-updated_at: 2026-08-13T12:45:00+02:00
+updated_at: 2026-08-24T11:05:00+02:00
 review_at: 2026-11-08
 source_ids:
   - source-domescobar-agentic-runtime-techniques
@@ -26,7 +26,7 @@ relations:
 - Multi-stage task: plan-and-execute with typed task state.
 - Objectively verifiable result: verifier loop; deterministic checks first.
 - Open-ended research: research loop, claim/evidence ledger, and gap analysis.
-- Code change: coding harness, isolation, tests, and rollback.
+- Code change: [[project-coding-agent-harness]] — isolation, tests, and rollback.
 - Background work: durable workflow, queue, checkpoints, and idempotency.
 - Risky external action: approval interrupt, audit, and edit/reject path.
 - Multiple specialists: supervisor or planner/executor only when roles require

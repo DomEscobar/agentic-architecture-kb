@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-08-24T10:40:00+02:00` · 96 pages · 76 claims · 132 technique cards
+Revision: `2026-08-24T11:05:00+02:00` · 96 pages · 76 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -55,6 +55,13 @@ Revision: `2026-08-24T10:40:00+02:00` · 96 pages · 76 claims · 132 technique 
 - [Recursive Self-Improvement Evidence Boundary](patterns/rsi-evidence-boundary.md)
 - [Eval-guided Bounded Improvement Loop](patterns/eval-guided-improvement-loop.md)
 - [Statistical Decision Rules for Agent Evaluations](patterns/evaluation-statistical-decision-rules.md)
+
+### Coding agents and project harness
+
+- [Project-Specific Coding Agent Harness](patterns/project-coding-agent-harness.md)
+- [Coding Agent Harness and Skills Evidence Audit August 2026](sources/coding-agent-harness-and-skills-evidence-2026-08.md)
+- [Agentic Runtime Security Boundary](patterns/agentic-runtime-security-boundary.md)
+- [Runtime Safety Baseline](patterns/runtime-safety-baseline.md)
 
 ## Canonical catalogs
 
@@ -192,11 +199,14 @@ make compile
   -> build/wiki.json
   -> indexes/wiki.sqlite
   -> index.md
+  -> technique-index.json
 
 claims/ledger.jsonl
 techniques/**/*.json
 schemas/*.json
 ```
 
+Resolve a `technique_id` through [`technique-index.json`](technique-index.json).
+Use [`AGENTS.md`](AGENTS.md) for coding-agent consumption rules.
 Use [`README.md`](README.md) for setup and commands. Use this index for
 orientation, then search and load only the relevant canonical sections.

@@ -381,6 +381,54 @@ class WikiToolTests(unittest.TestCase):
                     query,
                 )
 
+    def test_coding_agent_harness_is_retrievable(self):
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        queries = [
+            "project coding agent harness repository instructions skills",
+            "scoped AGENTS.md instruction precedence nested monorepo",
+            "promote project skill paired fresh-context evaluation",
+            "coding agent replay pinned harness manifest leakage checks",
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "wiki.sqlite"
+            wiki.build_fts(pages, index)
+            for query in queries:
+                result = wiki.search_fts(
+                    query,
+                    privacy=["public"],
+                    status=["reviewed"],
+                    trace=False,
+                    db_path=index,
+                )
+                self.assertGreater(result["candidate_count"], 0, query)
+                self.assertTrue(
+                    any(
+                        item["page_id"] == "pattern-project-coding-agent-harness"
+                        for item in result["results"]
+                    ),
+                    query,
+                )
+
+    def test_technique_index_is_generated_and_current(self):
+        root = MODULE_PATH.parents[1]
+        techniques, errors = wiki.load_techniques()
+        self.assertEqual(errors, [])
+        expected = wiki.render_technique_index(techniques)
+        actual = (root / "technique-index.json").read_text(encoding="utf-8")
+        self.assertEqual(actual, expected)
+        payload = json.loads(actual)
+        self.assertGreaterEqual(len(payload["techniques"]), 15)
+        coding_ids = {
+            "runtime.coding-agent-instruction-stack",
+            "runtime.evaluated-project-skill-package",
+            "evaluation.coding-agent-project-replay",
+        }
+        indexed = {item["technique_id"]: item["path"] for item in payload["techniques"]}
+        self.assertTrue(coding_ids.issubset(indexed))
+        for technique_id in coding_ids:
+            self.assertTrue((root / indexed[technique_id]).is_file(), technique_id)
+
 
 if __name__ == "__main__":
     unittest.main()

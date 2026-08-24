@@ -18,6 +18,10 @@
     {"id":"en-rsi-evaluator","query":"optimizer rewrites evaluator objective epoch holdout rollback","relevant_page_ids":["pattern-rsi-evidence-boundary"],"slice":"en-paraphrase"},
     {"id":"en-security-mcp-config","query":"malicious pull request MCP project configuration privileged runner","relevant_page_ids":["pattern-mcp-and-agent-extension-security","source-agentic-security-verification-2026-08"],"slice":"en-paraphrase"},
     {"id":"en-security-adaptive-eval","query":"adaptive prompt injection benchmark benign utility external state","relevant_page_ids":["pattern-agent-security-evaluation-and-tooling"],"slice":"en-paraphrase"},
-    {"id":"en-security-sandbox","query":"agent sandbox microVM egress host mount credentials","relevant_page_ids":["pattern-agent-sandbox-selection"],"slice":"en-exact"}
+    {"id":"en-security-sandbox","query":"agent sandbox microVM egress host mount credentials","relevant_page_ids":["pattern-agent-sandbox-selection"],"slice":"en-exact"},
+    {"id":"en-coding-harness","query":"Set up coding agents reliably inside a specific repository","relevant_page_ids":["pattern-project-coding-agent-harness"],"slice":"en-paraphrase"},
+    {"id":"en-coding-instructions","query":"scoped AGENTS.md instruction precedence nested monorepo rules","relevant_page_ids":["pattern-project-coding-agent-harness"],"slice":"en-exact"},
+    {"id":"en-coding-skill","query":"promote a project skill only after paired fresh-context evaluation","relevant_page_ids":["pattern-project-coding-agent-harness"],"slice":"en-paraphrase"},
+    {"id":"en-coding-replay","query":"replay coding tasks with pinned harness manifest and leakage checks","relevant_page_ids":["pattern-project-coding-agent-harness"],"slice":"en-paraphrase"}
   ]
 }

@@ -6,7 +6,7 @@ status: reviewed
 privacy: public
 confidence: 0.87
 created_at: 2026-08-16T13:05:00+02:00
-updated_at: 2026-08-16T14:40:00+02:00
+updated_at: 2026-08-24T11:05:00+02:00
 review_at: 2026-09-16
 source_ids:
   - source-coding-agent-harness-and-skills-evidence-2026-08
@@ -33,6 +33,20 @@ fits the repository's tasks and risks.
 Do not claim project-specific fit without inspecting the repository or a
 complete, verified project manifest. Current product documentation supplies
 candidate mechanisms; project evidence and evals decide which ones belong.
+
+The machine-readable cards under `techniques/runtime/` and
+`techniques/evaluation/` are the experiment contract for this pattern. Resolve
+`technique_id` values through [`technique-index.json`](../technique-index.json).
+This page makes the same guidance retrievable for architecture advice:
+
+- [`runtime.coding-agent-instruction-stack`](../techniques/runtime/coding-agent-instruction-stack.json)
+  — scoped instruction files and precedence across agent surfaces;
+- [`runtime.evaluated-project-skill-package`](../techniques/runtime/evaluated-project-skill-package.json)
+  — skill admission, pinning and paired promotion evals;
+- [`evaluation.coding-agent-project-replay`](../techniques/evaluation/coding-agent-project-replay.json)
+  — end-to-end harness replay with pinned manifests and leakage checks.
+
+No card is a universal winner; each must pass the project's task slices.
 
 ## Required case facts
 

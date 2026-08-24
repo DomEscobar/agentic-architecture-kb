@@ -1,27 +1,37 @@
 # Agentic Architecture Knowledge Base
 
-A Git-versioned, local knowledge base for evidence-backed architecture decisions
-across RAG, agent runtimes, agent memory, evaluation, and bounded
-self-improvement.
+A Git-versioned knowledge base of evidence-backed architecture decisions for
+RAG, agentic systems, and coding agents. It is opinionated about what it does
+not know: patterns state their exclusion conditions and required evidence
+instead of handing over a blueprint.
 
-## Core principle
+## What is inside
 
-Markdown is the canonical source. Search indexes, graphs, reports, and LLM
-summaries are reproducible projections and must never replace the original
-sources.
+- **RAG and retrieval:** pipeline taxonomy, hybrid search, reranking, context
+  assembly.
+- **Document parsing and chunking:** parser routing, chunking strategies.
+- **Embeddings and multimodal:** model selection, migration, visual retrieval.
+- **Agent runtimes and orchestration:** control loops, build-versus-adopt.
+- **Agent memory:** write and promotion, forgetting, poisoning defense.
+- **Evaluation and observability:** judges, online rollout, statistical rules.
+- **Agentic security:** sandboxing, MCP and extension security, red-teaming.
+- **Bounded self-improvement:** evidence boundaries, eval-guided loops.
+- **Coding-agent project harness:** instructions, skills, and replay evals.
 
-## How to use
+96 pages, 132 technique cards, and 76 sourced claims as of this writing. See
+[index.md](index.md) for the full map, including what is deliberately out of
+scope.
 
-### Browse or give it to a coding agent
+## Use it
 
-Clone the repository and point your coding agent at the relevant lane:
+### With a coding agent
 
 ```bash
 git clone https://github.com/DomEscobar/agentic-architecture-kb.git
-cd agentic-architecture-kb
 ```
 
-Then ask the agent to search before recommending, for example:
+Point the agent at [AGENTS.md](AGENTS.md) and ask it to search before
+recommending, for example:
 
 ```text
 Use this knowledge base to design recovery semantics for my tool-using agent.
@@ -29,23 +39,18 @@ Start with the relevant runtime patterns and technique cards, preserve exact
 source references, and state which assumptions require repository inspection.
 ```
 
-Start with the generated [Knowledge Map](index.md), then load only the relevant
-patterns, technique cards, sources, and cases. Coding agents should also read
-[AGENTS.md](AGENTS.md) for lane entry points, search workflow, and citation
-rules. For consequential decisions, record the commit SHA used.
-
-### Search locally
+### Locally
 
 ```bash
 python3 -m pip install -r requirements.txt
 make compile
-python3 tools/wiki.py search "tool-using agent recovery semantics" \
-  --privacy internal --status reviewed --limit 5
+python3 tools/wiki.py search "tool-using agent recovery semantics" --limit 5
 ```
 
-### Ask the public service
+### Via the public API
 
-For a quick single-turn lookup, call the stateless public API:
+For a quick, stateless single-turn lookup that does not inspect your
+repository:
 
 ```bash
 curl --fail-with-body https://ai-architect.huecki.com/api/v1/ask \
@@ -53,66 +58,30 @@ curl --fail-with-body https://ai-architect.huecki.com/api/v1/ask \
   --data '{"question":"Design recovery semantics for a tool-using agent."}'
 ```
 
-The API does not inspect the caller's repository and does not retain multi-turn
-state. Use the cloned knowledge base when the decision depends on local code,
-constraints, or continued agent work.
+## How it works
 
-## Documentation
+Markdown with validated frontmatter is the canonical source; search indexes,
+reports, and summaries are reproducible projections that never replace it.
+See [ADR-0001](docs/adr/0001-markdown-git-source-of-truth.md) and
+[System architecture](docs/architecture.md) for the write path, read path,
+and failure boundaries.
 
-- [Knowledge Map](index.md)
-- [Agent consumption contract](AGENTS.md)
-- [System architecture](docs/architecture.md)
-- [Research and tool selection](docs/research.md)
-- [Dated change ledger](changes/ledger.jsonl)
-- [MVP and roadmap](docs/roadmap.md)
-- [ADR-0001: Markdown and Git as the source of truth](docs/adr/0001-markdown-git-source-of-truth.md)
-- [Page schema](schemas/page.schema.json)
-- [Memory evaluation](evals/README.md)
-- [Evaluation Consulting Playbook](docs/evaluation-consulting-playbook.md)
-
-## Knowledge-base structure
-
-```text
-inbox/       unreviewed inputs
-sources/     primary sources and unchanged evidence
-concepts/    stable concepts and mechanisms
-patterns/    patterns with use and exclusion conditions
-cases/       concrete architecture decisions and outcomes
-entities/    people, projects, systems, and organizations
-syntheses/   evidence-backed summaries derived from sources
-reports/     generated quality and governance reports
-changes/     append-only dated records for canonical knowledge changes
-```
-
-## Status
-
-The deterministic toolchain validates schemas, IDs, page types, local links,
-provenance, and relation targets. It compiles every canonical page into a fully
-reconstructable JSON projection. Autonomous writes to the canonical content
-area are disabled.
-
-## Local quality checks
+## Quality checks
 
 ```bash
 python3 -m pip install -r requirements.txt
 make check
 ```
 
-`make lint` does not modify files. `make compile` writes the tracked `index.md`
-plus the ignored projections `build/wiki.json` and `reports/quality.json`.
-GitHub Actions runs the same checks for pushes and pull requests.
+Validates schemas, links, provenance, and claims, then compiles and tests.
+GitHub Actions runs the same check on every push and pull request. See
+[Contributing](docs/contributing.md) for the repository layout, promotion
+process, and full command reference.
 
-## Local search
+## Documentation
 
-`make compile` also creates `indexes/wiki.sqlite`. Every Markdown section gets a
-stable, citable ID derived from its page ID and heading path.
+**Start here:** [Knowledge Map](index.md) · [Agent consumption contract](AGENTS.md)
 
-```bash
-python3 tools/wiki.py search "hybrid retrieval BM25" \
-  --privacy internal --status reviewed --limit 5
-```
+**Contributing:** [Contributing guide](docs/contributing.md) · [Evidence rubric](docs/evidence-rubric.md) · [MVP and roadmap](docs/roadmap.md)
 
-Search starts with strict FTS5 AND matching and falls back to OR matching when
-there are no results. JSON traces under `reports/retrieval-traces/` contain the
-query, filters, all ranked candidates, and the full sections that were loaded.
-Indexes and traces are reconstructable projections ignored by Git.
+**Internals:** [System architecture](docs/architecture.md) · [Page schema](schemas/page.schema.json) · [Dated change ledger](changes/ledger.jsonl) · [Memory evaluation](evals/README.md) · [Evaluation Consulting Playbook](docs/evaluation-consulting-playbook.md)

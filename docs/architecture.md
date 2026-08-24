@@ -57,6 +57,28 @@ local validity metadata; the change ledger is the cross-cutting audit trail.
 
 Vector search is a recall channel, not the arbiter of truth.
 
+## Local retrieval implementation
+
+Canonical Markdown sections are indexed in SQLite FTS5, weighted 5.0 for
+title, 2.0 for heading path, and 1.0 for body text. Every section gets a
+stable, citable ID derived from its page ID and heading path.
+
+Strict AND matching over all query tokens runs first. If it returns nothing,
+the fallback is restricted to corpus-selective terms — tokens at or below a
+document-frequency threshold — rather than a plain OR over every token, so
+filler words like "a" or "for" cannot manufacture a match on an unrelated
+page. Results report `match_mode` (`strict` or `relaxed`), `term_coverage` per
+section, an overall `confidence` (`high`, `medium`, `low`, or `none`), and an
+`advisory` string. The `low`/`none` floor is calibrated against the labelled
+cases in `evals/wiki-retrieval-v1.json`: every case whose retrieved page was
+independently labelled relevant clears the floor, and confidence describes
+term-match strength only, never answer correctness.
+
+Dense embeddings and Reciprocal Rank Fusion across lexical and semantic
+rankings are opt-in via `make hybrid-index` and are not built by `make
+compile`. JSON traces under `reports/retrieval-traces/` record the query,
+filters, all ranked candidates, and the full sections that were loaded.
+
 ## Data model
 
 Required fields are defined in `schemas/page.schema.json`. Key relationships:

@@ -2,15 +2,15 @@
   "schema_version": 1,
   "status": "deployed",
   "consumer": "public-ai-architect",
-  "canonical_sha256": "478a943fed1184cf60a9a91f24afeda4799fbdd32ec86158227cf3e07eec9a4e",
-  "content_sha256": "0550ef11615cac71149a00477a1aa0bb99e895b1d3047e5a825c146149da4904",
-  "artifact_sha256": "b28671963df6a26310fd45016cf58cb88d2cab4a446c1461ba6300fe65381d62",
-  "image_sha256": "64f5055503467b846e6b7a5f42404836d21c6dd0a7c712c9350cf54e3bb68e2b",
-  "deployed_at": "2026-08-16T19:14:42+02:00",
-  "approved_by": "Dom via Telegram message 481",
+  "canonical_sha256": "7c422f4dd27c69b2bb977f830178f4c1f53ef3bc550c63bcf1ecbfd73f04df5f",
+  "content_sha256": "519380cacd7fd081b76cc174c932b1c18fbbe07e8fb1d82ffc65756ff2931ef0",
+  "artifact_sha256": "c4d5c9f6b7b13fe428d33d8f58883b5a05e5b284c7ad3ce32802f0b70049db5a",
+  "image_sha256": "097618f4ea1e5a06c9a591f5f156aed3265e54eb26d07ca2bece7927b327f4ae",
+  "deployed_at": "2026-08-24T11:49:56+02:00",
+  "approved_by": "Dom via Telegram message 568",
   "rollback": {
-    "image_sha256": "a2e153ff0109499f6cd79b331e5ea6ec373f7a35341698583f75b35f9f47bdf8",
+    "image_sha256": "64f5055503467b846e6b7a5f42404836d21c6dd0a7c712c9350cf54e3bb68e2b",
     "content_sha256": "0550ef11615cac71149a00477a1aa0bb99e895b1d3047e5a825c146149da4904"
   },
-  "note": "UI v13 with 28 single-gap prompt starters and Public Wiki v3 deployed after explicit human approval."
+  "note": "Public Wiki v3 refreshed from canonical commit bf8db07; UI v13 retained and deployment verified healthy without a paid model call."
 }

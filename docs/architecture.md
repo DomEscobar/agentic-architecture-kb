@@ -74,10 +74,60 @@ cases in `evals/wiki-retrieval-v1.json`: every case whose retrieved page was
 independently labelled relevant clears the floor, and confidence describes
 term-match strength only, never answer correctness.
 
+Search defaults to `reviewed` and `contested` pages. Immature material
+(`inbox`, `draft`) and retired material (`superseded`, `archived`) are omitted
+unless `--any-status` is passed, so a stale or unpromoted page cannot answer a
+question by default. `contested` is deliberately kept in the default set:
+suppressing known disagreement is worse than surfacing it, because the citation
+rules require contested evidence to be stated as such. Every result reports
+`status_filter_source` so a caller can tell whether the filter was the default
+or its own.
+
 Dense embeddings and Reciprocal Rank Fusion across lexical and semantic
 rankings are opt-in via `make hybrid-index` and are not built by `make
 compile`. JSON traces under `reports/retrieval-traces/` record the query,
 filters, all ranked candidates, and the full sections that were loaded.
+
+## Technique lifecycle
+
+A technique card carries a required `lifecycle` field, because a knowledge base
+that only ever admits cards drifts toward presenting every entry as equally
+current.
+
+| `lifecycle` | Meaning |
+| --- | --- |
+| `recommended` | The routing default for its family, named as such by a routing or catalog page |
+| `situational` | Valid, but only under its own `use_when` |
+| `legacy` | Still functional, generally dominated by a successor |
+| `deprecated` | Must not be proposed for new work |
+
+`legacy` and `deprecated` cards require a `retirement_reason`, `deprecated`
+additionally requires `retired_on`, and both may name one or more
+`superseded_by` successors. The schema forbids retirement metadata on
+`recommended` and `situational` cards, so a card cannot sit in a half-retired
+state. Lint rejects a retirement whose successor does not exist, points at
+itself, is itself retired, or forms a supersession cycle — a reader following
+`superseded_by` always arrives at live material.
+
+Retirement is a ledger event, not an edit. Lint requires every `legacy` or
+`deprecated` card to be named by an applied `supersession` record in
+`changes/ledger.jsonl`, which makes the retirement dated, reasoned,
+attributable, and revertible on the same terms as any other change. An ordinary
+`technique` record does not satisfy the gate, so a routine card edit cannot
+retire a technique as a side effect. Cards are
+retired rather than deleted so that existing citations still resolve;
+`technique-index.json` publishes the lifecycle and successors alongside every
+path so the exact-lookup route carries the obsolescence signal too.
+
+`recommended` is intentionally scarce. Promotion belongs with the routing page
+that names the default; the initial seed set every existing card to
+`situational` until a catalog page designated it.
+
+New cards that overlap an existing entry in the same `techniques/` group should
+declare `overlaps_with`. Each group carries a soft cap; lint emits a warning
+when the cap is reached so consolidation is reviewed before the catalog grows
+again. Every `supersession` record must name an eval target or state eval
+verification in `practical_impact`.
 
 ## Data model
 

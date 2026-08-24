@@ -480,6 +480,151 @@ class WikiToolTests(unittest.TestCase):
         for technique_id in coding_ids:
             self.assertTrue((root / indexed[technique_id]).is_file(), technique_id)
 
+    def test_technique_index_publishes_lifecycle_for_every_card(self):
+        techniques, errors = wiki.load_techniques()
+        self.assertEqual(errors, [])
+        payload = json.loads(wiki.render_technique_index(techniques))
+        self.assertEqual(len(payload["techniques"]), len(techniques))
+        for entry in payload["techniques"]:
+            self.assertIn(entry["lifecycle"], wiki.LIFECYCLE_STAGES, entry["technique_id"])
+        self.assertEqual(
+            sum(payload["lifecycle_counts"].values()), len(payload["techniques"])
+        )
+
+    def test_search_omits_unpromoted_pages_unless_explicitly_requested(self):
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        query = "research radar candidate"
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "wiki.sqlite"
+            wiki.build_fts(pages, index)
+            default = wiki.search_fts(query, limit=8, trace=False, db_path=index)
+            unfiltered = wiki.search_fts(
+                query, limit=8, any_status=True, trace=False, db_path=index
+            )
+        self.assertEqual(default["filters"]["status"], list(wiki.DEFAULT_SEARCH_STATUSES))
+        self.assertEqual(default["status_filter_source"], "default")
+        self.assertEqual(unfiltered["status_filter_source"], "explicit")
+        omitted = {"inbox", "draft", "superseded", "archived"}
+        self.assertEqual([item for item in default["results"] if item["status"] in omitted], [])
+        self.assertTrue(
+            {item["section_id"] for item in unfiltered["results"]}
+            - {item["section_id"] for item in default["results"]},
+            "the unpromoted page must be reachable with any_status",
+        )
+
+    def test_retirement_requires_a_supersession_ledger_record(self):
+        card = {
+            "_path": "techniques/runtime/example.json",
+            "technique_id": "runtime.example",
+            "lifecycle": "deprecated",
+        }
+        self.assertTrue(
+            wiki.check_retirement_ledger([card], []),
+            "a retirement with no ledger record at all must fail",
+        )
+        unrecorded = wiki.check_retirement_ledger(
+            [card],
+            [{"change_kind": "technique", "status": "applied", "targets": ["runtime.example"]}],
+        )
+        self.assertTrue(unrecorded, "a plain technique record must not satisfy the gate")
+        recorded = wiki.check_retirement_ledger(
+            [card],
+            [{"change_kind": "supersession", "status": "applied", "targets": ["runtime.example"]}],
+        )
+        self.assertEqual(recorded, [])
+
+    def test_lifecycle_gates_reject_broken_retirement_graphs(self):
+        def card(technique_id, lifecycle, **extra):
+            return {
+                "_path": f"techniques/runtime/{technique_id}.json",
+                "technique_id": technique_id,
+                "lifecycle": lifecycle,
+                **extra,
+            }
+
+        self.assertEqual(
+            wiki.check_technique_lifecycle(
+                [card("runtime.a", "legacy", superseded_by=["runtime.b"]), card("runtime.b", "situational")]
+            ),
+            [],
+        )
+        self.assertTrue(
+            wiki.check_technique_lifecycle([card("runtime.a", "legacy", superseded_by=["runtime.missing"])]),
+            "an unresolvable successor must fail",
+        )
+        self.assertTrue(
+            wiki.check_technique_lifecycle([card("runtime.a", "legacy", superseded_by=["runtime.a"])]),
+            "a self-referential successor must fail",
+        )
+        self.assertTrue(
+            wiki.check_technique_lifecycle(
+                [
+                    card("runtime.a", "legacy", superseded_by=["runtime.b"]),
+                    card("runtime.b", "deprecated"),
+                ]
+            ),
+            "a successor that is itself retired must fail",
+        )
+        self.assertTrue(
+            wiki.check_technique_lifecycle(
+                [
+                    card("runtime.a", "legacy", superseded_by=["runtime.b"]),
+                    card("runtime.b", "legacy", superseded_by=["runtime.a"]),
+                ]
+            ),
+            "a supersession cycle must fail",
+        )
+        self.assertTrue(
+            wiki.check_technique_lifecycle([card("runtime.a", "situational", retired_on="2026-08-24")]),
+            "a live card must not carry retirement metadata",
+        )
+
+    def test_routing_defaults_are_recommended(self):
+        techniques, errors = wiki.load_techniques()
+        self.assertEqual(errors, [])
+        by_id = {card["technique_id"]: card for card in techniques}
+        expected = {
+            "parser.native.pymupdf",
+            "parser.pipeline.docling-standard",
+            "parser.native.apache-tika",
+            "chunking.fixed.recursive-split",
+            "retrieval.bm25",
+            "retrieval.dense",
+            "runtime.coding-agent-instruction-stack",
+            "runtime.evaluated-project-skill-package",
+            "evaluation.coding-agent-project-replay",
+        }
+        self.assertEqual(
+            {technique_id for technique_id, card in by_id.items() if card.get("lifecycle") == "recommended"},
+            expected,
+        )
+
+    def test_fixed_token_window_is_legacy_with_successor(self):
+        techniques, errors = wiki.load_techniques()
+        self.assertEqual(errors, [])
+        by_id = {card["technique_id"]: card for card in techniques}
+        retired = by_id["chunking.fixed.token-window"]
+        self.assertEqual(retired["lifecycle"], "legacy")
+        self.assertEqual(retired["superseded_by"], ["chunking.fixed.recursive-split"])
+        self.assertEqual(by_id["chunking.fixed.recursive-split"]["lifecycle"], "recommended")
+
+    def test_new_default_retrieval_cases_hit_catalogs(self):
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        cases = [
+            ("default parser for clean born-digital PDF pages", "pattern-parser-technique-catalog"),
+            ("default cheap chunking baseline for ordinary prose documents", "pattern-chunking-technique-catalog"),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "wiki.sqlite"
+            wiki.build_fts(pages, index)
+            for query, expected_page in cases:
+                result = wiki.search_fts(query, limit=5, trace=False, db_path=index)
+                page_ids = {item["page_id"] for item in result["results"]}
+                self.assertIn(expected_page, page_ids, query)
+                self.assertIn(result["confidence"], {"high", "medium"}, query)
+
 
 if __name__ == "__main__":
     unittest.main()

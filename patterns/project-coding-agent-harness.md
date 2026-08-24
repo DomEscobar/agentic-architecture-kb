@@ -40,11 +40,11 @@ The machine-readable cards under `techniques/runtime/` and
 This page makes the same guidance retrievable for architecture advice:
 
 - [`runtime.coding-agent-instruction-stack`](../techniques/runtime/coding-agent-instruction-stack.json)
-  — scoped instruction files and precedence across agent surfaces;
+  (`recommended`) — scoped instruction files and precedence across agent surfaces;
 - [`runtime.evaluated-project-skill-package`](../techniques/runtime/evaluated-project-skill-package.json)
-  — skill admission, pinning and paired promotion evals;
+  (`recommended`) — skill admission, pinning and paired promotion evals;
 - [`evaluation.coding-agent-project-replay`](../techniques/evaluation/coding-agent-project-replay.json)
-  — end-to-end harness replay with pinned manifests and leakage checks.
+  (`recommended`) — end-to-end harness replay with pinned manifests and leakage checks.
 
 No card is a universal winner; each must pass the project's task slices.
 

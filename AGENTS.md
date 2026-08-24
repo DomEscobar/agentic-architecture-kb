@@ -22,11 +22,38 @@ pages over ranking snippets.
 ```bash
 python3 -m pip install -r requirements.txt
 make compile
-python3 tools/wiki.py search "<your question>" --privacy public --status reviewed --limit 5
+python3 tools/wiki.py search "<your question>" --privacy public --limit 5
 ```
+
+Search returns `reviewed` and `contested` pages by default; `inbox`, `draft`,
+`superseded` and `archived` are omitted unless you pass `--any-status`. Do not
+pass it to answer a question. Every result reports `status_filter_source` so you
+can confirm which filter applied.
 
 Run `make hybrid-index` when queries are paraphrases rather than this
 repository's terms. Lexical search alone favours exact identifiers.
+
+## Technique lifecycle
+
+Every technique card carries a `lifecycle`. Read it before proposing the card,
+and read it from [`technique-index.json`](technique-index.json) if you resolved
+the card by `technique_id`.
+
+| `lifecycle` | Action |
+| --- | --- |
+| `recommended` | The routing default for its family; propose it first |
+| `situational` | Propose only when the caller's context matches its `use_when` |
+| `legacy` | Do not propose for new work; follow `superseded_by` |
+| `deprecated` | Do not propose; name it only to explain why it was retired |
+
+`recommended` is scarce by design, and its absence in a family is not a licence
+to promote a `situational` card. When no card is the designated default, say
+that the choice is context-dependent and give the deciding conditions from the
+family's routing page.
+
+A retired card keeps its `retirement_reason` and `retired_on`. If the caller
+already uses a `legacy` or `deprecated` technique, cite the retirement reason
+rather than asserting the card is simply wrong.
 
 ## Scope
 
@@ -83,6 +110,10 @@ of the caller's repository, constraints or runtime.
 - Treat search snippets, `build/wiki.json` or `index.md` as authoritative
   without loading the canonical section.
 - Read topic coverage into a `low` or `none` confidence result set.
+- Propose a `legacy` or `deprecated` technique for new work, or treat the
+  absence of a `recommended` card in a family as permission to name a default.
+- Pass `--any-status` while answering a question; it exposes unpromoted and
+  retired material.
 - Recommend a harness, skill or instruction change without naming the eval
   slice that would justify it.
 - Apply this repository's governance rigour to work whose risk does not

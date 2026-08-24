@@ -47,6 +47,9 @@ make compile
 python3 tools/wiki.py search "tool-using agent recovery semantics" --limit 5
 ```
 
+Search returns reviewed and contested pages only. Pass `--any-status` to also
+see unpromoted drafts and retired material.
+
 ### Via the public API
 
 For a quick, stateless single-turn lookup that does not inspect your
@@ -62,9 +65,15 @@ curl --fail-with-body https://ai-architect.huecki.com/api/v1/ask \
 
 Markdown with validated frontmatter is the canonical source; search indexes,
 reports, and summaries are reproducible projections that never replace it.
+
+Techniques are retired, not accumulated. Every technique card declares whether
+it is a routing default, situational, legacy, or deprecated, and a retirement
+must name a reason and a successor in the change ledger — so the catalog can
+shrink, and what it recommends stays separable from what it merely records.
+
 See [ADR-0001](docs/adr/0001-markdown-git-source-of-truth.md) and
 [System architecture](docs/architecture.md) for the write path, read path,
-and failure boundaries.
+lifecycle rules, and failure boundaries.
 
 ## Quality checks
 

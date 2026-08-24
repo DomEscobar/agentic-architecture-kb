@@ -53,6 +53,36 @@ COVERAGE_TOKEN = re.compile(r"\w+", re.UNICODE)
 MIN_ACCEPTED_LEVEL = {"empirical": 3, "normative": 2}
 EVIDENCE_LEVELS = {"E1": 1, "E2": 2, "E3": 3, "E4": 4}
 
+LIFECYCLE_STAGES = ("recommended", "situational", "legacy", "deprecated")
+# A card leaves the recommendable set only through a dated, reasoned ledger
+# record, so a retirement can be audited and reverted like any other change.
+RETIRED_LIFECYCLE_STAGES = ("legacy", "deprecated")
+
+# Search must not present immature or retired material as current answers, but
+# `contested` is deliberately included: suppressing known disagreement is worse
+# than surfacing it, because the citation rules require it to be stated.
+DEFAULT_SEARCH_STATUSES = ("reviewed", "contested")
+
+# Soft caps trigger consolidation review warnings, not hard failures. They sit
+# above the current corpus size so existing material is not noisy on day one.
+TECHNIQUE_GROUP_SOFT_CAPS = {
+    "parsers": 20,
+    "chunking": 20,
+    "context": 8,
+    "embeddings": 12,
+    "evaluation": 12,
+    "memory": 10,
+    "multimodal": 14,
+    "retrieval": 20,
+    "rsi": 8,
+    "runtime": 30,
+}
+TECHNIQUE_GROUP_CATALOGS = {
+    "parsers": "pattern-parser-technique-catalog",
+    "chunking": "pattern-chunking-technique-catalog",
+    "retrieval": "pattern-retrieval-context-technique-catalog",
+}
+
 # A relaxed OR fallback that keeps near-universal tokens matches filler words and
 # returns confident-looking noise for out-of-scope questions. Tokens above this
 # document fraction carry no selectivity and are dropped from the fallback.
@@ -196,6 +226,159 @@ def load_techniques() -> tuple[list[dict[str, Any]], list[str]]:
         payload["_path"] = path.relative_to(ROOT).as_posix()
         techniques.append(payload)
     return techniques, errors
+
+
+def check_technique_lifecycle(techniques: list[dict[str, Any]]) -> list[str]:
+    """Keep the retirement graph resolvable so a reader can always reach a successor."""
+    errors: list[str] = []
+    lifecycle_by_id = {
+        technique.get("technique_id"): technique.get("lifecycle") for technique in techniques
+    }
+    successors: dict[str, list[str]] = {}
+    for technique in techniques:
+        path = technique.get("_path", "techniques/unknown.json")
+        technique_id = technique.get("technique_id")
+        lifecycle = technique.get("lifecycle")
+        targets = technique.get("superseded_by", [])
+        successors[technique_id] = [target for target in targets if target in lifecycle_by_id]
+        for target in targets:
+            if target == technique_id:
+                errors.append(f"{path}: '{technique_id}' cannot supersede itself")
+            elif target not in lifecycle_by_id:
+                errors.append(f"{path}: unknown superseded_by technique '{target}'")
+        if lifecycle in RETIRED_LIFECYCLE_STAGES:
+            for target in successors[technique_id]:
+                if lifecycle_by_id[target] in RETIRED_LIFECYCLE_STAGES:
+                    errors.append(
+                        f"{path}: '{technique_id}' is {lifecycle} but points at "
+                        f"'{target}', which is also retired"
+                    )
+        else:
+            # A live card must not carry half-retired metadata, or a reader
+            # cannot tell whether the card is still recommendable.
+            for field in ("superseded_by", "retirement_reason", "retired_on"):
+                if field in technique:
+                    errors.append(
+                        f"{path}: '{technique_id}' is {lifecycle} and must not "
+                        f"declare '{field}'"
+                    )
+
+    for technique_id in sorted(successors):
+        if lifecycle_cycle(successors, technique_id):
+            errors.append(
+                f"techniques: supersession cycle reachable from '{technique_id}'"
+            )
+    return errors
+
+
+def lifecycle_cycle(successors: dict[str, list[str]], start: str) -> bool:
+    seen: set[str] = set()
+    stack = [start]
+    while stack:
+        current = stack.pop()
+        for target in successors.get(current, []):
+            if target == start:
+                return True
+            if target not in seen:
+                seen.add(target)
+                stack.append(target)
+    return False
+
+
+def check_retirement_ledger(
+    techniques: list[dict[str, Any]], changes: list[dict[str, Any]]
+) -> list[str]:
+    """Require every retirement to carry an auditable, revertible ledger record.
+
+    Only `supersession` counts. Accepting an ordinary `technique` record would let
+    a routine card edit silently satisfy the gate, which is the drift this check
+    exists to catch.
+    """
+    recorded = {
+        target
+        for change in changes
+        if change.get("change_kind") == "supersession" and change.get("status") == "applied"
+        for target in change.get("targets", [])
+    }
+    errors: list[str] = []
+    for technique in techniques:
+        if technique.get("lifecycle") not in RETIRED_LIFECYCLE_STAGES:
+            continue
+        technique_id = technique.get("technique_id")
+        if technique_id in recorded or technique.get("_path") in recorded:
+            continue
+        errors.append(
+            f"{technique.get('_path')}: '{technique_id}' is "
+            f"{technique.get('lifecycle')} without an applied 'supersession' "
+            f"record in changes/ledger.jsonl"
+        )
+    return errors
+
+
+def check_technique_overlaps(techniques: list[dict[str, Any]]) -> list[str]:
+    errors: list[str] = []
+    known = {technique.get("technique_id") for technique in techniques}
+    for technique in techniques:
+        path = technique.get("_path", "techniques/unknown.json")
+        technique_id = technique.get("technique_id")
+        for target in technique.get("overlaps_with", []):
+            if target == technique_id:
+                errors.append(f"{path}: '{technique_id}' cannot overlap itself")
+            elif target not in known:
+                errors.append(f"{path}: unknown overlaps_with technique '{target}'")
+    return errors
+
+
+def check_technique_group_health(techniques: list[dict[str, Any]]) -> list[str]:
+    """Warn when a group is at capacity or lacks a named routing default."""
+    warnings: list[str] = []
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for technique in techniques:
+        parts = technique.get("_path", "").split("/")
+        if len(parts) >= 2 and parts[0] == "techniques":
+            groups.setdefault(parts[1], []).append(technique)
+    for group, cards in sorted(groups.items()):
+        cap = TECHNIQUE_GROUP_SOFT_CAPS.get(group)
+        if cap is not None and len(cards) >= cap:
+            warnings.append(
+                f"techniques/{group}: {len(cards)} cards at or above soft cap "
+                f"{cap}; review for consolidation before adding more"
+            )
+        catalog = TECHNIQUE_GROUP_CATALOGS.get(group)
+        if catalog and not any(card.get("lifecycle") == "recommended" for card in cards):
+            warnings.append(
+                f"techniques/{group}: no recommended card but catalog '{catalog}' "
+                f"exists; name a routing default or retire overlapping entries"
+            )
+    return warnings
+
+
+def check_supersession_eval_gate(
+    changes: list[dict[str, Any]], techniques: list[dict[str, Any]]
+) -> list[str]:
+    """Retirements must record that retrieval eval coverage was checked."""
+    errors: list[str] = []
+    retired = {
+        technique.get("technique_id")
+        for technique in techniques
+        if technique.get("lifecycle") in RETIRED_LIFECYCLE_STAGES
+    }
+    for change in changes:
+        if change.get("change_kind") != "supersession" or change.get("status") != "applied":
+            continue
+        retired_targets = [target for target in change.get("targets", []) if target in retired]
+        if not retired_targets:
+            continue
+        eval_ack = any(
+            target.startswith("evals/") for target in change.get("targets", [])
+        ) or "eval" in change.get("practical_impact", "").lower()
+        if not eval_ack:
+            change_id = change.get("id", "unknown")
+            errors.append(
+                f"changes/ledger.jsonl: '{change_id}' supersession must name an "
+                f"eval target or state eval verification in practical_impact"
+            )
+    return errors
 
 
 def check_claim_promotion(claims: list[dict[str, Any]], by_id: dict[str, Any]) -> list[str]:
@@ -342,21 +525,40 @@ def render_navigation_index(
     return "\n".join(lines)
 
 
+def technique_index_entry(technique: dict[str, Any]) -> dict[str, Any]:
+    entry = {
+        "technique_id": technique["technique_id"],
+        "path": technique["_path"],
+        "name": technique["name"],
+        "stage": technique.get("stage"),
+        "lifecycle": technique.get("lifecycle"),
+    }
+    if technique.get("superseded_by"):
+        entry["superseded_by"] = sorted(technique["superseded_by"])
+    if technique.get("retired_on"):
+        entry["retired_on"] = technique["retired_on"]
+    return entry
+
+
 def render_technique_index(techniques: list[dict[str, Any]]) -> str:
-    """Render the tracked technique_id to path lookup table."""
+    """Render the tracked technique_id lookup table with lifecycle standing."""
     entries = sorted(
-        (
-            {
-                "technique_id": technique["technique_id"],
-                "path": technique["_path"],
-                "name": technique["name"],
-                "stage": technique.get("stage"),
-            }
-            for technique in techniques
-        ),
+        (technique_index_entry(technique) for technique in techniques),
         key=lambda item: item["technique_id"],
     )
-    return json.dumps({"techniques": entries}, ensure_ascii=False, indent=2) + "\n"
+    counts = {stage: 0 for stage in LIFECYCLE_STAGES}
+    for entry in entries:
+        counts[entry["lifecycle"]] = counts.get(entry["lifecycle"], 0) + 1
+    payload = {
+        "lifecycle_counts": counts,
+        "lifecycle_contract": (
+            "'recommended' is the routing default for its family. 'situational' "
+            "applies only under its own use_when. 'legacy' and 'deprecated' must "
+            "not be proposed for new work; read superseded_by instead."
+        ),
+        "techniques": entries,
+    }
+    return json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
 
 
 def slugify(value: str) -> str:
@@ -537,6 +739,13 @@ def match_confidence(match_mode: str, loaded: list[dict[str, Any]]) -> tuple[str
     )
 
 
+def resolve_status_filter(status: list[str] | None, *, any_status: bool = False) -> list[str] | None:
+    """Default search to material that passed review and has not been retired."""
+    if any_status:
+        return None
+    return list(status) if status else list(DEFAULT_SEARCH_STATUSES)
+
+
 def search_fts(
     query: str,
     *,
@@ -544,12 +753,15 @@ def search_fts(
     privacy: list[str] | None = None,
     status: list[str] | None = None,
     page_type: list[str] | None = None,
+    any_status: bool = False,
     trace: bool = True,
     db_path: Path = INDEX_PATH,
 ) -> dict[str, Any]:
     strict_expression = fts_expression(query)
     if not strict_expression:
         raise ValueError("query must contain searchable tokens")
+    status_requested_by_caller = any_status or bool(status)
+    status = resolve_status_filter(status, any_status=any_status)
     filters: list[str] = []
     filter_parameters: list[Any] = []
     for column, values in (("privacy", privacy), ("status", status), ("page_type", page_type)):
@@ -612,6 +824,7 @@ def search_fts(
         "confidence": confidence,
         "advisory": advisory,
         "filters": {"privacy": privacy or [], "status": status or [], "type": page_type or []},
+        "status_filter_source": "explicit" if status_requested_by_caller else "default",
         "index": db_path.as_posix(),
         "candidate_count": len(candidates),
         "candidates": candidates,
@@ -749,6 +962,8 @@ def lint() -> dict[str, Any]:
             target = by_id.get(source_id)
             if target is None or target.metadata.get("type") != "source":
                 errors.append(f"{path}: unknown source page '{source_id}'")
+    errors.extend(check_technique_lifecycle(techniques))
+    errors.extend(check_technique_overlaps(techniques))
 
     changes: list[dict[str, Any]] = []
     if not CHANGE_LEDGER_PATH.exists():
@@ -785,6 +1000,9 @@ def lint() -> dict[str, Any]:
             for target in change.get("targets", []):
                 if target not in known_change_targets and not (ROOT / target).exists():
                     errors.append(f"changes/ledger.jsonl:{line_number}: unknown change target '{target}'")
+    errors.extend(check_retirement_ledger(techniques, changes))
+    errors.extend(check_supersession_eval_gate(changes, techniques))
+    warnings = sorted(check_technique_group_health(techniques))
 
     try:
         expected_navigation = render_navigation_index(pages, techniques, len(claims))
@@ -833,8 +1051,13 @@ def lint() -> dict[str, Any]:
         "claim_count": len(claims),
         "change_count": len(changes),
         "technique_count": len(techniques),
+        "technique_lifecycle": {
+            stage: sum(1 for technique in techniques if technique.get("lifecycle") == stage)
+            for stage in LIFECYCLE_STAGES
+        },
         "claim_coverage": claim_coverage,
         "errors": errors,
+        "warnings": warnings,
     }
 
 
@@ -901,6 +1124,11 @@ def main() -> int:
     parser.add_argument("--privacy", action="append")
     parser.add_argument("--status", action="append")
     parser.add_argument("--type", dest="page_type", action="append")
+    parser.add_argument(
+        "--any-status",
+        action="store_true",
+        help="include inbox, draft, superseded and archived pages, which search omits by default",
+    )
     parser.add_argument("--no-trace", action="store_true")
     args = parser.parse_args()
     if args.command == "compile":
@@ -937,6 +1165,7 @@ def main() -> int:
             privacy=args.privacy,
             status=args.status,
             page_type=args.page_type,
+            any_status=args.any_status,
             trace=not args.no_trace,
         )}
     else:

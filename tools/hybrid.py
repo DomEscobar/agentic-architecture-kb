@@ -250,9 +250,11 @@ def search(
     privacy: list[str] | None = None,
     status: list[str] | None = None,
     page_type: list[str] | None = None,
+    any_status: bool = False,
     trace: bool = True,
 ) -> dict[str, Any]:
     wiki = load_wiki_module()
+    status = wiki.resolve_status_filter(status, any_status=any_status)
     pages, errors = wiki.load_pages()
     if errors:
         return {"ok": False, "errors": errors}
@@ -282,6 +284,7 @@ def search(
         privacy=privacy,
         status=status,
         page_type=page_type,
+        any_status=any_status,
         trace=False,
     )
     lexical_order = [item["section_id"] for item in lexical["results"]]
@@ -320,6 +323,11 @@ def main() -> int:
     parser.add_argument("--privacy", action="append")
     parser.add_argument("--status", action="append")
     parser.add_argument("--type", dest="page_type", action="append")
+    parser.add_argument(
+        "--any-status",
+        action="store_true",
+        help="include inbox, draft, superseded and archived pages, which search omits by default",
+    )
     parser.add_argument("--no-trace", action="store_true")
     args = parser.parse_args()
     if args.command == "build":
@@ -335,6 +343,7 @@ def main() -> int:
             privacy=args.privacy,
             status=args.status,
             page_type=args.page_type,
+            any_status=args.any_status,
             trace=not args.no_trace,
         )
     print(json.dumps(result, ensure_ascii=False, indent=2))

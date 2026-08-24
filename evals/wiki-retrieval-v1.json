@@ -22,6 +22,8 @@
     {"id":"en-coding-harness","query":"Set up coding agents reliably inside a specific repository","relevant_page_ids":["pattern-project-coding-agent-harness"],"slice":"en-paraphrase"},
     {"id":"en-coding-instructions","query":"scoped AGENTS.md instruction precedence nested monorepo rules","relevant_page_ids":["pattern-project-coding-agent-harness"],"slice":"en-exact"},
     {"id":"en-coding-skill","query":"promote a project skill only after paired fresh-context evaluation","relevant_page_ids":["pattern-project-coding-agent-harness"],"slice":"en-paraphrase"},
-    {"id":"en-coding-replay","query":"replay coding tasks with pinned harness manifest and leakage checks","relevant_page_ids":["pattern-project-coding-agent-harness"],"slice":"en-paraphrase"}
+    {"id":"en-coding-replay","query":"replay coding tasks with pinned harness manifest and leakage checks","relevant_page_ids":["pattern-project-coding-agent-harness"],"slice":"en-paraphrase"},
+    {"id":"en-parser-born-digital-default","query":"default parser for clean born-digital PDF pages","relevant_page_ids":["pattern-parser-technique-catalog"],"slice":"en-paraphrase"},
+    {"id":"en-chunking-baseline-default","query":"default cheap chunking baseline for ordinary prose documents","relevant_page_ids":["pattern-chunking-technique-catalog"],"slice":"en-paraphrase"}
   ]
 }

@@ -2,13 +2,18 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agentic-architect.local/schemas/technique-card.schema.json",
   "type": "object",
-  "required": ["technique_id", "name", "family", "stage", "deployment", "mechanism", "use_when", "avoid_when", "parameters", "expected_effects", "failure_modes", "required_evals", "reindex_required", "risk_class", "evidence", "freshness"],
+  "required": ["technique_id", "name", "family", "stage", "deployment", "lifecycle", "mechanism", "use_when", "avoid_when", "parameters", "expected_effects", "failure_modes", "required_evals", "reindex_required", "risk_class", "evidence", "freshness"],
   "properties": {
     "technique_id": {"type":"string","pattern":"^(parser|chunking|embedding|multimodal|retrieval|context|runtime|memory|evaluation|rsi)\\.[a-z0-9.-]+$"},
     "name": {"type":"string","minLength":3},
     "family": {"enum":["native","pipeline","vlm","managed","fixed","structural","semantic","contextual","hierarchical","adaptive","specialized","dense","sparse","hybrid","multivector","migration","visual","fusion","routing","reranking","citation","lexical","filtering","rewriting","compression","selection","abstention","iterative","orchestration","safety","tooling","write-policy","read-policy","retention","benchmarking","grading","monitoring","optimization","governance"]},
     "stage": {"enum":["ingestion","segmentation","embedding","retrieval","reranking","context-assembly","runtime","memory-write","memory-read","evaluation","improvement"]},
     "deployment": {"enum":["local-cpu","local-gpu","local-hybrid","managed-api","deployment-agnostic"]},
+    "lifecycle": {"enum":["recommended","situational","legacy","deprecated"]},
+    "superseded_by": {"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string","pattern":"^(parser|chunking|embedding|multimodal|retrieval|context|runtime|memory|evaluation|rsi)\\.[a-z0-9.-]+$"}},
+    "overlaps_with": {"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string","pattern":"^(parser|chunking|embedding|multimodal|retrieval|context|runtime|memory|evaluation|rsi)\\.[a-z0-9.-]+$"}},
+    "retirement_reason": {"type":"string","minLength":20},
+    "retired_on": {"type":"string","format":"date"},
     "mechanism": {"type":"string","minLength":20},
     "use_when": {"type":"array","minItems":2,"items":{"type":"string"}},
     "avoid_when": {"type":"array","minItems":2,"items":{"type":"string"}},
@@ -21,5 +26,15 @@
     "evidence": {"type":"object","required":["level","source_ids","links"],"properties":{"level":{"enum":["E2","E3"]},"source_ids":{"type":"array","minItems":1,"items":{"type":"string"}},"links":{"type":"array","minItems":1,"items":{"type":"string","format":"uri"}}},"additionalProperties":false},
     "freshness": {"type":"object","required":["checked","review"],"properties":{"checked":{"type":"string","format":"date"},"review":{"type":"string","format":"date"}},"additionalProperties":false}
   },
+  "allOf": [
+    {
+      "if": {"required":["lifecycle"],"properties":{"lifecycle":{"const":"deprecated"}}},
+      "then": {"required":["retirement_reason","retired_on"]}
+    },
+    {
+      "if": {"required":["lifecycle"],"properties":{"lifecycle":{"const":"legacy"}}},
+      "then": {"required":["retirement_reason"]}
+    }
+  ],
   "additionalProperties": false
 }

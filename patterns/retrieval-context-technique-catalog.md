@@ -33,8 +33,10 @@ relations:
 
 ## Query routing
 
-- Exact identifiers, versions, names and quoted text: BM25 first.
-- Paraphrases and vocabulary mismatch: dense retrieval candidate.
+- Exact identifiers, versions, names and quoted text: BM25 first
+  (`retrieval.bm25`, `recommended`).
+- Paraphrases and vocabulary mismatch: dense retrieval candidate
+  (`retrieval.dense`, `recommended`).
 - Mixed exact and conceptual workload: BM25 plus dense with RRF candidate.
 - Conversational follow-up: intent-preserving standalone-query rewrite.
 - Heterogeneous repeated workload: a logged sparse/dense/hybrid router only after oracle-route and confusion-matrix evaluation.

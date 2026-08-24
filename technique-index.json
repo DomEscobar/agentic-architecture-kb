@@ -1,796 +1,938 @@
 {
+  "lifecycle_counts": {
+    "recommended": 9,
+    "situational": 122,
+    "legacy": 1,
+    "deprecated": 0
+  },
+  "lifecycle_contract": "'recommended' is the routing default for its family. 'situational' applies only under its own use_when. 'legacy' and 'deprecated' must not be proposed for new work; read superseded_by instead.",
   "techniques": [
     {
       "technique_id": "chunking.adaptive.mixture",
       "path": "techniques/chunking/adaptive-mixture.json",
       "name": "Adaptive or Mixture Chunking",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.contextual.late",
       "path": "techniques/chunking/late-chunking.json",
       "name": "Late Chunking",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.contextual.neighbor-expansion",
       "path": "techniques/chunking/neighbor-expansion.json",
       "name": "Neighbor Expansion",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.contextual.prefix",
       "path": "techniques/chunking/contextual-prefix.json",
       "name": "Contextual Prefixing",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.fixed.recursive-split",
       "path": "techniques/chunking/recursive-split.json",
       "name": "Recursive Boundary-Aware Split",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "recommended"
     },
     {
       "technique_id": "chunking.fixed.sliding-overlap",
       "path": "techniques/chunking/sliding-overlap.json",
       "name": "Sliding Window with Overlap",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.fixed.token-window",
       "path": "techniques/chunking/fixed-token-window.json",
       "name": "Fixed Token Window",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "legacy",
+      "superseded_by": [
+        "chunking.fixed.recursive-split"
+      ]
     },
     {
       "technique_id": "chunking.hierarchical.parent-child",
       "path": "techniques/chunking/parent-child.json",
       "name": "Parent-Child Small-to-Big Retrieval",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.hierarchical.summary-tree",
       "path": "techniques/chunking/hierarchical-summary-tree.json",
       "name": "Hierarchical Summary Tree",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.hierarchical.tree-navigation",
       "path": "techniques/chunking/tree-navigation.json",
       "name": "Document Tree Navigation",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.semantic.proposition",
       "path": "techniques/chunking/proposition.json",
       "name": "Proposition Chunking",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.semantic.similarity",
       "path": "techniques/chunking/semantic-similarity.json",
       "name": "Semantic Similarity Chunking",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.specialized.code-ast",
       "path": "techniques/chunking/code-ast.json",
       "name": "AST-Aware Code Chunking",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.specialized.conversation-turn",
       "path": "techniques/chunking/conversation-turn.json",
       "name": "Conversation Turn and Episode Chunking",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.specialized.table-aware",
       "path": "techniques/chunking/table-aware.json",
       "name": "Structure-Aware Table Chunking",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.structural.section-aware",
       "path": "techniques/chunking/section-aware.json",
       "name": "Paragraph and Section-Aware Chunking",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.structural.sentence-window",
       "path": "techniques/chunking/sentence-window.json",
       "name": "Sentence Window",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "chunking.structural.title-chain",
       "path": "techniques/chunking/title-chain.json",
       "name": "Markdown Title-Chain Chunking",
-      "stage": "segmentation"
+      "stage": "segmentation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "context.citation.attribution-verifier",
       "path": "techniques/context/attribution-verifier.json",
       "name": "Post-Generation Attribution Verifier",
-      "stage": "context-assembly"
+      "stage": "context-assembly",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "context.citation.binding",
       "path": "techniques/context/citation-binding.json",
       "name": "Claim-to-Evidence Citation Binding",
-      "stage": "context-assembly"
+      "stage": "context-assembly",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "context.evidence.compression",
       "path": "techniques/context/evidence-compression.json",
       "name": "Evidence-Preserving Context Compression",
-      "stage": "context-assembly"
+      "stage": "context-assembly",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "context.missing-evidence.abstention",
       "path": "techniques/context/missing-evidence-abstention.json",
       "name": "Missing-Evidence Abstention",
-      "stage": "context-assembly"
+      "stage": "context-assembly",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "context.selection.position-aware-packing",
       "path": "techniques/context/position-aware-packing.json",
       "name": "Position-Aware Evidence Packing",
-      "stage": "context-assembly"
+      "stage": "context-assembly",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "context.sentence.evidence-selection",
       "path": "techniques/context/sentence-evidence-selection.json",
       "name": "Sentence-Level Evidence Selection",
-      "stage": "context-assembly"
+      "stage": "context-assembly",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "embedding.compression.quantized-index",
       "path": "techniques/embeddings/quantized-index.json",
       "name": "Quantized Embedding Index",
-      "stage": "embedding"
+      "stage": "embedding",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "embedding.contract.asymmetric-instructions",
       "path": "techniques/embeddings/asymmetric-instruction-contract.json",
       "name": "Asymmetric Embedding Instruction Contract",
-      "stage": "embedding"
+      "stage": "embedding",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "embedding.dense.domain-adapted",
       "path": "techniques/embeddings/domain-adapted.json",
       "name": "Domain-Adapted Dense Retriever",
-      "stage": "embedding"
+      "stage": "embedding",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "embedding.dense.long-input",
       "path": "techniques/embeddings/long-input.json",
       "name": "Long-Input Dense Embedding",
-      "stage": "embedding"
+      "stage": "embedding",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "embedding.dense.matryoshka-truncation",
       "path": "techniques/embeddings/matryoshka-truncation.json",
       "name": "Matryoshka-Compatible Dimension Truncation",
-      "stage": "embedding"
+      "stage": "embedding",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "embedding.dense.multilingual",
       "path": "techniques/embeddings/dense-multilingual.json",
       "name": "Multilingual Dense Bi-Encoder",
-      "stage": "embedding"
+      "stage": "embedding",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "embedding.hybrid.dense-sparse",
       "path": "techniques/embeddings/dense-sparse-hybrid.json",
       "name": "Dense and Sparse Hybrid Retrieval",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "embedding.migration.immutable-dual-index",
       "path": "techniques/embeddings/immutable-dual-index-migration.json",
       "name": "Immutable Dual-Index Embedding Migration",
-      "stage": "embedding"
+      "stage": "embedding",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "embedding.multivector.late-interaction",
       "path": "techniques/embeddings/multivector-late-interaction.json",
       "name": "Text Multi-Vector Late Interaction",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "embedding.sparse.learned",
       "path": "techniques/embeddings/learned-sparse.json",
       "name": "Learned Sparse Retrieval",
-      "stage": "embedding"
+      "stage": "embedding",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "evaluation.calibrated-trajectory-judge",
       "path": "techniques/evaluation/calibrated-trajectory-judge.json",
       "name": "Calibrated Trajectory Judge",
-      "stage": "evaluation"
+      "stage": "evaluation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "evaluation.coding-agent-project-replay",
       "path": "techniques/evaluation/coding-agent-project-replay.json",
       "name": "Coding-Agent Project Replay",
-      "stage": "evaluation"
+      "stage": "evaluation",
+      "lifecycle": "recommended"
     },
     {
       "technique_id": "evaluation.deterministic-state-oracle",
       "path": "techniques/evaluation/deterministic-state-oracle.json",
       "name": "Deterministic External-state Oracle",
-      "stage": "evaluation"
+      "stage": "evaluation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "evaluation.paired-perturbation-replay",
       "path": "techniques/evaluation/paired-perturbation-replay.json",
       "name": "Paired Perturbation Replay",
-      "stage": "evaluation"
+      "stage": "evaluation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "evaluation.protected-holdout",
       "path": "techniques/evaluation/protected-holdout.json",
       "name": "Protected Fresh Executable Holdout",
-      "stage": "evaluation"
+      "stage": "evaluation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "evaluation.security.adaptive-attack-replay",
       "path": "techniques/evaluation/adaptive-agent-attack-replay.json",
       "name": "Adaptive Agent Attack Replay",
-      "stage": "evaluation"
+      "stage": "evaluation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "evaluation.security.agent-benchmark-suite",
       "path": "techniques/evaluation/agent-security-benchmark-suite.json",
       "name": "Paired Agent Security Benchmark Suite",
-      "stage": "evaluation"
+      "stage": "evaluation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "evaluation.security.isolated-redteam-runner",
       "path": "techniques/evaluation/isolated-redteam-runner.json",
       "name": "Isolated Red-team Runner",
-      "stage": "evaluation"
+      "stage": "evaluation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "evaluation.shadow-canary-monitoring",
       "path": "techniques/evaluation/shadow-canary-monitoring.json",
       "name": "Shadow and Canary Online Evaluation",
-      "stage": "evaluation"
+      "stage": "evaluation",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "memory.episodic-event-log",
       "path": "techniques/memory/episodic-event-log.json",
       "name": "Immutable Episodic Event Log",
-      "stage": "memory-write"
+      "stage": "memory-write",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "memory.hybrid-read-router",
       "path": "techniques/memory/hybrid-read-router.json",
       "name": "Typed Hybrid Memory Read Router",
-      "stage": "memory-read"
+      "stage": "memory-read",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "memory.lineage-forgetting",
       "path": "techniques/memory/lineage-forgetting.json",
       "name": "Lineage-aware Verified Forgetting",
-      "stage": "memory-write"
+      "stage": "memory-write",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "memory.procedural-promotion",
       "path": "techniques/memory/procedural-promotion.json",
       "name": "Verified Procedural Memory Promotion",
-      "stage": "memory-write"
+      "stage": "memory-write",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "memory.security.influence-gated-write",
       "path": "techniques/memory/security-influence-gated-write.json",
       "name": "Influence-gated Memory Write",
-      "stage": "memory-write"
+      "stage": "memory-write",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "memory.semantic-consolidation",
       "path": "techniques/memory/semantic-consolidation.json",
       "name": "Lineage-aware Semantic Consolidation",
-      "stage": "memory-write"
+      "stage": "memory-write",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "memory.temporal-entity-graph",
       "path": "techniques/memory/temporal-entity-graph.json",
       "name": "Temporal Entity and Relation Graph",
-      "stage": "memory-read"
+      "stage": "memory-read",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.citation.region-anchored",
       "path": "techniques/multimodal/region-anchored-citation.json",
       "name": "Region-Anchored Visual Citation",
-      "stage": "context-assembly"
+      "stage": "context-assembly",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.fusion.chart-derender",
       "path": "techniques/multimodal/chart-derender-fusion.json",
       "name": "Chart Derendering and Direct-Visual Fusion",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.fusion.interleaved-document-representation",
       "path": "techniques/multimodal/interleaved-document-representation.json",
       "name": "Interleaved Multimodal Document Representation",
-      "stage": "embedding"
+      "stage": "embedding",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.fusion.layout-symbolic-neural",
       "path": "techniques/multimodal/layout-symbolic-neural.json",
       "name": "Layout-Symbolic plus Neural Retrieval",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.fusion.ocr-visual",
       "path": "techniques/multimodal/ocr-visual-fusion.json",
       "name": "OCR Text and Visual Candidate Fusion",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.reranking.cross-modal",
       "path": "techniques/multimodal/reranker.json",
       "name": "Bounded Multimodal Reranker",
-      "stage": "reranking"
+      "stage": "reranking",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.reranking.utility-evidence-selection",
       "path": "techniques/multimodal/utility-evidence-selection.json",
       "name": "Utility-Oriented Visual Evidence Selection",
-      "stage": "reranking"
+      "stage": "reranking",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.routing.query-and-corpus",
       "path": "techniques/multimodal/query-routing.json",
       "name": "Query and Corpus Modality Routing",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.routing.structured-table-sql",
       "path": "techniques/multimodal/structured-table-sql.json",
       "name": "Structured Table Retrieval with SQL Execution",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.visual.hybrid-vector",
       "path": "techniques/multimodal/hybrid-vector.json",
       "name": "Hybrid Single- and Multi-Vector Visual Retrieval",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.visual.late-interaction",
       "path": "techniques/multimodal/visual-late-interaction.json",
       "name": "Page-Image Late Interaction Retrieval",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "multimodal.visual.single-vector",
       "path": "techniques/multimodal/visual-single-vector.json",
       "name": "Page-Image Single-Vector Retrieval",
-      "stage": "embedding"
+      "stage": "embedding",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.managed.aws-textract",
       "path": "techniques/parsers/aws-textract.json",
       "name": "Amazon Textract",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.managed.azure-document-intelligence",
       "path": "techniques/parsers/azure-document-intelligence.json",
       "name": "Azure Document Intelligence",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.managed.google-document-ai",
       "path": "techniques/parsers/google-document-ai.json",
       "name": "Google Document AI Layout Parser",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.managed.llamaparse",
       "path": "techniques/parsers/llamaparse.json",
       "name": "LlamaParse Managed Parser",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.managed.mistral-ocr",
       "path": "techniques/parsers/mistral-ocr.json",
       "name": "Mistral OCR Managed Parser",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.native.anydoc",
       "path": "techniques/parsers/anydoc.json",
       "name": "Firecrawl AnyDoc",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.native.apache-tika",
       "path": "techniques/parsers/apache-tika.json",
       "name": "Apache Tika Format Router",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "recommended"
     },
     {
       "technique_id": "parser.native.pdfplumber",
       "path": "techniques/parsers/pdfplumber.json",
       "name": "pdfplumber Geometry Extraction",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.native.pymupdf",
       "path": "techniques/parsers/pymupdf.json",
       "name": "PyMuPDF Native Extraction",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "recommended"
     },
     {
       "technique_id": "parser.pipeline.docling-standard",
       "path": "techniques/parsers/docling-standard.json",
       "name": "Docling Standard Pipeline",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "recommended"
     },
     {
       "technique_id": "parser.pipeline.marker",
       "path": "techniques/parsers/marker.json",
       "name": "Marker PDF Conversion",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.pipeline.markitdown",
       "path": "techniques/parsers/markitdown.json",
       "name": "Microsoft MarkItDown",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.pipeline.mineru",
       "path": "techniques/parsers/mineru.json",
       "name": "MinerU Document Pipeline",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.pipeline.paddleocr-structure",
       "path": "techniques/parsers/paddleocr-structure.json",
       "name": "PaddleOCR PP-StructureV3",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.pipeline.unstructured",
       "path": "techniques/parsers/unstructured.json",
       "name": "Unstructured Partition Strategies",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.pipeline.xberg",
       "path": "techniques/parsers/xberg.json",
       "name": "Xberg Polyglot Document Intelligence",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.vlm.docling",
       "path": "techniques/parsers/docling-vlm.json",
       "name": "Docling VLM Pipeline",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.vlm.olmocr",
       "path": "techniques/parsers/olmocr.json",
       "name": "olmOCR VLM Parser",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "parser.vlm.paddleocr-vl",
       "path": "techniques/parsers/paddleocr-vl.json",
       "name": "PaddleOCR-VL",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.bm25",
       "path": "techniques/retrieval/bm25.json",
       "name": "BM25 Lexical Retrieval",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "recommended"
     },
     {
       "technique_id": "retrieval.dense",
       "path": "techniques/retrieval/dense.json",
       "name": "Dense Vector Retrieval",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "recommended"
     },
     {
       "technique_id": "retrieval.depth.tuning",
       "path": "techniques/retrieval/depth-tuning.json",
       "name": "Retrieval and Reranking Depth Tuning",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.hybrid.rrf",
       "path": "techniques/retrieval/hybrid-rrf.json",
       "name": "Hybrid Lexical-Dense Retrieval with RRF",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.iterative.gap-guided",
       "path": "techniques/retrieval/gap-guided-iterative.json",
       "name": "Gap-Guided Iterative Retrieval",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.metadata.permission-filter",
       "path": "techniques/retrieval/metadata-permission-filter.json",
       "name": "Metadata and Permission Filtering",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.query.decomposition",
       "path": "techniques/retrieval/question-decomposition.json",
       "name": "Dependency-Preserving Question Decomposition",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.query.multi-query",
       "path": "techniques/retrieval/multi-query.json",
       "name": "Bounded Multi-Query Expansion",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.query.rewrite",
       "path": "techniques/retrieval/query-rewrite.json",
       "name": "Intent-Preserving Query Rewriting",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.query.router",
       "path": "techniques/retrieval/query-router.json",
       "name": "Per-Query Retriever Router",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.rerank.cross-encoder",
       "path": "techniques/retrieval/cross-encoder-reranking.json",
       "name": "Cross-Encoder Reranking",
-      "stage": "reranking"
+      "stage": "reranking",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.rerank.mmr-diversity",
       "path": "techniques/retrieval/mmr-diversity.json",
       "name": "MMR Diversity Selection",
-      "stage": "reranking"
+      "stage": "reranking",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.security.authorization-first",
       "path": "techniques/retrieval/authorization-first-candidate-generation.json",
       "name": "Authorization-first Candidate Generation",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.security.citation-gate",
       "path": "techniques/retrieval/citation-security-gate.json",
       "name": "Fail-closed Citation and Output Security Gate",
-      "stage": "context-assembly"
+      "stage": "context-assembly",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.security.independent-source-corroboration",
       "path": "techniques/retrieval/independent-source-corroboration.json",
       "name": "Independent-source Retrieval Corroboration",
-      "stage": "reranking"
+      "stage": "reranking",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.security.index-integrity-monitor",
       "path": "techniques/retrieval/index-integrity-monitor.json",
       "name": "Retrieval Index Integrity Monitor",
-      "stage": "retrieval"
+      "stage": "retrieval",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.security.source-admission-quarantine",
       "path": "techniques/retrieval/source-admission-quarantine.json",
       "name": "Source Admission and Quarantine",
-      "stage": "ingestion"
+      "stage": "ingestion",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "retrieval.security.untrusted-context-separation",
       "path": "techniques/retrieval/untrusted-context-separation.json",
       "name": "Retrieved Instruction and Data Separation",
-      "stage": "context-assembly"
+      "stage": "context-assembly",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "rsi.archive-variant-search",
       "path": "techniques/rsi/archive-variant-search.json",
       "name": "Archive-based Agent Variant Search",
-      "stage": "improvement"
+      "stage": "improvement",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "rsi.bounded-prompt-search",
       "path": "techniques/rsi/bounded-prompt-search.json",
       "name": "Bounded Prompt and Demonstration Search",
-      "stage": "improvement"
+      "stage": "improvement",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "rsi.canary-kill-rollback",
       "path": "techniques/rsi/canary-kill-rollback.json",
       "name": "Canary Promotion with Kill Switch and Rollback",
-      "stage": "improvement"
+      "stage": "improvement",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "rsi.fixed-evaluator-epoch",
       "path": "techniques/rsi/fixed-evaluator-epoch.json",
       "name": "Fixed Evaluator Improvement Epoch",
-      "stage": "improvement"
+      "stage": "improvement",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "rsi.paired-promotion-gates",
       "path": "techniques/rsi/paired-promotion-gates.json",
       "name": "Paired Multi-objective Promotion Gates",
-      "stage": "improvement"
+      "stage": "improvement",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.approval-interrupt",
       "path": "techniques/runtime/approval-interrupt.json",
       "name": "Risk-scoped Approval Interrupt",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.bounded-action-loop",
       "path": "techniques/runtime/bounded-action-loop.json",
       "name": "Bounded Action and Observation Loop",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.coding-agent-instruction-stack",
       "path": "techniques/runtime/coding-agent-instruction-stack.json",
       "name": "Scoped Coding-Agent Instruction Stack",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "recommended"
     },
     {
       "technique_id": "runtime.custom-minimal-runtime",
       "path": "techniques/runtime/custom-minimal-runtime.json",
       "name": "Custom Minimal Agent Runtime",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.deepagents-harness",
       "path": "techniques/runtime/deepagents-harness.json",
       "name": "Deep Agents Long-Horizon Harness",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.deerflow-harness",
       "path": "techniques/runtime/deerflow-harness.json",
       "name": "DeerFlow Super-Agent Harness",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.durable-checkpoint-ledger",
       "path": "techniques/runtime/durable-checkpoint-ledger.json",
       "name": "Durable Checkpoint and Side-effect Ledger",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.evaluated-project-skill-package",
       "path": "techniques/runtime/evaluated-project-skill-package.json",
       "name": "Evaluated Project Skill Package",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "recommended"
     },
     {
       "technique_id": "runtime.google-adk-runtime",
       "path": "techniques/runtime/google-adk-runtime.json",
       "name": "Google Agent Development Kit Runtime",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.langgraph-runtime",
       "path": "techniques/runtime/langgraph-runtime.json",
       "name": "LangGraph Explicit State Runtime",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.microsoft-agent-framework",
       "path": "techniques/runtime/microsoft-agent-framework.json",
       "name": "Microsoft Agent Framework Runtime",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.openai-agents-sdk",
       "path": "techniques/runtime/openai-agents-sdk.json",
       "name": "OpenAI Agents SDK Runtime",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.openclaw-platform",
       "path": "techniques/runtime/openclaw-platform.json",
       "name": "OpenClaw Operational Agent Platform",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.plan-execute-state-machine",
       "path": "techniques/runtime/plan-execute-state-machine.json",
       "name": "Typed Plan and Execute State Machine",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.pydantic-ai-runtime",
       "path": "techniques/runtime/pydantic-ai-runtime.json",
       "name": "Pydantic AI Typed Agent Runtime",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.safety.transactional-effect-ledger",
       "path": "techniques/runtime/transactional-effect-ledger.json",
       "name": "Transactional Side-Effect Ledger",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.security.budget-kill-switch",
       "path": "techniques/runtime/security-budget-kill-switch.json",
       "name": "Security Budget Breaker and Kill Switch",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.security.capability-policy-gateway",
       "path": "techniques/runtime/capability-policy-gateway.json",
       "name": "Deterministic Capability Policy Gateway",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.security.delegated-short-lived-identity",
       "path": "techniques/runtime/delegated-short-lived-identity.json",
       "name": "Delegated Short-lived Agent Identity",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.security.extension-supply-chain-scan",
       "path": "techniques/runtime/extension-supply-chain-scan.json",
       "name": "Agent Extension Supply-chain Scan",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.security.isolated-tool-sandbox",
       "path": "techniques/runtime/isolated-tool-sandbox.json",
       "name": "Isolated Tool and Code Sandbox",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.security.mcp-plugin-admission",
       "path": "techniques/runtime/mcp-plugin-admission.json",
       "name": "MCP and Plugin Admission Control",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.security.mcp-resource-bound-authorization",
       "path": "techniques/runtime/mcp-resource-bound-authorization.json",
       "name": "MCP Resource-bound Authorization",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.security.risk-tiered-sandbox-profile",
       "path": "techniques/runtime/risk-tiered-sandbox-profile.json",
       "name": "Risk-tiered Agent Sandbox Profile",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.security.strict-tool-contract",
       "path": "techniques/runtime/strict-tool-contract.json",
       "name": "Strict Agent Tool Contract",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.security.untrusted-project-config-admission",
       "path": "techniques/runtime/untrusted-project-config-admission.json",
       "name": "Untrusted Project Configuration Admission",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.temporal-durable-substrate",
       "path": "techniques/runtime/temporal-durable-substrate.json",
       "name": "Temporal Durable Workflow Substrate",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     },
     {
       "technique_id": "runtime.tool-policy-gateway",
       "path": "techniques/runtime/tool-policy-gateway.json",
       "name": "Pre-execution Tool Policy Gateway",
-      "stage": "runtime"
+      "stage": "runtime",
+      "lifecycle": "situational"
     }
   ]
 }

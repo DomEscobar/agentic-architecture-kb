@@ -25,10 +25,12 @@ No entry is a universal winner; each must pass the private corpus slices.
 
 ## Native fast paths
 
-- **PyMuPDF:** born-digital PDFs, bounding boxes, fast local extraction. Escalate
-  scans, broken fonts, complex columns and layout-dependent tables.
-- **Apache Tika:** broad format detection, metadata and text normalization. Use
-  it as a front door and router, not as the final high-fidelity PDF parser.
+- **PyMuPDF** (`parser.native.pymupdf`, `recommended`): born-digital PDFs,
+  bounding boxes, fast local extraction. Escalate scans, broken fonts, complex
+  columns and layout-dependent tables.
+- **Apache Tika** (`parser.native.apache-tika`, `recommended`): broad format
+  detection, metadata and text normalization. Use it as a front door and router,
+  not as the final high-fidelity PDF parser.
 - **AnyDoc:** fast local normalization of office, OpenDocument, EPUB, CSV, RTF
   and text PDFs to consistent Markdown. Route image-only PDFs to OCR.
 - **pdfplumber:** detailed character and vector geometry plus debuggable table
@@ -36,8 +38,9 @@ No entry is a universal winner; each must pass the private corpus slices.
 
 ## Local modular pipelines
 
-- **Docling Standard:** mixed PDFs needing OCR, layout, tables and provenance;
-  strong default when local inspectability matters.
+- **Docling Standard** (`parser.pipeline.docling-standard`, `recommended`): mixed
+  PDFs needing OCR, layout, tables and provenance; strong default when local
+  inspectability matters.
 - **MinerU:** scientific, multilingual and formula-heavy documents; validate its
   licence and each language/document slice.
 - **Marker:** local PDF-to-Markdown with optional OCR and LLM escalation; gate
@@ -77,8 +80,9 @@ output is not proof that every emitted token or relationship exists on page.
 
 ## Minimum routing policy
 
-Start with PyMuPDF for clean born-digital pages. Escalate to a local structured
-pipeline when text coverage, reading-order confidence or detected structure
-falls below a calibrated threshold. Use a VLM or managed specialist only for
-hard slices it demonstrably improves. Store route, parser version, render
-settings, confidence signals and fallback history in parse provenance.
+Start with PyMuPDF (`parser.native.pymupdf`) for clean born-digital pages.
+Escalate to Docling Standard (`parser.pipeline.docling-standard`) when text
+coverage, reading-order confidence or detected structure falls below a calibrated
+threshold. Use a VLM or managed specialist only for hard slices it demonstrably
+improves. Store route, parser version, render settings, confidence signals and
+fallback history in parse provenance.

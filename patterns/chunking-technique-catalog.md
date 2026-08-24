@@ -21,8 +21,10 @@ relations:
 
 ## Controls
 
-- Fixed token windows provide a reproducible size baseline.
-- Recursive splitting provides a cheap boundary-aware baseline.
+- **Fixed token windows** (`chunking.fixed.token-window`, `legacy`): reproducible
+  ablation control only; do not use as a production default.
+- **Recursive splitting** (`chunking.fixed.recursive-split`, `recommended`): the
+  cheap boundary-aware production baseline.
 - Sliding overlap tests whether boundary recall justifies duplicate index cost.
 
 ## Natural and document structure
@@ -53,9 +55,11 @@ relations:
 
 ## Routing defaults
 
-Start with fixed and structure-aware candidates. Use proposition units for atomic
+Start with recursive boundary-aware splitting (`chunking.fixed.recursive-split`,
+`recommended`) and structure-aware candidates. Use proposition units for atomic
 fact questions, parent-child for fine matching plus broad answer context, AST for
 code, table-aware for relational rows, turn-aware for conversations, and hierarchy
 for synthesis across long documents. Promote prefixes, semantic, late, adaptive or
 LLM-generated structures only when paired evaluation pays for their added cost and
-failure surface.
+failure surface. Reserve fixed token windows for paired ablations, not production
+indexing.

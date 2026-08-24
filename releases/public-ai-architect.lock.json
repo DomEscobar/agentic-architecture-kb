@@ -2,15 +2,15 @@
   "schema_version": 1,
   "status": "deployed",
   "consumer": "public-ai-architect",
-  "canonical_sha256": "7c422f4dd27c69b2bb977f830178f4c1f53ef3bc550c63bcf1ecbfd73f04df5f",
-  "content_sha256": "519380cacd7fd081b76cc174c932b1c18fbbe07e8fb1d82ffc65756ff2931ef0",
-  "artifact_sha256": "c4d5c9f6b7b13fe428d33d8f58883b5a05e5b284c7ad3ce32802f0b70049db5a",
-  "image_sha256": "097618f4ea1e5a06c9a591f5f156aed3265e54eb26d07ca2bece7927b327f4ae",
-  "deployed_at": "2026-08-24T11:49:56+02:00",
-  "approved_by": "Dom via Telegram message 568",
+  "canonical_sha256": "1d64bdbf15f98ee60c6a835885fb46b90131e0dbcc1cd12dce8637b00e1d42f8",
+  "content_sha256": "4b0487e24d3b0f54dd9fec6847367a05043d103a5f34954495bf25a851c34974",
+  "artifact_sha256": "0226cb1d00d34dfa280ca4c171db9d083e40a4b581a15b4bb8f838d4e509fe33",
+  "image_sha256": "44b5b9ed7c525b36ad4dd018e4180532c78e3e7ca0203a2f39c2f6f6951a1219",
+  "deployed_at": "2026-08-24T12:33:50+02:00",
+  "approved_by": "Dom via Telegram message 572",
   "rollback": {
-    "image_sha256": "64f5055503467b846e6b7a5f42404836d21c6dd0a7c712c9350cf54e3bb68e2b",
-    "content_sha256": "0550ef11615cac71149a00477a1aa0bb99e895b1d3047e5a825c146149da4904"
+    "image_sha256": "097618f4ea1e5a06c9a591f5f156aed3265e54eb26d07ca2bece7927b327f4ae",
+    "content_sha256": "519380cacd7fd081b76cc174c932b1c18fbbe07e8fb1d82ffc65756ff2931ef0"
   },
-  "note": "Public Wiki v3 refreshed from canonical commit bf8db07; UI v13 retained and deployment verified healthy without a paid model call."
+  "note": "Public Wiki v3 refreshed from canonical commit 0e10ff3; lifecycle-aware routing exports recommended and situational techniques while excluding legacy and deprecated cards from public advice retrieval."
 }

@@ -41,6 +41,10 @@ WIKILINK = re.compile(r"\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|[^\]]+)?\]\]")
 REMOTE_SCHEMES = ("http://", "https://", "mailto:", "tel:", "data:")
 HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 TOKEN = re.compile(r"[\w-]+", re.UNICODE)
+# FTS5's default tokenizer splits on punctuation, so hyphenated query tokens
+# index as separate words. Coverage must use the same unit or a matched
+# hyphenated term is scored as missing.
+COVERAGE_TOKEN = re.compile(r"\w+", re.UNICODE)
 
 # A claim may only reach `accepted` at or above the evidence level its kind
 # demands. Empirical claims assert a measured effect and therefore need the
@@ -48,6 +52,17 @@ TOKEN = re.compile(r"[\w-]+", re.UNICODE)
 # requirement and are argued from an inspectable threat or failure model.
 MIN_ACCEPTED_LEVEL = {"empirical": 3, "normative": 2}
 EVIDENCE_LEVELS = {"E1": 1, "E2": 2, "E3": 3, "E4": 4}
+
+# A relaxed OR fallback that keeps near-universal tokens matches filler words and
+# returns confident-looking noise for out-of-scope questions. Tokens above this
+# document fraction carry no selectivity and are dropped from the fallback.
+MAX_SELECTIVE_DOCUMENT_FRACTION = 0.5
+# Below this share of selective query terms a relaxed match is reported as low
+# confidence so a caller does not read coverage into an accidental hit. The floor
+# is calibrated against `evals/wiki-retrieval-v1.json`: every labelled-relevant
+# retrieval in that pack scores at or above it, and the only case below it is a
+# miss. Confidence describes term-match strength, never answer correctness.
+MIN_RELAXED_TERM_COVERAGE = 0.5
 
 INDEX_LANES = {
     "RAG and knowledge systems": (
@@ -452,9 +467,74 @@ def build_fts(pages: list[Page], db_path: Path = INDEX_PATH) -> dict[str, Any]:
     return {"index": db_path.as_posix(), "page_count": len(pages), "section_count": len(sections)}
 
 
+def quote_token(token: str) -> str:
+    return f'"{token.replace(chr(34), chr(34) * 2)}"'
+
+
 def fts_expression(query: str) -> str:
     tokens = TOKEN.findall(query.lower())
-    return " AND ".join(f'"{token.replace(chr(34), chr(34) * 2)}"' for token in tokens)
+    return " AND ".join(quote_token(token) for token in tokens)
+
+
+def selective_tokens(connection: sqlite3.Connection, query: str) -> list[str]:
+    """Rank query tokens by corpus document frequency and drop filler terms.
+
+    Selectivity is measured against the whole index rather than a stopword list
+    so the behaviour stays language-agnostic and reproducible.
+    """
+    tokens = list(dict.fromkeys(TOKEN.findall(query.lower())))
+    total = connection.execute("SELECT count(*) FROM sections").fetchone()[0]
+    if not tokens or not total:
+        return []
+    frequencies = [
+        (
+            connection.execute(
+                "SELECT count(*) FROM sections_fts WHERE sections_fts MATCH ?",
+                (quote_token(token),),
+            ).fetchone()[0],
+            token,
+        )
+        for token in tokens
+    ]
+    selective = [
+        token
+        for count, token in frequencies
+        if count / total <= MAX_SELECTIVE_DOCUMENT_FRACTION
+    ]
+    # Every token is near-universal; keep the rarest one so the caller still
+    # sees the closest available material instead of the whole corpus.
+    return selective or [min(frequencies)[1]]
+
+
+def term_coverage(tokens: list[str], text: str) -> float:
+    expected = {word for token in tokens for word in COVERAGE_TOKEN.findall(token.lower())}
+    if not expected:
+        return 0.0
+    present = expected & set(COVERAGE_TOKEN.findall(text.lower()))
+    return round(len(present) / len(expected), 4)
+
+
+def match_confidence(match_mode: str, loaded: list[dict[str, Any]]) -> tuple[str, str]:
+    """Report how far a result set may be trusted as topic coverage."""
+    if not loaded:
+        return "none", (
+            "No section matched the selective query terms. The question is "
+            "probably outside the knowledge lanes listed in index.md."
+        )
+    if match_mode == "strict":
+        return "high", ""
+    best = max(item["term_coverage"] for item in loaded)
+    if best < MIN_RELAXED_TERM_COVERAGE:
+        return "low", (
+            "Only a relaxed term match was possible and the best section covers "
+            f"{best:.0%} of the selective query terms. Treat these sections as "
+            "the closest available material, not as topic coverage, and confirm "
+            "the lane in index.md before citing."
+        )
+    return "medium", (
+        "Relaxed term match. Confirm each loaded section addresses the question "
+        "before citing it."
+    )
 
 
 def search_fts(
@@ -492,10 +572,14 @@ def search_fts(
             return [dict(row) for row in connection.execute(sql, parameters)]
 
         expression = strict_expression
+        match_mode = "strict"
         candidates = execute(expression)
+        scoring_tokens = list(dict.fromkeys(TOKEN.findall(query.lower())))
         if not candidates and " AND " in strict_expression:
-            expression = strict_expression.replace(" AND ", " OR ")
-            candidates = execute(expression)
+            match_mode = "relaxed"
+            scoring_tokens = selective_tokens(connection, query)
+            expression = " OR ".join(quote_token(token) for token in scoring_tokens)
+            candidates = execute(expression) if expression else []
         loaded_ids = [item["section_id"] for item in candidates[:limit]]
         loaded: list[dict[str, Any]] = []
         if loaded_ids:
@@ -505,13 +589,28 @@ def search_fts(
                 loaded_ids,
             )
             text_by_id = {row["section_id"]: row["text"] for row in rows}
-            loaded = [{**item, "text": text_by_id[item["section_id"]]} for item in candidates[:limit]]
+            loaded = [
+                {
+                    **item,
+                    "text": text_by_id[item["section_id"]],
+                    "term_coverage": term_coverage(
+                        scoring_tokens,
+                        f"{item['title']} {item['heading_path']} {text_by_id[item['section_id']]}",
+                    ),
+                }
+                for item in candidates[:limit]
+            ]
     finally:
         connection.close()
+    confidence, advisory = match_confidence(match_mode, loaded)
     result = {
         "query": query,
         "strict_fts_expression": strict_expression,
         "fts_expression": expression,
+        "match_mode": match_mode,
+        "selective_tokens": scoring_tokens,
+        "confidence": confidence,
+        "advisory": advisory,
         "filters": {"privacy": privacy or [], "status": status or [], "type": page_type or []},
         "index": db_path.as_posix(),
         "candidate_count": len(candidates),

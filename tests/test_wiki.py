@@ -410,6 +410,57 @@ class WikiToolTests(unittest.TestCase):
                     query,
                 )
 
+    def test_search_confidence_separates_covered_from_out_of_scope(self):
+        root = MODULE_PATH.parents[1]
+        pack = json.loads((root / "evals" / "wiki-retrieval-v1.json").read_text(encoding="utf-8"))
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "wiki.sqlite"
+            wiki.build_fts(pages, index)
+            for case in pack["cases"]:
+                result = wiki.search_fts(
+                    case["query"],
+                    limit=5,
+                    privacy=["public", "internal"],
+                    status=["reviewed"],
+                    trace=False,
+                    db_path=index,
+                )
+                retrieved = {item["page_id"] for item in result["results"]}
+                if retrieved & set(case["relevant_page_ids"]):
+                    self.assertNotEqual(result["confidence"], "low", case["id"])
+                    self.assertNotEqual(result["confidence"], "none", case["id"])
+            out_of_scope = wiki.search_fts(
+                "design authentication user roles and postgres database schema for a web application",
+                limit=5,
+                privacy=["public", "internal"],
+                status=["reviewed"],
+                trace=False,
+                db_path=index,
+            )
+            self.assertIn(out_of_scope["confidence"], {"low", "none"})
+            self.assertTrue(out_of_scope["advisory"])
+
+    def test_relaxed_fallback_drops_non_selective_tokens(self):
+        pages, errors = wiki.load_pages()
+        self.assertEqual(errors, [])
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "wiki.sqlite"
+            wiki.build_fts(pages, index)
+            result = wiki.search_fts(
+                "a memory poisoning quarantine for the promotion of a candidate",
+                limit=5,
+                privacy=["public", "internal"],
+                status=["reviewed"],
+                trace=False,
+                db_path=index,
+            )
+        self.assertEqual(result["match_mode"], "relaxed")
+        self.assertNotIn("a", result["selective_tokens"])
+        self.assertNotIn("the", result["selective_tokens"])
+        self.assertIn("poisoning", result["selective_tokens"])
+
     def test_technique_index_is_generated_and_current(self):
         root = MODULE_PATH.parents[1]
         techniques, errors = wiki.load_techniques()

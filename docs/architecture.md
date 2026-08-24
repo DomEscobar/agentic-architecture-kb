@@ -32,6 +32,19 @@ type, stable ID, provenance, privacy class, confidence, temporal scope, and
 review date. Changes to existing knowledge are modeled as corrections,
 additions, or contradictions.
 
+Research papers are discovery inputs, not canonical knowledge units. A durable
+addition must close a specific decision gap, add a mechanism or test that is
+new to this KB, state its scope and exclusions, and improve retrieval for a
+concrete architecture or coding-agent question. Interesting but indirect,
+redundant, unactionable, or weakly reproducible findings remain in the research
+inbox or source registry.
+
+Every canonical novelty, correction, supersession, or reversion also appends a
+dated record to `changes/ledger.jsonl`. The record identifies the affected page,
+claim, technique, or governance file and states why the change passed the
+utility and evidence gates. Page timestamps and freshness dates remain the
+local validity metadata; the change ledger is the cross-cutting audit trail.
+
 ## Read path
 
 1. Classify the request and determine scope.
@@ -78,9 +91,9 @@ longer retrievable.
 ## Operations
 
 Every build validates JSON Schema, dead links, duplicate IDs, missing sources,
-contradictions, stale pages, and privacy markers. Git provides review, diffs, and
-rollback. Backups must cover the repository and private raw sources separately;
-derived indexes need no independent backup.
+contradictions, dated change records, stale pages, and privacy markers. Git
+provides review, diffs, and rollback. Backups must cover the repository and
+private raw sources separately; derived indexes need no independent backup.
 
 Telemetry includes query class, filters, candidate IDs, ranks, latency, token
 cost, sources used, and user feedback. Prompts or content are recorded only as

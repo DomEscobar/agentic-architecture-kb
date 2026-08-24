@@ -61,6 +61,7 @@ constraints, or continued agent work.
 - [Knowledge Map](index.md)
 - [System architecture](docs/architecture.md)
 - [Research and tool selection](docs/research.md)
+- [Dated change ledger](changes/ledger.jsonl)
 - [MVP and roadmap](docs/roadmap.md)
 - [ADR-0001: Markdown and Git as the source of truth](docs/adr/0001-markdown-git-source-of-truth.md)
 - [Page schema](schemas/page.schema.json)
@@ -78,6 +79,7 @@ cases/       concrete architecture decisions and outcomes
 entities/    people, projects, systems, and organizations
 syntheses/   evidence-backed summaries derived from sources
 reports/     generated quality and governance reports
+changes/     append-only dated records for canonical knowledge changes
 ```
 
 ## Status

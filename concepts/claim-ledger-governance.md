@@ -6,7 +6,7 @@ status: reviewed
 privacy: public
 confidence: 0.94
 created_at: 2026-08-12T18:40:00+02:00
-updated_at: 2026-08-14T10:47:00+02:00
+updated_at: 2026-08-24T09:55:00+02:00
 review_at: 2026-11-12
 source_ids:
   - source-agent-evaluation-research-2026
@@ -42,10 +42,36 @@ kind, evidence level, source pages, scope, limitations, and a review date.
 - Contradictions are bidirectional `contradicts` edges; both claims become
   `contested` or `superseded`. They are never silently removed.
 
+## Utility gate
+
+A paper, repository, release, benchmark, or scout result is never itself a
+promotion unit. A candidate claim enters canonical content only when it:
+
+- answers a concrete architecture or coding-agent decision;
+- adds a mechanism, boundary, failure mode, or regression test not already
+  represented by the KB;
+- can state `use_when`, exclusions, evidence limits, and a verification path;
+- is narrower than or equal to the supporting evidence; and
+- improves retrieval precision enough to justify its maintenance cost.
+
+Candidates that are indirect, redundant, unactionable, artifact-incomplete, or
+only academically interesting remain in the research inbox or source registry.
+Popularity and a `READ` scout verdict are discovery signals, not promotion
+evidence.
+
+## Dated change records
+
+Every canonical novelty, correction, supersession, or reversion appends one
+record to `changes/ledger.jsonl`. The record pins the decision date, affected
+targets, rationale, practical impact, and status. Existing page timestamps,
+claim review dates, and technique freshness metadata continue to describe the
+target itself; the append-only ledger records why and when the KB changed.
+
 ## Mechanical guarantees
 
-The linter rejects malformed claims, duplicate claim IDs, missing section IDs,
-unknown or non-source pages, kind/level/status combinations that violate the
-promotion contract, accepted claims backed only by private sources, and
-one-sided contradiction edges. The compiled JSON contains the ledger so
-retrieval and evaluation systems can expose provenance with answers.
+The linter rejects malformed claims or change records, duplicate IDs, missing
+section IDs, unknown claim sources or change targets, kind/level/status
+combinations that violate the promotion contract, accepted claims backed only
+by private sources, and one-sided contradiction edges. The compiled JSON
+contains both ledgers so retrieval and evaluation systems can expose provenance
+and dated change history with answers.

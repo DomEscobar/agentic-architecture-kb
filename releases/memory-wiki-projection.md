@@ -1,6 +1,6 @@
 # Agentic Architect canonical projection
 
-Canonical SHA-256: `caf7208e8f090042aed37cfbd1352e4431a4b9ed745a79a0f214698583d9210d`
+Canonical SHA-256: `0e824049e83ea69711754b118325a68a68753444ec15c6cece53eba3c065512d`
 
 This is a generated, one-way projection. The canonical source is `agentic-architecture-kb`;
 edits here must never reverse-sync into the canonical repository.
@@ -255,13 +255,39 @@ kind, evidence level, source pages, scope, limitations, and a review date.
 - Contradictions are bidirectional `contradicts` edges; both claims become
   `contested` or `superseded`. They are never silently removed.
 
+## Utility gate
+
+A paper, repository, release, benchmark, or scout result is never itself a
+promotion unit. A candidate claim enters canonical content only when it:
+
+- answers a concrete architecture or coding-agent decision;
+- adds a mechanism, boundary, failure mode, or regression test not already
+  represented by the KB;
+- can state `use_when`, exclusions, evidence limits, and a verification path;
+- is narrower than or equal to the supporting evidence; and
+- improves retrieval precision enough to justify its maintenance cost.
+
+Candidates that are indirect, redundant, unactionable, artifact-incomplete, or
+only academically interesting remain in the research inbox or source registry.
+Popularity and a `READ` scout verdict are discovery signals, not promotion
+evidence.
+
+## Dated change records
+
+Every canonical novelty, correction, supersession, or reversion appends one
+record to `changes/ledger.jsonl`. The record pins the decision date, affected
+targets, rationale, practical impact, and status. Existing page timestamps,
+claim review dates, and technique freshness metadata continue to describe the
+target itself; the append-only ledger records why and when the KB changed.
+
 ## Mechanical guarantees
 
-The linter rejects malformed claims, duplicate claim IDs, missing section IDs,
-unknown or non-source pages, kind/level/status combinations that violate the
-promotion contract, accepted claims backed only by private sources, and
-one-sided contradiction edges. The compiled JSON contains the ledger so
-retrieval and evaluation systems can expose provenance with answers.
+The linter rejects malformed claims or change records, duplicate IDs, missing
+section IDs, unknown claim sources or change targets, kind/level/status
+combinations that violate the promotion contract, accepted claims backed only
+by private sources, and one-sided contradiction edges. The compiled JSON
+contains both ledgers so retrieval and evaluation systems can expose provenance
+and dated change history with answers.
 
 ## Evaluation Metric Catalog and Selection Rules
 
@@ -504,7 +530,7 @@ was used to design the defense cannot serve as the only release holdout.
 
 Canonical ID: `pattern-agentic-corrective-retrieval`  
 Type: `pattern` · Privacy: `internal` · Confidence: `0.88`  
-Sources: `source-rag-developments-2026-batch-1`
+Sources: `source-rag-developments-2026-batch-1`, `source-mistral-agentic-search-2026`
 
 # Agentic and Corrective Retrieval
 
@@ -531,6 +557,27 @@ services where possible.
 
 These names should not be collapsed into a generic “agent loop”.
 
+## Navigable source tool contract
+
+For long documents, give the controller two distinct surfaces:
+
+- global ranked discovery returning a stable opaque chunk ID, source ID and
+  positional locator; and
+- deterministic source-local operations to open the hit, move to adjacent
+  chunks, read an exact half-open range and grep within that source.
+
+The controller, not the model prompt, owns a set of seen result IDs. Each
+iteration excludes or deduplicates those IDs and terminates when retrieval
+produces no unique evidence. Backends that advertise exclusion still require
+an end-to-end contract test; a query-model field that is not reachable from the
+agent tool does not prevent loops.
+
+Keep search and navigation read-only for ordinary agent runs. Ingestion and
+deletion belong behind a separate administrative authority, with source and
+tenant authorization applied before both ranked search and local navigation.
+Treat local indexing, remote OCR and remote embedding as separate privacy and
+egress decisions.
+
 ## Winning conditions
 
 - queries vary substantially in complexity and source needs;
@@ -543,6 +590,7 @@ These names should not be collapsed into a generic “agent loop”.
 - hard limits for iterations, subqueries, sources, tokens, time and spend;
 - typed evidence ledger and coverage by sub-question;
 - no-progress and duplicate-query detection;
+- stable source-local offsets and controller-owned seen-result deduplication;
 - untrusted web/tool content remains data, never policy;
 - external-source fallback respects privacy and authorization;
 - abstention when the evaluator is uncertain;
@@ -554,6 +602,10 @@ Compare against a fixed hybrid+rereanker baseline and slice simple versus
 complex queries. Measure answer/evidence accuracy, correction precision,
 unnecessary-retrieval rate, steps, latency, cost and failure recovery. A gain on
 complex cases can still lose overall if the router overuses expensive paths.
+
+For navigable retrieval, additionally test search-to-open identity, neighbour
+ordering, range boundaries, source/tenant isolation, source-local grep,
+zero-new-evidence termination and denial of mutation tools to read-only runs.
 
 ## Agentic RAG Security Architecture
 
@@ -1122,7 +1174,7 @@ evidence register.
 
 Canonical ID: `pattern-evaluation-statistical-decision-rules`  
 Type: `pattern` · Privacy: `internal` · Confidence: `0.89`  
-Sources: `source-evaluation-consulting-research-2026`
+Sources: `source-evaluation-consulting-research-2026`, `source-phantom-gains-measured-null-2026`
 
 # Statistical Decision Rules for Agent Evaluations
 
@@ -1143,6 +1195,19 @@ Size from baseline, smallest important delta, power/error tolerance and slice
 needs; no universal minimum exists. Separate a primary decision from exploratory
 metrics. Correct/control multiplicity when many variants or slices are searched.
 Repeated holdout use turns it into selection data.
+
+## Transition-level capability claims
+
+Per-item claims that a model learned, forgot, corrupted or expanded a capability
+compare noisy estimates and can report transitions when the model is unchanged.
+For every such statistic, run a frozen model through the identical benchmark,
+sampling, checkpoint, batching, decoding and grading design. Use the resulting
+distribution as the design-matched null rather than assuming zero.
+
+Report its interval and effect-size envelope, retain frozen replicates for a
+negative-control check, and control multiplicity across tested problems and
+arms. A null measured for one model, benchmark or checkpoint design does not
+transfer automatically to another.
 
 ## Promotion rule
 
@@ -4342,6 +4407,130 @@ Always retain BM25 and the incumbent. Evaluate language, code-switching, domain 
 
 Embedding spaces from different revisions are not assumed compatible. Build a new immutable index, verify manifest coverage, shadow or dual-read, run paired replay, rehearse rollback, then switch an alias. Never overwrite the champion vectors in place.
 
+## EnvHarness — Adaptive Wrappers for Agent-Learning Environments
+
+Canonical ID: `source-envharness-adaptive-environment-wrapper-2026`  
+Type: `source` · Privacy: `public` · Confidence: `0.78`  
+Sources: none
+
+# EnvHarness — Adaptive Wrappers for Agent-Learning Environments
+
+Primary material checked on 2026-08-24:
+
+- [EnvHarness: Awakening Static Worlds for Agent Learning,
+  arXiv:2608.19880v1](https://arxiv.org/abs/2608.19880v1)
+- [Public Apache-2.0 implementation, commit
+  `fab7d57441f06b75c73a900e04561d4d7600f361`](https://github.com/google-research/envharness/tree/fab7d57441f06b75c73a900e04561d4d7600f361)
+
+## Evidence class
+
+E2 for empirical superiority and E2 for the released mechanism. This is a
+four-day-old author-reported v1 preprint without peer review or independent
+replication. The paper supplies five benchmark comparisons, held-out task
+splits, three-run means and standard deviations for the skill experiments,
+ablations, cross-model checks, compute estimates and public code. It does not
+report paired confidence intervals or hypothesis tests, and its reinforcement-
+learning comparison uses one fixed seed.
+
+## Mechanism
+
+EnvHarness wraps a resettable `ActionableEnv` at its standard interface. `Setup`
+replays actions after reset, `Rules` can filter actions, transitions and
+observations, and `Link` serially composes environments. EnvRigger observes five
+baseline policy rollouts, generates Python components targeting diagnosed
+failures, validates each candidate on five fresh rollouts and revises at most
+five times. Skills are then distilled from accepted training trajectories and
+evaluated on original, unreshaped held-out tasks.
+
+The useful architectural hypothesis is narrow: adapt a reproducible training
+environment at its interface to expose a diagnosed weakness, while keeping
+downstream evaluation on untouched tasks. This may create more informative
+practice trajectories without rebuilding a simulator or replacing its scorer.
+It is a candidate technique inside a bounded improvement loop, not evidence for
+uncontrolled co-evolution.
+
+## Tested scope and reported results
+
+The skill experiments cover ALFWorld, WebArena, SWE-bench Verified, OfficeQA
+and SpreadsheetBench. Training and evaluation tasks are disjoint within the
+authors' stated splits; each evaluation instance is attempted once per run and
+the tables report means and standard deviations over three runs. Compared with
+skills induced from the original environments, EnvHarness-induced skills report:
+
+- ALFWorld average success 68.3 versus 62.4, including OOD success 70.4 versus
+  61.4;
+- WebArena average success 41.6 versus 38.5;
+- SWE-bench Verified success 52.58 versus 49.88 and mean steps 49.61 versus
+  55.01;
+- OfficeQA exact match 56.20 versus 54.40 and F1 57.73 versus 55.77;
+- SpreadsheetBench Pass@1 49.15 versus 45.88 and mean score 62.48 versus 61.47.
+
+These are benchmark-specific author results, not deployment priors. The
+leave-one-task-type ALFWorld analysis averages +3.1 points but includes an
+8.7-point regression on the `heat` slice. The RL experiment trains Qwen3-8B-base
+with GRPO on one 8×H100 node using fixed seed 0; it improves three of four
+reported metrics and slightly regresses ALFWorld OOD success from 89.6 to 88.8.
+
+The paper estimates 228.0M tokens for EnvHarness versus 64.2M for GenEnv on
+ALFWorld, and 137.3M versus 137.8M for VeriEnv on WebArena. These rows execute
+different kinds of rollouts and therefore do not establish a general
+cost-efficiency advantage.
+
+## Artifact audit
+
+The repository's offline suite passed 115/115 tests locally at the pinned
+commit. This checks interface behavior, composition, persistence, objectives,
+the orchestrator and failure handling. It does not reproduce model calls,
+benchmark datasets, skill induction, full experiments or RL training.
+
+The release is unusually explicit about bridge contracts, state serialization,
+timeouts and cleanup. However, its README's “isolated subprocess” wording must
+not be interpreted as a security boundary. `load_rules_subclass` calls Python
+`exec` with normal builtins, while `SubprocessRunner` inherits the parent
+environment and adds only a timeout and import-path controls. There is no
+capability restriction, credential stripping, filesystem isolation,
+deny-by-default network policy or resource sandbox.
+
+More importantly, verifier preservation is a framework convention rather than
+an enforced invariant in the pinned loader. The loader checks only that emitted
+code defines a `_Rules` subclass. A local audit confirmed that it accepts a
+subclass overriding `evaluate()`, although the generation prompt asks for the
+three intended hooks. The original benchmark verifier may remain unchanged in
+the authors' experiments, but deployments cannot rely on that property without
+an AST/method allowlist, immutable evaluator boundary and adversarial tests.
+
+## Operational interpretation
+
+Use the mechanism only for resettable, disposable training environments. Keep
+the environment designer away from protected evaluation tasks and expected
+outputs. Treat generated rules as untrusted code: execute them in a hardened
+disposable sandbox with no ambient credentials, restricted mounts and egress,
+resource limits and externally controlled termination. Enforce the allowed hook
+surface mechanically and run the trusted evaluator outside the generated-code
+process over terminal backend state.
+
+Compare adapted-environment skills against no-skill and original-environment
+skills on paired untouched tasks. Report task-cluster uncertainty, repeated
+runs, regressions by slice, interaction steps, tokens, wall time and
+infrastructure failures. Promotion still requires an independent protected
+confirmation, canary, kill switch and rollback.
+
+## Limits and falsifiers
+
+The method requires a reset/step interface and excludes live irreversible
+services. Current components operate on textual actions and observations; Link
+supports serial conjunction rather than semantically coupled branching or
+shared state. Environment construction can require many model rollouts and the
+reported gains may depend on the benchmark, split, designer model, skill
+induction method and retrieval setup.
+
+Independent reproduction with pinned end-to-end artifacts, multiple RL seeds,
+paired uncertainty and fresh task families would raise confidence. Failure to
+transfer to untouched distributions, regressions under matched token budgets,
+or verifier/sandbox bypasses would weaken the claim. Until then, EnvHarness is
+a useful experimental candidate for bounded environment adaptation, not a
+canonical production architecture or evidence of recursive self-improvement.
+
 ## Evaluation Consulting Research August 2026
 
 Canonical ID: `source-evaluation-consulting-research-2026`  
@@ -4515,6 +4704,98 @@ from read ranking. Expiry, supersession, archival, index removal and verified
 erasure are also distinct operations. Evaluate the full write-maintain-read-use
 chain and include poisoned, stale, conflicting and irrelevant memories.
 
+## Mistral Agentic Search — Navigable Retrieval Tool Contract
+
+Canonical ID: `source-mistral-agentic-search-2026`  
+Type: `source` · Privacy: `public` · Confidence: `0.86`  
+Sources: none
+
+# Mistral Agentic Search — Navigable Retrieval Tool Contract
+
+Primary material checked on 2026-08-24:
+
+- [Product and benchmark announcement](https://mistral.ai/news/agentic-search/)
+- [Agentic Search documentation](https://docs.mistral.ai/studio/search/agentic-search)
+- [Search Toolkit documentation](https://docs.mistral.ai/studio/search/search-toolkit)
+- [MIT starter application, commit
+  `4c8c7ac611d6f818c6b3189edc97a45369ec65d2`](https://github.com/mistralai/search-starter-app/tree/4c8c7ac611d6f818c6b3189edc97a45369ec65d2)
+- [`mistralai-search-toolkit` 0.0.11](https://pypi.org/project/mistralai-search-toolkit/0.0.11/),
+  wheel SHA-256 `e7fcf78784a814570b240e821af768d40d3b7cfd5649a05e140489baa0e61707`
+
+## Evidence class
+
+E2 for the inspectable implementation and its interface contracts. Mistral's
+FinanceBench, OfficeQA Pro, latency and token-use improvements are vendor-run
+results without an independent reproduction or public end-to-end benchmark
+replay in the starter repository. They are not promoted as effectiveness
+claims.
+
+## Implemented mechanism
+
+The published package defines a runtime-checkable `NavigableIndex` contract.
+Search results carry an opaque chunk ID, source ID and half-open
+`[start_offset, end_offset)` positions. Separate operations resolve a hit,
+read a source range, move to adjacent chunks in reading order and perform
+source-local lexical grep. The starter exposes these operations over MCP.
+
+This adds a concrete interface boundary to existing iterative-retrieval
+patterns: global ranked discovery and source-local deterministic navigation
+should not be collapsed into repeated semantic searches. Stable positional
+identity lets a controller expand context around a hit, inspect exact ranges
+and test whether an iteration produced genuinely new evidence.
+
+## Artifact audit
+
+A project generated from the pinned starter installed successfully. Its test
+suite reported three passing tests and one skipped backend roundtrip because no
+Vespa service was running; both ingestion and search CLI entry points loaded.
+The tests exercise MCP schemas and `open` neighbour logic but do not reproduce
+the announced quality, latency or cost results.
+
+The documented MCP signature includes `exclude_ids`, but the pinned starter's
+`search(query, top_k)` tool does not expose it. Toolkit 0.0.11 declares
+`exclude_ids` in a query model, while its high-level query-engine method does
+not pass the field through. Consequently, repeat-result prevention is an
+advertised capability rather than an end-to-end property of this audited
+starter. A consuming controller must maintain a seen-ID set, deduplicate
+results and stop when no unique evidence remains.
+
+The package specifies exclusive end offsets, while the starter's MCP `read`
+docstring describes the end offset as inclusive. Contract tests must therefore
+pin range semantics and boundary behaviour rather than infer them from tool
+descriptions.
+
+## Authority and privacy boundary
+
+The same starter MCP server exposes read tools and the mutating `ingest` and
+`delete` tools. Ingestion accepts local paths, directories, `file://` and HTTP
+URLs. Non-text extraction defaults to Mistral OCR and embeddings use the
+Mistral API, so a locally hosted Vespa index does not imply local-only document
+processing.
+
+Production and coding-agent deployments should expose a read-only retrieval
+surface to ordinary agent runs and place ingestion and deletion behind a
+separate administrative authority. Filesystem roots, network egress, source
+ACLs and tenant filters must be enforced before search and navigation. Remote
+OCR and embedding calls require an explicit data-egress decision.
+
+## Practical regression contract
+
+- A search hit opens to the same anchor and correct previous/next chunks in
+  reading order.
+- Range reads use one documented half-open convention and never cross a source
+  or tenant boundary.
+- Grep remains source-local and returns stable locators.
+- Repeated retrieval cannot re-enter already-seen chunk IDs; if the backend
+  lacks exclusion, the controller deduplicates and stops on zero new evidence.
+- Read-only agent credentials cannot ingest or delete documents.
+- Egress tests distinguish local indexing from remote OCR and embedding.
+
+This is a portable tool and test contract for document-heavy agent research,
+including coding agents consulting specifications and documentation. It is not
+a coding harness, code indexer, RSI mechanism or general recommendation to use
+Mistral's stack.
+
 ## Multimodal Document Retrieval Evidence 2025
 
 Canonical ID: `source-multimodal-document-retrieval-2025`  
@@ -4676,6 +4957,88 @@ than scanned PDFs; it is not an OCR fallback.
 Pandoc, Mammoth and headless LibreOffice remain converter or rendering fallbacks,
 not general parser cards. They may be evaluated for their specific native formats,
 but they do not replace OCR, layout analysis or visual document understanding.
+
+## Phantom Gains — Measured Nulls for Self-Improvement Claims
+
+Canonical ID: `source-phantom-gains-measured-null-2026`  
+Type: `source` · Privacy: `public` · Confidence: `0.86`  
+Sources: none
+
+# Phantom Gains — Measured Nulls for Self-Improvement Claims
+
+Primary material checked on 2026-08-21:
+
+- [Phantom Gains: Auditing Self-Improvement Against a Measured Null,
+  arXiv:2608.20290v1](https://arxiv.org/abs/2608.20290)
+- [Public analysis code and reduced per-problem records, commit
+  `ccb887872e3c684fa2fb532bbd44064a7da07821`](https://github.com/chengxuphd/phantom-gains/tree/ccb887872e3c684fa2fb532bbd44064a7da07821)
+
+## Evidence class
+
+E3 for the bounded measurement claim. The preprint provides matched frozen-model
+controls, multiple training seeds, explicit positive controls, sensitivity and
+power analyses, and public code plus reduced records for all 48 reported runs.
+This is strong primary evidence, not independent replication.
+
+## Tested scope
+
+The study evaluates transition-level learning, corruption and expansion metrics
+for Qwen3-8B with rank-32 LoRA on mathematics workloads. It compares three-round
+self-training and external-distillation arms against an unchanged model passed
+through the same sampling and evaluation pipeline. The main evaluation sets are
+MATH-500, AIME 2025–2026 and a deliberately selected 1,163-problem difficulty
+band. Each problem is sampled 128 times per evaluated checkpoint.
+
+## Supported finding
+
+An unchanged model can produce non-zero per-problem capability transitions when
+two noisy estimates are differenced. A conventional one-success expansion rule
+reported 7 transitions among 25 base-unreached AIME problems, an apparent rate
+of 0.280, despite unchanged weights. Across 11 independent frozen AIME
+evaluations, the 110 ordered comparisons gave the repaired two-success rule a
+pooled null of 146/2,530 = 0.058, with a task-cluster bootstrap 95% interval of
+[0.038, 0.078].
+
+The paper replaces the threshold rule with a per-problem exact test against
+1,408 pooled baseline draws under false-discovery-rate control. That procedure
+returned zero detections on each of 11 held-out frozen replicates in the tested
+setting. The result supports measuring a separate, design-matched frozen-model
+null for every transition statistic rather than assuming that its unchanged
+value is zero.
+
+## Artifact audit
+
+The repository's offline suite passed 45/45 tests locally on 2026-08-21. Running
+`analysis/nulls.py` reproduced the reported AIME two-success null of 146/2,530 =
+0.058 with interval [0.038, 0.078], together with the published matched floors
+for the difficulty band and MATH-500.
+
+This verifies the released analysis over reduced per-problem records. It does
+not reproduce hosted sampling, training or grading from first principles. The
+repository contains 19 MB of reduced counts; approximately 15 GB of raw
+generation text is available only on request.
+
+## Operational interpretation
+
+For transition-level improvement claims, the control must match the treatment's
+benchmark, sampling count, checkpoint count, batching path, decoding and
+grading. Report the null distribution, uncertainty and effect-size envelope;
+reserve frozen replicates for negative-control validation and correct for
+multiple testing across problems and arms.
+
+Do not transfer the numerical null rates to another model or workload. Measure
+them again under the target design. This source does not establish that
+self-training generally fails, that external distillation generally wins, or
+that the reported policy-gradient collapse transfers beyond the tested
+configuration.
+
+## What would change the claim
+
+Independent reproduction across other backbones, domains and inference stacks
+would raise confidence and may identify analytic nulls that replace some
+empirical controls. Failure of the released analysis on the pinned records, or
+a matched frozen control that does not reproduce the reported floors, would
+contest this source record.
 
 ## Public AI Architect Validation Artifacts August 2026
 
@@ -7260,11 +7623,11 @@ Use when: Multi-hop evidence dependencies cannot be expressed fully before the f
 
 Avoid when: Direct questions dominate; Evidence-sufficiency judgments are uncalibrated or no hard iteration budget exists
 
-Failure modes: Self-confirming queries reinforce an early false premise; False sufficiency stops before required evidence; Repeated queries inflate latency and cost without new evidence
+Failure modes: Self-confirming queries reinforce an early false premise; False sufficiency stops before required evidence; Repeated queries inflate latency and cost without new evidence; Unstable offsets or cross-source navigation detach evidence from the discovered anchor; A declared exclusion field that is absent from the agent-facing tool allows repeat-result loops
 
-Required evals: hop and final evidence recall; new-evidence yield per iteration; stop correctness and loop-limit sentinels; latency token cost and tool calls
+Required evals: hop and final evidence recall; new-evidence yield per iteration; stop correctness and loop-limit sentinels; latency token cost and tool calls; search-to-open identity neighbour ordering and half-open range boundaries; seen-ID exclusion or controller deduplication with zero-new-evidence termination; source and tenant isolation plus read-only denial of ingest and delete
 
-Evidence: `E3` from `source-retrieval-context-landscape-2026-08`; reviewed `2026-10-12`.
+Evidence: `E3` from `source-retrieval-context-landscape-2026-08`, `source-mistral-agentic-search-2026`; reviewed `2026-10-24`.
 
 ### Metadata and Permission Filtering
 

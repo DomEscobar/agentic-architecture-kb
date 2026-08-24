@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-08-17T08:05:00+02:00` · 93 pages · 74 claims · 132 technique cards
+Revision: `2026-08-24T10:40:00+02:00` · 96 pages · 76 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -130,7 +130,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (36)
+### Sources (39)
 
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
 - [Agent Evaluation Technique Evidence Audit August 2026](sources/evaluation-techniques-2026-08.md)
@@ -154,12 +154,15 @@ These lists are generated from the same page metadata compiled into
 - [DomEscobar bauhelfer-ki](sources/domescobar-bauhelfer-ki.md)
 - [DomEscobar Eval-Oigl](sources/domescobar-eval-oigl.md)
 - [Embedding Selection and Migration Evidence Audit 2026-08](sources/embedding-landscape-2026-08.md)
+- [EnvHarness — Adaptive Wrappers for Agent-Learning Environments](sources/envharness-adaptive-environment-wrapper-2026.md)
 - [Evaluation Consulting Research August 2026](sources/evaluation-consulting-research-2026.md)
 - [Memory Operational Baselines and Tenancy Evidence Audit August 2026](sources/memory-operational-baselines-and-tenancy-2026-08.md)
+- [Mistral Agentic Search — Navigable Retrieval Tool Contract](sources/mistral-agentic-search-2026.md)
 - [Multilingual Embedding Evaluation Evidence 2025](sources/embedding-evaluation-2025.md)
 - [Multimodal Document Retrieval Evidence 2025](sources/multimodal-document-retrieval-2025.md)
 - [Multimodal RAG Evidence Audit 2026-08](sources/multimodal-rag-landscape-2026-08.md)
 - [Parser Landscape and Use-Case Audit August 2026](sources/parser-landscape-2026-08.md)
+- [Phantom Gains — Measured Nulls for Self-Improvement Claims](sources/phantom-gains-measured-null-2026.md)
 - [Public AI Architect Validation Artifacts August 2026](sources/public-ai-architect-validation-2026-08.md)
 - [RAG Architecture Search Evidence 2026](sources/rag-architecture-search-2026.md)
 - [RAG Developments 2026 Research Batch 1](sources/rag-developments-2026-batch-1.md)

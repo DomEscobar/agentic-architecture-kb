@@ -24,6 +24,8 @@ CONTENT_DIRS = ("inbox", "sources", "concepts", "patterns", "cases", "entities",
 SCHEMA_PATH = ROOT / "schemas" / "page.schema.json"
 CLAIM_SCHEMA_PATH = ROOT / "schemas" / "claim.schema.json"
 CLAIM_LEDGER_PATH = ROOT / "claims" / "ledger.jsonl"
+CHANGE_SCHEMA_PATH = ROOT / "schemas" / "change.schema.json"
+CHANGE_LEDGER_PATH = ROOT / "changes" / "ledger.jsonl"
 TECHNIQUE_SCHEMA_PATH = ROOT / "schemas" / "technique-card.schema.json"
 TECHNIQUE_DIR = ROOT / "techniques"
 BUILD_DIR = ROOT / "build"
@@ -622,6 +624,42 @@ def lint() -> dict[str, Any]:
             if target is None or target.metadata.get("type") != "source":
                 errors.append(f"{path}: unknown source page '{source_id}'")
 
+    changes: list[dict[str, Any]] = []
+    if not CHANGE_LEDGER_PATH.exists():
+        errors.append("changes/ledger.jsonl: missing dated change ledger")
+    else:
+        change_schema = json.loads(CHANGE_SCHEMA_PATH.read_text(encoding="utf-8"))
+        change_validator = jsonschema.Draft202012Validator(
+            change_schema, format_checker=jsonschema.FormatChecker()
+        )
+        seen_change_ids: set[str] = set()
+        known_change_targets = set(by_id) | seen_claim_ids | seen_technique_ids
+        for line_number, raw in enumerate(CHANGE_LEDGER_PATH.read_text(encoding="utf-8").splitlines(), start=1):
+            if not raw.strip():
+                continue
+            try:
+                change = json.loads(raw)
+            except json.JSONDecodeError as exc:
+                errors.append(f"changes/ledger.jsonl:{line_number}: invalid JSON: {exc.msg}")
+                continue
+            changes.append(change)
+            for issue in change_validator.iter_errors(change):
+                errors.append(f"changes/ledger.jsonl:{line_number}: {issue.message}")
+            change_id = change.get("id")
+            if change_id in seen_change_ids:
+                errors.append(f"changes/ledger.jsonl:{line_number}: duplicate change id '{change_id}'")
+            seen_change_ids.add(change_id)
+            change_date = change.get("date")
+            if isinstance(change_id, str) and isinstance(change_date, str) and not change_id.startswith(
+                f"change-{change_date}-"
+            ):
+                errors.append(
+                    f"changes/ledger.jsonl:{line_number}: change id date does not match '{change_date}'"
+                )
+            for target in change.get("targets", []):
+                if target not in known_change_targets and not (ROOT / target).exists():
+                    errors.append(f"changes/ledger.jsonl:{line_number}: unknown change target '{target}'")
+
     try:
         expected_navigation = render_navigation_index(pages, techniques, len(claims))
         if not NAVIGATION_INDEX_PATH.exists():
@@ -656,6 +694,7 @@ def lint() -> dict[str, Any]:
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "page_count": len(pages),
         "claim_count": len(claims),
+        "change_count": len(changes),
         "technique_count": len(techniques),
         "claim_coverage": claim_coverage,
         "errors": errors,
@@ -699,6 +738,7 @@ def compile_wiki() -> dict[str, Any]:
         ],
         "sections": [section.__dict__ for section in sections],
         "claims": [json.loads(line) for line in CLAIM_LEDGER_PATH.read_text(encoding="utf-8").splitlines() if line.strip()],
+        "changes": [json.loads(line) for line in CHANGE_LEDGER_PATH.read_text(encoding="utf-8").splitlines() if line.strip()],
         "techniques": techniques,
     }
     BUILD_DIR.mkdir(exist_ok=True)

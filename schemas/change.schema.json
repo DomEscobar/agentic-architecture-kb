@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-architect.local/schemas/change.schema.json",
+  "title": "Dated canonical knowledge change record",
+  "type": "object",
+  "required": ["id", "date", "change_kind", "targets", "summary", "rationale", "practical_impact", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^change-[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9][a-z0-9-]{2,80}$"},
+    "date": {"type": "string", "format": "date"},
+    "change_kind": {"enum": ["governance", "source", "claim", "pattern", "technique", "relation", "correction", "supersession", "reversion"]},
+    "targets": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 3}},
+    "summary": {"type": "string", "minLength": 20},
+    "rationale": {"type": "string", "minLength": 20},
+    "practical_impact": {"type": "string", "minLength": 20},
+    "status": {"enum": ["applied", "superseded", "reverted"]}
+  },
+  "additionalProperties": false
+}

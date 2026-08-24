@@ -6,13 +6,16 @@ status: reviewed
 privacy: internal
 confidence: 0.89
 created_at: 2026-08-09T13:30:00+02:00
-updated_at: 2026-08-09T13:30:00+02:00
-review_at: 2026-11-09
+updated_at: 2026-08-21T21:04:57+02:00
+review_at: 2026-09-21
 source_ids:
   - source-evaluation-consulting-research-2026
+  - source-phantom-gains-measured-null-2026
 relations:
   - predicate: derived_from
     target: source-evaluation-consulting-research-2026
+  - predicate: derived_from
+    target: source-phantom-gains-measured-null-2026
 ---
 
 # Statistical Decision Rules for Agent Evaluations
@@ -34,6 +37,19 @@ Size from baseline, smallest important delta, power/error tolerance and slice
 needs; no universal minimum exists. Separate a primary decision from exploratory
 metrics. Correct/control multiplicity when many variants or slices are searched.
 Repeated holdout use turns it into selection data.
+
+## Transition-level capability claims
+
+Per-item claims that a model learned, forgot, corrupted or expanded a capability
+compare noisy estimates and can report transitions when the model is unchanged.
+For every such statistic, run a frozen model through the identical benchmark,
+sampling, checkpoint, batching, decoding and grading design. Use the resulting
+distribution as the design-matched null rather than assuming zero.
+
+Report its interval and effect-size envelope, retain frozen replicates for a
+negative-control check, and control multiplicity across tested problems and
+arms. A null measured for one model, benchmark or checkpoint design does not
+transfer automatically to another.
 
 ## Promotion rule
 

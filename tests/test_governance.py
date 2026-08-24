@@ -9,6 +9,23 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class GovernanceTests(unittest.TestCase):
+    def test_canonical_changes_have_dated_machine_checked_records(self):
+        schema = json.loads((ROOT / "schemas/change.schema.json").read_text())
+        self.assertTrue(
+            {"id", "date", "change_kind", "targets", "summary", "rationale", "practical_impact", "status"}
+            <= set(schema["required"])
+        )
+        records = [
+            json.loads(line)
+            for line in (ROOT / "changes/ledger.jsonl").read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+        ids = [record["id"] for record in records]
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertTrue(all(record["id"].startswith(f"change-{record['date']}-") for record in records))
+        utility_gate = next(record for record in records if record["id"] == "change-2026-08-24-coding-agent-utility-gate")
+        self.assertIn("concept-claim-ledger-governance", utility_gate["targets"])
+
     def test_split_information_flow_keeps_optimizer_out_of_protected_answers(self):
         payload = json.loads((ROOT / "evals/split-contracts.json").read_text())
         flow = payload["information_flow"]

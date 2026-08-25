@@ -61,6 +61,18 @@ curl --fail-with-body https://ai-architect.huecki.com/api/v1/ask \
   --data '{"question":"Design recovery semantics for a tool-using agent."}'
 ```
 
+Coding agents can retrieve evidence without asking the public model to compose
+an answer. The client keeps canonical results separate from optional,
+non-canonical external discovery material:
+
+```bash
+python3 tools/consult_architecture.py \
+  "How should a coding agent recover side-effecting tool calls?"
+```
+
+See [External discovery retrieval](docs/discovery-retrieval.md) for the trust
+contract and offline fallback.
+
 ## How it works
 
 Markdown with validated frontmatter is the canonical source; search indexes,

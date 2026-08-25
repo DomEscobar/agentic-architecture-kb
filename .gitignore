@@ -1,5 +1,6 @@
 .obsidian/workspace*.json
 .cache/
+.architecture-cache/
 build/
 indexes/
 *.sqlite

@@ -2,15 +2,17 @@
   "schema_version": 1,
   "status": "deployed",
   "consumer": "public-ai-architect",
-  "canonical_sha256": "1d64bdbf15f98ee60c6a835885fb46b90131e0dbcc1cd12dce8637b00e1d42f8",
-  "content_sha256": "4b0487e24d3b0f54dd9fec6847367a05043d103a5f34954495bf25a851c34974",
-  "artifact_sha256": "0226cb1d00d34dfa280ca4c171db9d083e40a4b581a15b4bb8f838d4e509fe33",
-  "image_sha256": "44b5b9ed7c525b36ad4dd018e4180532c78e3e7ca0203a2f39c2f6f6951a1219",
-  "deployed_at": "2026-08-24T12:33:50+02:00",
-  "approved_by": "Dom via Telegram message 572",
+  "canonical_sha256": "287a1d9860f06a76858789cde6143584a1d396ecca10943d2124c36426d20a83",
+  "content_sha256": "da62d5fb3f174e93a8092757a4944c09754bac5c7c2f4e3d4de8fa7fed9e0bfb",
+  "artifact_sha256": "981f9a5078eaa878111984e5466d6fcb6c01812753bcece63c8d61bc2f17d50d",
+  "image_sha256": "67bbd430423dedbc1f248db58681c9b17eacb9b704f363e183ce70110c6283ea",
+  "deployed_at": "2026-08-25T16:19:17+02:00",
+  "approved_by": "Dom via Telegram message 601",
+  "discovery_content_sha256": "cc448b4ebb2d24706976612c646417e43178e84e2b6e64cbd39100f6f25ca5b0",
+  "canonical_git_commit": "2a997cd9d6202714f327e7804d06141db423a322",
   "rollback": {
-    "image_sha256": "097618f4ea1e5a06c9a591f5f156aed3265e54eb26d07ca2bece7927b327f4ae",
-    "content_sha256": "519380cacd7fd081b76cc174c932b1c18fbbe07e8fb1d82ffc65756ff2931ef0"
+    "image_sha256": "44b5b9ed7c525b36ad4dd018e4180532c78e3e7ca0203a2f39c2f6f6951a1219",
+    "content_sha256": "4b0487e24d3b0f54dd9fec6847367a05043d103a5f34954495bf25a851c34974"
   },
-  "note": "Public Wiki v3 refreshed from canonical commit 0e10ff3; lifecycle-aware routing exports recommended and situational techniques while excluding legacy and deprecated cards from public advice retrieval."
+  "note": "Dual-corpus retrieval deployed with a digest-checked discovery snapshot, coding-agent CLI and stdio MCP access, and commit-pinned clickable KB/EXT references. External discovery remains non-canonical and cannot auto-promote."
 }

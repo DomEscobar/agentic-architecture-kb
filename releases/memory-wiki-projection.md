@@ -1,6 +1,6 @@
 # Agentic Architect canonical projection
 
-Canonical SHA-256: `0e824049e83ea69711754b118325a68a68753444ec15c6cece53eba3c065512d`
+Canonical SHA-256: `e52cca2e3c5c4570e5f1980c38f7880958951546262a3604b104a86b094c1730`
 
 This is a generated, one-way projection. The canonical source is `agentic-architecture-kb`;
 edits here must never reverse-sync into the canonical repository.
@@ -824,8 +824,10 @@ Sources: `source-chunking-landscape-2026-08`
 
 ## Controls
 
-- Fixed token windows provide a reproducible size baseline.
-- Recursive splitting provides a cheap boundary-aware baseline.
+- **Fixed token windows** (`chunking.fixed.token-window`, `legacy`): reproducible
+  ablation control only; do not use as a production default.
+- **Recursive splitting** (`chunking.fixed.recursive-split`, `recommended`): the
+  cheap boundary-aware production baseline.
 - Sliding overlap tests whether boundary recall justifies duplicate index cost.
 
 ## Natural and document structure
@@ -856,12 +858,14 @@ Sources: `source-chunking-landscape-2026-08`
 
 ## Routing defaults
 
-Start with fixed and structure-aware candidates. Use proposition units for atomic
+Start with recursive boundary-aware splitting (`chunking.fixed.recursive-split`,
+`recommended`) and structure-aware candidates. Use proposition units for atomic
 fact questions, parent-child for fine matching plus broad answer context, AST for
 code, table-aware for relational rows, turn-aware for conversations, and hierarchy
 for synthesis across long documents. Promote prefixes, semantic, late, adaptive or
 LLM-generated structures only when paired evaluation pays for their added cost and
-failure surface.
+failure surface. Reserve fixed token windows for paired ablations, not production
+indexing.
 
 ## Contextual Retrieval
 
@@ -1921,10 +1925,12 @@ No entry is a universal winner; each must pass the private corpus slices.
 
 ## Native fast paths
 
-- **PyMuPDF:** born-digital PDFs, bounding boxes, fast local extraction. Escalate
-  scans, broken fonts, complex columns and layout-dependent tables.
-- **Apache Tika:** broad format detection, metadata and text normalization. Use
-  it as a front door and router, not as the final high-fidelity PDF parser.
+- **PyMuPDF** (`parser.native.pymupdf`, `recommended`): born-digital PDFs,
+  bounding boxes, fast local extraction. Escalate scans, broken fonts, complex
+  columns and layout-dependent tables.
+- **Apache Tika** (`parser.native.apache-tika`, `recommended`): broad format
+  detection, metadata and text normalization. Use it as a front door and router,
+  not as the final high-fidelity PDF parser.
 - **AnyDoc:** fast local normalization of office, OpenDocument, EPUB, CSV, RTF
   and text PDFs to consistent Markdown. Route image-only PDFs to OCR.
 - **pdfplumber:** detailed character and vector geometry plus debuggable table
@@ -1932,8 +1938,9 @@ No entry is a universal winner; each must pass the private corpus slices.
 
 ## Local modular pipelines
 
-- **Docling Standard:** mixed PDFs needing OCR, layout, tables and provenance;
-  strong default when local inspectability matters.
+- **Docling Standard** (`parser.pipeline.docling-standard`, `recommended`): mixed
+  PDFs needing OCR, layout, tables and provenance; strong default when local
+  inspectability matters.
 - **MinerU:** scientific, multilingual and formula-heavy documents; validate its
   licence and each language/document slice.
 - **Marker:** local PDF-to-Markdown with optional OCR and LLM escalation; gate
@@ -1973,17 +1980,18 @@ output is not proof that every emitted token or relationship exists on page.
 
 ## Minimum routing policy
 
-Start with PyMuPDF for clean born-digital pages. Escalate to a local structured
-pipeline when text coverage, reading-order confidence or detected structure
-falls below a calibrated threshold. Use a VLM or managed specialist only for
-hard slices it demonstrably improves. Store route, parser version, render
-settings, confidence signals and fallback history in parse provenance.
+Start with PyMuPDF (`parser.native.pymupdf`) for clean born-digital pages.
+Escalate to Docling Standard (`parser.pipeline.docling-standard`) when text
+coverage, reading-order confidence or detected structure falls below a calibrated
+threshold. Use a VLM or managed specialist only for hard slices it demonstrably
+improves. Store route, parser version, render settings, confidence signals and
+fallback history in parse provenance.
 
 ## Project-Specific Coding Agent Harness
 
 Canonical ID: `pattern-project-coding-agent-harness`  
 Type: `pattern` · Privacy: `public` · Confidence: `0.87`  
-Sources: `source-coding-agent-harness-and-skills-evidence-2026-08`, `source-agentic-security-verification-2026-08`, `source-agent-evaluation-research-2026`
+Sources: `source-coding-agent-harness-and-skills-evidence-2026-08`, `source-agentic-security-verification-2026-08`, `source-agent-evaluation-research-2026`, `source-jit-agent-harness-evolution-2026`, `source-harnessdev-agent-harness-evolution-2026`
 
 # Project-Specific Coding Agent Harness
 
@@ -1997,6 +2005,20 @@ fits the repository's tasks and risks.
 Do not claim project-specific fit without inspecting the repository or a
 complete, verified project manifest. Current product documentation supplies
 candidate mechanisms; project evidence and evals decide which ones belong.
+
+The machine-readable cards under `techniques/runtime/` and
+`techniques/evaluation/` are the experiment contract for this pattern. Resolve
+`technique_id` values through [`technique-index.json`](../technique-index.json).
+This page makes the same guidance retrievable for architecture advice:
+
+- [`runtime.coding-agent-instruction-stack`](../techniques/runtime/coding-agent-instruction-stack.json)
+  (`recommended`) — scoped instruction files and precedence across agent surfaces;
+- [`runtime.evaluated-project-skill-package`](../techniques/runtime/evaluated-project-skill-package.json)
+  (`recommended`) — skill admission, pinning and paired promotion evals;
+- [`evaluation.coding-agent-project-replay`](../techniques/evaluation/coding-agent-project-replay.json)
+  (`recommended`) — end-to-end harness replay with pinned manifests and leakage checks.
+
+No card is a universal winner; each must pass the project's task slices.
 
 ## Required case facts
 
@@ -2210,6 +2232,54 @@ Treat harness tuning as an experiment, not accumulated prompt folklore:
 Automatic harness evolution is research-stage evidence. The reusable pattern
 is observability plus bounded attribution, not autonomous promotion.
 
+## Fixed-executor evolution gate
+
+Treat the creator model, harness version, executor model and evaluator as
+separate experimental variables. Freeze every candidate harness before replay
+and compare baseline and candidate with the same executor, environment,
+protected tasks and scoring path. Then repeat across every executor model or
+release the harness must support; Self-Eval alone conflates harness quality,
+executor capability and their compatibility.
+
+HarnessDev reports that visible feedback and held-out performance agree in
+direction for only 34 of 64 version switches, and only two of nine declared
+final versions are held-out-optimal. Its fixed-executor results also include
+three held-out regressions among four non-control creator lineages. These are
+fresh author-reported results, not portable effect sizes, but they make visible
+feedback an unsafe promotion oracle.
+
+Keep authoring feedback, version selection and final confirmation splits
+separate. Count creator, probe, repair and failed-candidate cost in addition to
+downstream execution tokens. Retain a change only after repeated protected
+replays, safety sentinels and an executor-conditioned canary; preserve the
+previous content digest for rollback. Generated mechanisms must also appear in
+execution traces before they receive causal credit merely for existing in
+source code.
+
+## Instance-conditioned harness synthesis is experimental
+
+When task structures differ materially, a generated per-task harness can be
+evaluated as a challenger to one fixed scaffold or a small reviewed harness
+router. JIT-Agent reports broad within-backbone gains from generating memory,
+planning, action and tool-policy modules for each task, but the fresh preprint
+lacks independent replication and its public runtime does not implement the
+paper's streaming archive evolution. No coding-repository benchmark establishes
+project fit.
+
+Do not grant generated harness code the controller's ambient authority. Check
+its schema, imports and capability references, then execute it as untrusted code
+inside a disposable container or microVM without ambient credentials and with
+restricted mounts, egress, resources and termination. Keep the evaluator,
+protected tasks, policy gateway, budgets, archive admission and promotion
+decision outside that boundary.
+
+Compare JIT synthesis against both the current harness and a cheaper fixed
+router under the complete cost of generation, candidate selection, repair and
+execution. Retain a candidate only after paired protected replays, repeated
+evidence, safety sentinels and a rollback-ready canary. Same-task reward may
+admit an experimental archive reference; it does not by itself demonstrate
+cross-task transfer, compounding improvement or recursive self-improvement.
+
 ## Long-horizon state and project memory
 
 For multi-session or dependency-rich work, externalize completed units,
@@ -2375,8 +2445,10 @@ Sources: `source-retrieval-context-landscape-2026-08`
 
 ## Query routing
 
-- Exact identifiers, versions, names and quoted text: BM25 first.
-- Paraphrases and vocabulary mismatch: dense retrieval candidate.
+- Exact identifiers, versions, names and quoted text: BM25 first
+  (`retrieval.bm25`, `recommended`).
+- Paraphrases and vocabulary mismatch: dense retrieval candidate
+  (`retrieval.dense`, `recommended`).
 - Mixed exact and conceptual workload: BM25 plus dense with RRF candidate.
 - Conversational follow-up: intent-preserving standalone-query rewrite.
 - Heterogeneous repeated workload: a logged sparse/dense/hybrid router only after oracle-route and confusion-matrix evaluation.
@@ -2418,7 +2490,7 @@ rewrites, fused ranks, reranker scores, selected spans, stop reasons and citatio
 
 Canonical ID: `pattern-rsi-evidence-boundary`  
 Type: `pattern` · Privacy: `public` · Confidence: `0.81`  
-Sources: `source-bounded-self-improvement-2025-2026`
+Sources: `source-bounded-self-improvement-2025-2026`, `source-harnessdev-agent-harness-evolution-2026`
 
 # Recursive Self-Improvement Evidence Boundary
 
@@ -2448,6 +2520,21 @@ Changing the objective invalidates direct before/after claims. If utility must
 evolve, use explicit epochs: freeze evaluation within each epoch, audit old/new
 objective compatibility at the boundary, retain old sentinels and require human
 approval. Treat recent co-evolving-evaluator research as experimental only.
+
+## Harness evolution gate
+
+Model-external harness editing can create useful reusable capability without
+changing model weights, but a higher score on the feedback set is not retained
+improvement. Freeze each harness version, hold the executor and evaluator fixed,
+and test untouched tasks before attribution. Repeat across intended executors
+because a harness can overfit to the model that created or first executed it.
+
+HarnessDev's negative transfer and unstable version-selection results support
+this gate but do not demonstrate recursive self-improvement. An RSI claim still
+requires the improved generation to produce better future candidates under
+equal search budget and information. Harness source that declares memory,
+verification or recovery is evidence of implementation only; trace activation
+and outcome ablations are needed to establish an effective mechanism.
 
 ## Agent Runtime Build Versus Adopt Decision
 
@@ -2589,7 +2676,7 @@ Sources: `source-domescobar-agentic-runtime-techniques`, `source-agent-runtime-f
 - Multi-stage task: plan-and-execute with typed task state.
 - Objectively verifiable result: verifier loop; deterministic checks first.
 - Open-ended research: research loop, claim/evidence ledger, and gap analysis.
-- Code change: coding harness, isolation, tests, and rollback.
+- Code change: [[project-coding-agent-harness]] — isolation, tests, and rollback.
 - Background work: durable workflow, queue, checkpoints, and idempotency.
 - Risky external action: approval interrupt, audit, and edit/reject path.
 - Multiple specialists: supervisor or planner/executor only when roles require
@@ -2832,6 +2919,77 @@ metadata filter
 Evaluate on layout-heavy and OCR-hard slices using page Recall@k, downstream
 field/table accuracy, citation correctness, storage, indexing throughput and
 p95 query latency.
+
+## Adaptive Agentic Retrieval Control Evidence Audit 2024–2026
+
+Canonical ID: `source-adaptive-agentic-retrieval-control-2024-2026`  
+Type: `source` · Privacy: `public` · Confidence: `0.86`  
+Sources: none
+
+# Adaptive Agentic Retrieval Control Evidence Audit — 2024–2026
+
+Primary sources checked on 2026-09-04:
+
+- [Adaptive-RAG, NAACL 2024](https://aclanthology.org/2024.naacl-long.389/)
+- [Search-o1, EMNLP 2025](https://aclanthology.org/2025.emnlp-main.276/)
+- [DeepRAG, arXiv 2025](https://arxiv.org/abs/2502.01142)
+- [Search-R1, arXiv 2025](https://arxiv.org/abs/2503.09516)
+- [S2G-RAG, ACL 2026](https://aclanthology.org/2026.acl-long.1185/)
+- [ReflectiveRAG, EACL Industry 2026](https://aclanthology.org/2026.eacl-industry.27/)
+- [CORAL, Findings of ACL 2026](https://aclanthology.org/2026.findings-acl.1356/)
+
+## Mechanism families
+
+**Pre-route by expected complexity.** Adaptive-RAG uses a learned classifier to
+choose among no retrieval, single-step retrieval and iterative retrieval. This
+supports a fast-path gate, but classifier transfer to a new domain and cost
+distribution requires local evaluation.
+
+**Judge evidence sufficiency and explicit gaps.** S2G-RAG decouples answer
+generation from a controller that predicts sufficiency and structured missing
+information, then maps gaps to follow-up retrieval. ReflectiveRAG likewise uses
+a small model to reassess evidence and reformulate queries. These works support
+typed `answer | continue | incomplete` control rather than a free-form ReAct
+loop. Their reported performance and overhead remain workload- and
+implementation-specific.
+
+**Adapt the retrieval space as well as the query.** CORAL can reselect corpora
+and rewrite the query when evidence is culturally or linguistically
+misaligned. This is relevant when a domain spans regions, languages or source
+authorities; it is not evidence that corpus switching helps ordinary lookup.
+
+**Interleave retrieval with reasoning.** Search-o1 triggers retrieval inside a
+reasoning trajectory and adds a document-reasoning stage. DeepRAG frames the
+decision as a sequential policy over decomposition, parametric reasoning and
+retrieval. These are higher-complexity alternatives whose extra stages can
+worsen latency if applied to direct questions.
+
+**Train the search policy.** Search-R1 uses reinforcement learning for
+multi-turn search behavior. It is a training strategy, not a drop-in runtime
+loop, and requires task-aligned rewards, trajectory data and regression gates.
+
+## Supported conclusions
+
+The evidence supports separating three decisions: whether retrieval is needed,
+whether current evidence is sufficient, and which information gap or corpus
+should be searched next. A deterministic runtime should own budgets,
+deduplication, deadlines and termination even when a model supplies semantic
+judgments.
+
+It does not establish one universal controller, reliable self-confidence, or a
+general latency advantage for iterative search. Most evaluations use QA
+benchmarks rather than multi-domain production fan-out, and none of the sources
+validates Qwen3-32B as the best controller for the reported case.
+
+## Evaluation contract
+
+Compare no-retrieval, one-shot, prompted gap-controller and trained-policy
+paths under the same corpus snapshot, retriever, evidence requirements and
+deadline. Slice direct, multi-facet, multi-hop, cross-corpus, contradictory and
+unanswerable requests. Measure routing error, required-evidence coverage,
+unsupported claims, unnecessary retrieval, unique-evidence yield, iterations,
+tail latency, token cost and calibrated abstention. Attribute all model-judge
+results and retain deterministic checks for schema, permissions and budgets.
 
 ## Agent Evaluation Research August 2026
 
@@ -4618,6 +4776,254 @@ efficiency and robustness separately. Promotion requires paired comparison on
 the same task/environment identities, repeated attempts, uncertainty, hard
 regression gates and protected selection/holdout splits.
 
+## HarnessDev Agent Harness Creation and Evolution Evidence 2026
+
+Canonical ID: `source-harnessdev-agent-harness-evolution-2026`  
+Type: `source` · Privacy: `public` · Confidence: `0.76`  
+Sources: none
+
+# HarnessDev Agent Harness Creation and Evolution Evidence — 2026
+
+Primary material checked on 2026-09-04:
+
+- [HarnessDev, arXiv:2609.01437v1](https://arxiv.org/abs/2609.01437v1)
+- [HarnessDev experimental HTML](https://arxiv.org/html/2609.01437v1)
+- [Self-Developing Agents project page](https://self-developing-agents.github.io/)
+
+## Evidence class
+
+E2 for the author-reported creation and evolution results. This is a fresh v1
+preprint without peer review or independent reproduction. The protocol exposes
+task counts, frozen artifacts, model roles, feedback/held-out separation,
+executor-token cost and important negative results. Evolution nevertheless has
+one trajectory per creator-runtime cell, no population-level uncertainty, and
+held-out evaluation only for one code benchmark.
+
+## Benchmark mechanism
+
+HarnessDev separates the creator model, development environment, persistent
+harness, executor model and evaluator. The creator builds a runnable harness
+from a weak compatibility seed, after which the harness is frozen and executed
+on downstream tasks. The seed contains input/output plumbing and passive tools
+but no agent loop, task decomposition, tool policy, context management,
+persistent task state, verifier, retry, recovery or stopping policy.
+
+Creation covers six creator models, four domains and five benchmarks with
+2,207 unique downstream instances. Each creator-benchmark cell normally
+contains three independent harness creations and reports avg@3. Self-Eval uses
+the creator as executor; Unified-Eval runs generated harnesses with a fixed
+executor to expose harness-executor compatibility.
+
+Evolution begins from a frozen creation harness. Nine creator-runtime lineages
+produce 73 official versions and 64 adjacent version switches using visible
+SWE-Pro-100 and Terminal-Bench-89 feedback. Every frozen version is later run
+on 630 SWE-Pro instances not shown to the creator. The evaluated unit is thus a
+versioned executable artifact, not a prompt description or self-reported
+success claim.
+
+## Reported findings
+
+Generated harnesses remain behind the selected mature human-engineered
+references on code and search/research, while some writing and machine-learning
+experimentation settings match or exceed their selected references. The human
+reference rows are external system results rather than paired controls under a
+common executor, so those distances are descriptive rather than causal.
+
+Visible feedback and post-freeze held-out scores move in the same direction for
+34 of 64 adjacent version switches. Only two of nine creator-declared final
+versions are best on their lineage's held-out set. Under four fixed-Gemini
+evolution runs, only the Opus-created harness improves over its own starting
+harness on the 630-task held-out set; the Qwen, DeepSeek and GPT-created
+harnesses regress. This supports an executor-conditioned promotion gate and is
+negative evidence against treating visible feedback gain as retained harness
+improvement.
+
+The Qwen result concerns Qwen 3.7 Max as creator, not Qwen3-32B as a retrieval
+controller. It does not update the Qwen3-32B controller hypothesis elsewhere in
+this knowledge base.
+
+## Limits and accounting gaps
+
+- Evolution has one trajectory per creator-runtime cell and one unfinished
+  main-runtime cell.
+- The 630 held-out instances are disjoint from feedback but come from the same
+  SWE-Pro public split; cross-benchmark transfer is not shown for Evolution.
+- Execution-token cost excludes the creator tokens used to build or revise the
+  harness, so it is not complete lifecycle cost.
+- Higher execution-token use does not reliably predict better results.
+- Some generated state or memory mechanisms exist in source code but do not
+  appear in recorded formal execution; runnable code is not proof of an
+  effective mechanism.
+- Creation containers are provisioned for reproducibility, not containment;
+  generated harnesses remain untrusted executable code.
+- The paper explicitly studies model-external learning and does not show that
+  harness evolution replaces parameter learning or yields domain-general RSI.
+
+## Operational interpretation
+
+Freeze every candidate harness by content digest. Evaluate it first with a
+fixed executor on protected tasks, then across the executor models or releases
+it must support. Keep visible feedback, selection and final confirmation splits
+separate. Record creator and repair cost as well as downstream execution cost.
+Require repeated trajectories, deterministic security checks, a canary, kill
+switch and rollback before retaining an evolved harness.
+
+Do not let the evolving harness change protected tasks, scorers, promotion
+rules, budgets or rollback state. Execute generated code inside a hardened
+untrusted-code boundary rather than relying on the benchmark's reproducibility
+container.
+
+## JIT-Agent — Instance-Conditioned Harness Synthesis
+
+Canonical ID: `source-jit-agent-harness-evolution-2026`  
+Type: `source` · Privacy: `public` · Confidence: `0.72`  
+Sources: none
+
+# JIT-Agent — Instance-Conditioned Harness Synthesis
+
+Primary material checked on 2026-08-28:
+
+- [JIT-Agent: Scaling Harness Intelligence via Just-in-Time Harness Evolution,
+  arXiv:2608.25593v1](https://arxiv.org/abs/2608.25593v1)
+- [Public Apache-2.0 runtime and benchmark adapters, commit
+  `ababa06c2f54d799fd9fbc356e5368f61a452260`](https://github.com/bingreeky/JIT/tree/ababa06c2f54d799fd9fbc356e5368f61a452260)
+- [JIT-Agent-27B model checkpoint, revision
+  `0705ca15b822942e6531b7301a79a16738175094`](https://huggingface.co/JIT-Agent/jit-27b/tree/0705ca15b822942e6531b7301a79a16738175094)
+
+## Evidence class
+
+E2 for the author-reported task-conditioned harness results and E2 for the
+released static synthesis mechanism. This is a two-day-old v1 preprint without
+peer review or independent replication. The paper reports within-backbone
+comparisons, multiple model families, task and cost outcomes, and qualitative
+generated-harness examples. It does not report confidence intervals,
+hypothesis tests or a design-matched frozen-generator null, and the released
+artifacts do not reproduce the full streaming-evolution claim.
+
+## Mechanism
+
+JIT-Agent treats an agent harness as four generated Python modules for memory,
+planning, action and capability or tool-policy orchestration, plus a YAML prompt
+configuration. A separate 27B meta-model receives the task, tool registry,
+shared protocol and descriptions of reference harnesses. It emits a
+task-conditioned harness, validates its fixed exports, repairs failures within
+a bounded retry loop and wraps an unchanged executor model.
+
+The paper's training design has three stages: teacher-supervised customization,
+repair learning from compiler and runtime diagnostics, and Evo-GDPO selection
+against an archive frontier over task reward, latency and monetary cost. Static
+inference generates several candidates and selects one before execution.
+Streaming inference additionally proposes retaining successful task-harness
+records for retrieval by later tasks while keeping the generator weights fixed
+at deployment.
+
+The novel architectural hypothesis is narrow: when task structures vary enough
+that one fixed scaffold is repeatedly mismatched, an instance-conditioned
+harness generator may be a useful challenger to fixed-harness selection. It is
+not evidence that every task needs generated code or that a generated harness
+should receive production authority.
+
+## Tested scope and reported results
+
+The paper evaluates nine benchmarks covering deep research, daily work,
+planning and office-style workspace execution. It does not evaluate SWE-bench,
+repository-scale software evolution or live production systems.
+
+Across the authors' 18 directly matched backbone-benchmark comparisons,
+JIT-generated harnesses improve the corresponding default scaffold. Reported
+nine-benchmark averages increase from 74.1 to 81.8 for GLM-5.2 and from 66.7 to
+75.5 for DeepSeek-V4-Flash. In a narrower fixed-backbone comparison against
+Claude Code, Codex, OpenCode, Hermes and NanoBot on three benchmarks and two
+backbones, JIT-Agent leads four of six settings. It trails the best fixed
+harness in the remaining two while using fewer tokens. The paper reports the
+lowest API cost in all six controlled settings and an average reduction of
+36.0 percent relative to the cheapest fixed alternative in each setting.
+
+These are author-run benchmark results. Main-table sample counts, repeated
+seeds and uncertainty are not reported sufficiently to treat the point
+differences as portable effects. Several tasks use model-based scoring, and the
+public benchmark data and harness references also require a contamination and
+selection-bias audit before causal interpretation.
+
+## Artifact audit
+
+The pinned runtime contains adapters for seven of the paper's nine benchmarks,
+eleven seed harnesses, generated-harness parsing, best-of-N selection, bounded
+repair and a shared execution path. Its Python packages compile successfully,
+but the repository contains no automated tests. Reproducing the benchmark
+tables requires hosted model and judge calls, benchmark-specific credentials
+and large datasets; those experiments were not rerun in this audit.
+
+The released model card describes its checkpoint as an initial research
+release built on the Stage-I customization model and further distilled from
+the final research checkpoint. It therefore cannot be assumed to be the exact
+full Evo-GDPO checkpoint behind every paper result.
+
+More importantly, the released Python runtime does not implement the paper's
+streaming harness-bank update or Evo-GDPO training loop. Archive, retention and
+frontier-update logic appears in the paper and repository overview, not in the
+executable Python path. The public artifact supports static generation,
+selection, validation and repair; it does not independently substantiate
+compounding self-evolution.
+
+## Security audit
+
+Generated harness modules are written into the repository workspace and loaded
+through ordinary Python imports in the evaluator process. Import-time code can
+therefore execute with the process's filesystem, network and environment
+authority before any strategy interface is instantiated. Export-name checks
+and runtime repair are compatibility controls, not a security boundary.
+
+The separate `execute_code` tool is also not a hardened sandbox. It invokes a
+Python interpreter from a Conda environment in a workspace directory, copies
+the parent environment, uses a short command-string blocklist and falls back
+to the current interpreter when the configured environment is absent. It does
+not provide credential stripping, filesystem or network isolation, syscall
+policy, user-namespace isolation or a default-deny capability boundary.
+
+Treat every generated harness as untrusted code. Validate its schema and
+imports statically, reject unexpected dependencies and execute it only inside a
+disposable container or microVM with no ambient credentials, restricted mounts
+and egress, resource limits and externally controlled termination. The trusted
+evaluator, policy gateway, protected cases, budgets and promotion controller
+must remain outside that boundary.
+
+## Operational interpretation
+
+Do not begin with a 27B harness generator. First compare a minimal fixed harness
+and explicit routing among a small reviewed harness set. Add JIT synthesis only
+when task-slice evidence shows repeatable structural mismatch that fixed
+routing does not solve within the latency and cost budget.
+
+Evaluate the complete model-harness-environment tuple on paired tasks. Include
+generator cost, candidate-selection cost, compilation and import failures,
+repair attempts, executor tokens, wall time, side effects and safety sentinels.
+Keep generated artifacts immutable and content-addressed. Promotion requires a
+protected confirmation split, repeated evidence, a bounded canary, kill switch
+and rollback to the prior fixed harness or router.
+
+Streaming retention needs a second gate. A successful task trajectory may be
+stored as an experimental reference only after provenance, contamination,
+privacy and task-family checks. Do not let a same-task reward update become
+evidence of cross-task improvement, and do not call archive growth recursive
+self-improvement without showing that one generation produces better future
+candidates under equal search budget on untouched tasks.
+
+## Limits and falsifiers
+
+Independent reproduction with the released checkpoint, pinned datasets,
+matched baselines, repeated seeds and paired uncertainty would raise
+confidence. A faithful implementation of streaming retention must separately
+measure performance over task order, forgetting, contamination, archive growth,
+selection overhead and held-out transfer.
+
+The hypothesis weakens if a small fixed router matches JIT-Agent under total
+cost, gains disappear on protected project tasks, generated code violates the
+capability contract, or archive updates improve same-distribution scores while
+regressing later task families. Until these checks exist, JIT-Agent is a useful
+experimental challenger and source of harness design hypotheses, not a
+production default or evidence of autonomous RSI.
+
 ## Memory Operational Baselines and Tenancy Evidence Audit August 2026
 
 Canonical ID: `source-memory-operational-baselines-and-tenancy-2026-08`  
@@ -5078,6 +5484,65 @@ correctness and calibrated architecture advice are not.
 E3 for the exact local technical checks because scripts and artifacts are
 re-runnable. E1/E2 for general answer quality because the manually reviewed
 sample is tiny and lacks blinded annotation or a calibrated judge.
+
+## Qwen3-32B as Retrieval Controller Candidate
+
+Canonical ID: `source-qwen3-32b-controller-candidate-2026`  
+Type: `source` · Privacy: `public` · Confidence: `0.88`  
+Sources: none
+
+# Qwen3-32B as Retrieval Controller Candidate
+
+Primary sources checked on 2026-09-04:
+
+- [Qwen3-32B official model card, pinned revision](https://huggingface.co/Qwen/Qwen3-32B/tree/817577ec4edcf5edf303ad459b566514e9ce6339)
+- [Qwen3 Technical Report](https://arxiv.org/abs/2505.09388)
+
+## Verified model properties
+
+The official model card describes Qwen3-32B as a dense causal language model
+with 32.8 billion parameters, 64 layers, a native 32,768-token context and an
+optional 131,072-token YaRN configuration. It exposes a hard
+`enable_thinking` switch: thinking is enabled by default, while
+`enable_thinking=False` suppresses the explicit reasoning block. The card also
+documents tool-calling integration and deployment through Transformers, vLLM
+and SGLang.
+
+These are model-interface and configuration facts. Claims about reasoning,
+agent performance and efficiency in the model card and technical report are
+author-reported and do not validate this KB's multi-domain workload.
+
+## Candidate role
+
+Qwen3-32B can be evaluated as a domain-local controller that receives a bounded
+evidence state and returns typed fields such as:
+
+```text
+status: answerable | continue | incomplete
+missing_evidence: [...]
+next_queries: [...]
+conflicts: [...]
+```
+
+Use non-thinking mode as the latency challenger for routine extraction,
+sufficiency and query-reformulation steps. Test thinking mode only as an
+explicit escalation path for labelled complex or conflicting cases. Keep
+permissions, schema enforcement, budgets, no-progress detection and final
+termination in deterministic runtime code.
+
+## Unresolved evidence
+
+The official sources do not show that Qwen3-32B is accurate or cost-effective
+for evidence sufficiency, domain routing, gap generation or stop decisions.
+They also do not establish that it outperforms a smaller model or deterministic
+classifier. Long-context support is not evidence that passing longer contexts
+improves this task.
+
+Before adopting it, run paired replays against at least one smaller controller
+and the existing system. Measure schema-valid output, routing precision and
+recall, gap recall, premature-stop and over-search rates, required-evidence
+coverage, p50/p95 latency, tokens, accelerator memory and cost. Pin model,
+tokenizer, serving runtime, quantization, context length and decoding settings.
 
 ## RAG Architecture Search Evidence 2026
 

@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-08-24T11:05:00+02:00` · 96 pages · 76 claims · 132 technique cards
+Revision: `2026-09-13T07:00:00+02:00` · 104 pages · 78 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -77,7 +77,7 @@ These lists are generated from the same page metadata compiled into
 - [Evaluation Workload Blueprints](syntheses/evaluation-workload-blueprints.md)
 - [RAG Pipeline Taxonomy](syntheses/rag-pipeline-taxonomy.md)
 
-### Patterns (46)
+### Patterns (47)
 
 - [Agent Memory Brownfield Audit and Greenfield Intake](patterns/agent-memory-consulting-intake.md)
 - [Agent Memory Evaluation Blueprint](patterns/agent-memory-evaluation-blueprint.md)
@@ -120,6 +120,7 @@ These lists are generated from the same page metadata compiled into
 - [Runtime Decision Guide](patterns/runtime-decision-guide.md)
 - [Runtime Safety Baseline](patterns/runtime-safety-baseline.md)
 - [Scaling RAG Baselines](patterns/scaling-rag-baselines.md)
+- [Selective Multi-Domain Retrieval Orchestration](patterns/selective-multi-domain-retrieval-orchestration.md)
 - [Statistical Decision Rules for Agent Evaluations](patterns/evaluation-statistical-decision-rules.md)
 - [Type-Aware Memory Read and Retrieval](patterns/memory-read-routing.md)
 - [Verifiable Memory Forgetting and Erasure](patterns/verifiable-memory-forgetting.md)
@@ -137,8 +138,9 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (39)
+### Sources (46)
 
+- [Adaptive Agentic Retrieval Control Evidence Audit 2024–2026](sources/adaptive-agentic-retrieval-control-2024-2026.md)
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
 - [Agent Evaluation Technique Evidence Audit August 2026](sources/evaluation-techniques-2026-08.md)
 - [Agent Memory Evaluation Security and Privacy 2026](sources/agent-memory-evaluation-security-2026.md)
@@ -150,6 +152,8 @@ These lists are generated from the same page metadata compiled into
 - [Agentic Runtime and RAG Security Evidence Audit August 2026](sources/agentic-security-landscape-2026-08.md)
 - [Agentic Security Cross-verification Audit August 2026](sources/agentic-security-verification-2026-08.md)
 - [Biweekly Agentic Architecture Research Radar 2026-08-16](inbox/research-radar-2026-08-16.md)
+- [Biweekly Agentic Architecture Research Radar 2026-08-30](inbox/research-radar-2026-08-30.md)
+- [Biweekly Agentic Architecture Research Radar 2026-09-13](inbox/research-radar-2026-09-13.md)
 - [Bounded Improvement Technique Evidence Audit August 2026](sources/bounded-improvement-techniques-2026-08.md)
 - [Bounded Self-Improvement Evidence 2025–2026](sources/bounded-self-improvement-2025-2026.md)
 - [Chunking Evidence Audit 2025–2026](sources/chunking-evidence-2025-2026.md)
@@ -163,14 +167,18 @@ These lists are generated from the same page metadata compiled into
 - [Embedding Selection and Migration Evidence Audit 2026-08](sources/embedding-landscape-2026-08.md)
 - [EnvHarness — Adaptive Wrappers for Agent-Learning Environments](sources/envharness-adaptive-environment-wrapper-2026.md)
 - [Evaluation Consulting Research August 2026](sources/evaluation-consulting-research-2026.md)
+- [HarnessDev Agent Harness Creation and Evolution Evidence 2026](sources/harnessdev-agent-harness-evolution-2026.md)
+- [JIT-Agent — Instance-Conditioned Harness Synthesis](sources/jit-agent-harness-evolution-2026.md)
 - [Memory Operational Baselines and Tenancy Evidence Audit August 2026](sources/memory-operational-baselines-and-tenancy-2026-08.md)
 - [Mistral Agentic Search — Navigable Retrieval Tool Contract](sources/mistral-agentic-search-2026.md)
+- [Multi-Domain Agent Latency Owner Report 2026-09-04](inbox/multi-domain-agent-latency-2026-09-04.md)
 - [Multilingual Embedding Evaluation Evidence 2025](sources/embedding-evaluation-2025.md)
 - [Multimodal Document Retrieval Evidence 2025](sources/multimodal-document-retrieval-2025.md)
 - [Multimodal RAG Evidence Audit 2026-08](sources/multimodal-rag-landscape-2026-08.md)
 - [Parser Landscape and Use-Case Audit August 2026](sources/parser-landscape-2026-08.md)
 - [Phantom Gains — Measured Nulls for Self-Improvement Claims](sources/phantom-gains-measured-null-2026.md)
 - [Public AI Architect Validation Artifacts August 2026](sources/public-ai-architect-validation-2026-08.md)
+- [Qwen3-32B as Retrieval Controller Candidate](sources/qwen3-32b-controller-candidate-2026.md)
 - [RAG Architecture Search Evidence 2026](sources/rag-architecture-search-2026.md)
 - [RAG Developments 2026 Research Batch 1](sources/rag-developments-2026-batch-1.md)
 - [RAG Developments 2026 Research Batch 2](sources/rag-developments-2026-batch-2.md)

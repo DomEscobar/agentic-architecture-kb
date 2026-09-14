@@ -6,15 +6,21 @@ status: reviewed
 privacy: public
 confidence: 0.87
 created_at: 2026-08-16T13:05:00+02:00
-updated_at: 2026-08-24T11:05:00+02:00
+updated_at: 2026-09-04T13:52:00+02:00
 review_at: 2026-09-16
 source_ids:
   - source-coding-agent-harness-and-skills-evidence-2026-08
   - source-agentic-security-verification-2026-08
   - source-agent-evaluation-research-2026
+  - source-jit-agent-harness-evolution-2026
+  - source-harnessdev-agent-harness-evolution-2026
 relations:
   - predicate: derived_from
     target: source-coding-agent-harness-and-skills-evidence-2026-08
+  - predicate: derived_from
+    target: source-jit-agent-harness-evolution-2026
+  - predicate: derived_from
+    target: source-harnessdev-agent-harness-evolution-2026
   - predicate: depends_on
     target: pattern-runtime-decision-guide
   - predicate: depends_on
@@ -259,6 +265,54 @@ Treat harness tuning as an experiment, not accumulated prompt folklore:
 
 Automatic harness evolution is research-stage evidence. The reusable pattern
 is observability plus bounded attribution, not autonomous promotion.
+
+## Fixed-executor evolution gate
+
+Treat the creator model, harness version, executor model and evaluator as
+separate experimental variables. Freeze every candidate harness before replay
+and compare baseline and candidate with the same executor, environment,
+protected tasks and scoring path. Then repeat across every executor model or
+release the harness must support; Self-Eval alone conflates harness quality,
+executor capability and their compatibility.
+
+HarnessDev reports that visible feedback and held-out performance agree in
+direction for only 34 of 64 version switches, and only two of nine declared
+final versions are held-out-optimal. Its fixed-executor results also include
+three held-out regressions among four non-control creator lineages. These are
+fresh author-reported results, not portable effect sizes, but they make visible
+feedback an unsafe promotion oracle.
+
+Keep authoring feedback, version selection and final confirmation splits
+separate. Count creator, probe, repair and failed-candidate cost in addition to
+downstream execution tokens. Retain a change only after repeated protected
+replays, safety sentinels and an executor-conditioned canary; preserve the
+previous content digest for rollback. Generated mechanisms must also appear in
+execution traces before they receive causal credit merely for existing in
+source code.
+
+## Instance-conditioned harness synthesis is experimental
+
+When task structures differ materially, a generated per-task harness can be
+evaluated as a challenger to one fixed scaffold or a small reviewed harness
+router. JIT-Agent reports broad within-backbone gains from generating memory,
+planning, action and tool-policy modules for each task, but the fresh preprint
+lacks independent replication and its public runtime does not implement the
+paper's streaming archive evolution. No coding-repository benchmark establishes
+project fit.
+
+Do not grant generated harness code the controller's ambient authority. Check
+its schema, imports and capability references, then execute it as untrusted code
+inside a disposable container or microVM without ambient credentials and with
+restricted mounts, egress, resources and termination. Keep the evaluator,
+protected tasks, policy gateway, budgets, archive admission and promotion
+decision outside that boundary.
+
+Compare JIT synthesis against both the current harness and a cheaper fixed
+router under the complete cost of generation, candidate selection, repair and
+execution. Retain a candidate only after paired protected replays, repeated
+evidence, safety sentinels and a rollback-ready canary. Same-task reward may
+admit an experimental archive reference; it does not by itself demonstrate
+cross-task transfer, compounding improvement or recursive self-improvement.
 
 ## Long-horizon state and project memory
 

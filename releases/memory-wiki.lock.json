@@ -1,13 +1,16 @@
 {
   "schema_version": 1,
   "status": "deployed",
-  "canonical_sha256": "4e0d1783687918708a1655fb63d2ac3dece0d47939b9c11f4b81c7a19d5f2b4c",
+  "canonical_sha256": "0306ed3cc9c8d6fd4dac1dc58681e7c5776f89cc8349dd28188e4c1e44f58797",
   "consumer": "memory-wiki",
-  "artifact_sha256": "0ff96b715b07098a847e57a5d5ea950079ea59ab500db0e41ff1b66c858c22ba",
+  "artifact_sha256": "ce20acf6798170f288d973ca1ab8aa929addcc2f2475dce48a13961779a12c75",
   "source_id": "source.agentic-architect-canonical-projection-2026-08-12",
   "synthesis_id": "synthesis.agentic-architect-canonical-knowledge",
-  "deployed_at": "2026-08-12T23:02:55+02:00",
-  "previous_status": "stale-legacy-projection",
-  "rollback": "Remove the canonical synthesis from active use and restore the previous lock; legacy source pages were preserved.",
-  "note": "Digest-pinned one-way canonical projection ingested with supported OpenClaw wiki operations; legacy pages remain historical inputs."
+  "deployed_at": "2026-08-28T19:01:39+02:00",
+  "approved_by": "Dom via Telegram message 612",
+  "previous_status": "deployed",
+  "previous_canonical_sha256": "4e0d1783687918708a1655fb63d2ac3dece0d47939b9c11f4b81c7a19d5f2b4c",
+  "previous_artifact_sha256": "0ff96b715b07098a847e57a5d5ea950079ea59ab500db0e41ff1b66c858c22ba",
+  "rollback": "Re-ingest the prior digest-pinned projection and restore the previous canonical and artifact digests recorded in this lock; legacy source pages remain preserved.",
+  "note": "Approved JIT-Agent source and narrow instance-conditioned harness synthesis update ingested through supported OpenClaw wiki operations; reverse sync remains disabled."
 }

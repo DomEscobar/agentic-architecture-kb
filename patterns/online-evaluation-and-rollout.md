@@ -44,3 +44,14 @@ Turn incidents into reviewed development/redteam cases, not an exposed hidden
 holdout. Reproduce, patch, regress and canary again. Rollback restores model,
 prompt, tools, retrieval and runtime as one compatible release identity, with
 automatic hard-safety triggers and an accountable owner.
+
+## Operational decision contract
+
+Define SLOs for user-valued outcomes, safety hard gates, availability and
+latency; do not use model-judge score alone as an SLO. Alerts need a baseline,
+window, minimum denominator, slice and owner so a “hallucination spike” means a
+measured rise in unsupported claims rather than anecdotal reports. Maintain a
+runbook for detection, containment, rollback, evidence preservation and user
+communication. Postmortems record evaluator blind spots and promote reviewed
+incidents into development/regression cases without exposing protected
+holdouts.

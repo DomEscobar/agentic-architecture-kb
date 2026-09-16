@@ -35,6 +35,9 @@ extensibility, artifacts, cost and team fit.
   generated attacks and scorer meaning still need validation.
 - **DeepEval:** Python/pytest teams wanting broad RAG/agent/LLM metrics; built-in
   judge metrics still require local calibration.
+- **RAGAS:** RAG-focused component diagnostics such as groundedness and
+  relevance; validate every judge-backed metric against local labels and keep
+  retrieval relevance sets and citation checks outside the framework score.
 - **OpenAI Evals:** custom/private evals in an OpenAI-oriented workflow; verify
   portability and the current API surface.
 - **Custom harness:** domain-state oracles, regulated data or specialized
@@ -42,3 +45,9 @@ extensibility, artifacts, cost and team fit.
 
 Keep cases, oracles, identities and acceptance vendor-neutral. A migration must
 reproduce the same decisions before replacing the previous runner.
+
+Framework names describe integration fit, not an evidence hierarchy. Wire the
+chosen runner into CI only after scorer-unit controls, immutable dataset and
+configuration identities, a reproduced baseline, hard-gate exit behavior and
+retained per-case artifacts pass. CI should block on decision-bearing gates;
+diagnostic judge aggregates may warn until their false-pass rate is calibrated.

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "canonical_sha256": "e52cca2e3c5c4570e5f1980c38f7880958951546262a3604b104a86b094c1730",
-  "artifact_sha256": "926cbc7030d91e48e1e222559e402f7900546a48f38a9548263ca8e34ceb16fb",
-  "page_count": 99,
+  "canonical_sha256": "2fe1e987d7a342e88fbdbd19a375e9c6195b86fe5ce416a69932b3bcdba47b4e",
+  "artifact_sha256": "46dcdea249b5d08230997bf061562ff18936bc18f809707ad794ed01d56eccbe",
+  "page_count": 102,
   "technique_count": 132,
   "privacy_allowlist": [
     "public",

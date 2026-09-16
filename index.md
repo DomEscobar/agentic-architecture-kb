@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-09-13T07:00:00+02:00` · 104 pages · 78 claims · 132 technique cards
+Revision: `2026-09-16T21:20:44+02:00` · 107 pages · 80 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -68,7 +68,7 @@ Revision: `2026-09-13T07:00:00+02:00` · 104 pages · 78 claims · 132 technique
 These lists are generated from the same page metadata compiled into
 `build/wiki.json`.
 
-### Syntheses (6)
+### Syntheses (7)
 
 - [Agent Evaluation Techniques](syntheses/agent-evaluation-techniques.md)
 - [Agentic Memory Architecture and Lifecycle](syntheses/agentic-memory-architecture.md)
@@ -76,8 +76,9 @@ These lists are generated from the same page metadata compiled into
 - [Current RAG Evidence August 2026](syntheses/rag-current-evidence-2026-08.md)
 - [Evaluation Workload Blueprints](syntheses/evaluation-workload-blueprints.md)
 - [RAG Pipeline Taxonomy](syntheses/rag-pipeline-taxonomy.md)
+- [Reward Integrity in Agent Evaluations](syntheses/reward-integrity-in-agent-evaluations.md)
 
-### Patterns (47)
+### Patterns (48)
 
 - [Agent Memory Brownfield Audit and Greenfield Intake](patterns/agent-memory-consulting-intake.md)
 - [Agent Memory Evaluation Blueprint](patterns/agent-memory-evaluation-blueprint.md)
@@ -98,6 +99,7 @@ These lists are generated from the same page metadata compiled into
 - [Embedding Technique Catalog and Migration Routing](patterns/embedding-technique-catalog.md)
 - [Eval-guided Bounded Improvement Loop](patterns/eval-guided-improvement-loop.md)
 - [Evaluation Consulting Intake and Decision Process](patterns/evaluation-consulting-intake.md)
+- [Evaluation Operations, Resilience, and Economics](patterns/evaluation-operations-and-economics.md)
 - [Evaluation Tool Selection](patterns/evaluation-tool-selection.md)
 - [Evidence-first Agent Evaluation](patterns/evidence-first-agent-evaluation.md)
 - [Generation-aware Context Efficiency](patterns/generation-aware-context-efficiency.md)
@@ -138,7 +140,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (46)
+### Sources (47)
 
 - [Adaptive Agentic Retrieval Control Evidence Audit 2024–2026](sources/adaptive-agentic-retrieval-control-2024-2026.md)
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
@@ -151,6 +153,7 @@ These lists are generated from the same page metadata compiled into
 - [Agent Runtime Mechanisms Evidence Audit August 2026](sources/runtime-techniques-2026-08.md)
 - [Agentic Runtime and RAG Security Evidence Audit August 2026](sources/agentic-security-landscape-2026-08.md)
 - [Agentic Security Cross-verification Audit August 2026](sources/agentic-security-verification-2026-08.md)
+- [BenchShield Reward Integrity Evidence 2026](sources/benchshield-reward-integrity-2026.md)
 - [Biweekly Agentic Architecture Research Radar 2026-08-16](inbox/research-radar-2026-08-16.md)
 - [Biweekly Agentic Architecture Research Radar 2026-08-30](inbox/research-radar-2026-08-30.md)
 - [Biweekly Agentic Architecture Research Radar 2026-09-13](inbox/research-radar-2026-09-13.md)

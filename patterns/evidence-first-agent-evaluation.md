@@ -86,6 +86,15 @@ agent/runtime identity, judge identity, policy and evaluator hash.
 - missing/invalid traces and infrastructure failures separated from agent
   failures.
 
+## Stochastic-runtime contract
+
+An evaluation run must freeze or record model, provider, prompt, tool schema,
+context projection, sampling parameters, reasoning-effort setting and any
+provider seed. A seed is a replay aid, not proof of determinism: serving,
+tooling and model revisions can still change outputs. Report repeated attempts
+and their distribution when a decision is sensitive to sampling variance;
+never treat temperature zero or one successful run as an exact oracle.
+
 ## Failure modes
 
 - **Goodharting:** candidate optimizes visible proxy; detect with hidden gates

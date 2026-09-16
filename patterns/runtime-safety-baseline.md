@@ -39,6 +39,10 @@ insufficient.
 - Recheck proposed actions against the original intent and trust zone.
 - Protect side effects with idempotency keys or saga/compensation semantics.
 - Enforce no-progress, repetition, and budget breakers.
+- Bound retries by error class and deadline; use backoff/jitter only for
+  transient failures. Open a circuit around persistently unhealthy dependencies
+  and route to a declared degraded mode or explicit failure, not an unverified
+  fallback answer.
 - Use a resumable approval interrupt before risky or irreversible actions.
 
 ## After the run
@@ -56,6 +60,8 @@ insufficient.
 - Capability escalation and cross-project access
 - Duplicate delivery and crash between side effect and checkpoint
 - Infinite loops, no progress, and budget overruns
+- Retry storms, open/half-open circuit behavior, fallback correctness and
+  degraded-mode disclosure
 - Faulty verifier and false completion report
 - Replay after schema or state migration
 - Deletion of a memory entry across all projections

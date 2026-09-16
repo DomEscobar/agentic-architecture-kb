@@ -27,6 +27,11 @@ relevance sets, evidence coverage, claim support/citations, abstention,
 staleness/contradiction, latency and cost. Measure ingestion, retrieval, context
 and generation separately plus end to end.
 
+“Hit rate” is ambiguous: define whether it means any relevant item in the top-k,
+answer-bearing evidence coverage, or cache hits. RAGAS-style faithfulness and
+relevance scores are judge-backed diagnostics, not replacements for judged
+relevance sets, claim-to-evidence citation binding or end-to-end outcome checks.
+
 ## Tool agents
 
 Outcome/state oracle, capability/arguments, forbidden actions, idempotency,

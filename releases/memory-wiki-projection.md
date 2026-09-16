@@ -1,6 +1,6 @@
 # Agentic Architect canonical projection
 
-Canonical SHA-256: `e52cca2e3c5c4570e5f1980c38f7880958951546262a3604b104a86b094c1730`
+Canonical SHA-256: `2fe1e987d7a342e88fbdbd19a375e9c6195b86fe5ce416a69932b3bcdba47b4e`
 
 This is a generated, one-way projection. The canonical source is `agentic-architecture-kb`;
 edits here must never reverse-sync into the canonical repository.
@@ -1174,6 +1174,82 @@ Evaluation Strategy, Dataset Card, metric/oracle registry, evaluator validation,
 baseline scorecard, go-live gates, rollout/rollback, ownership and unresolved
 evidence register.
 
+## Evaluation Operations, Resilience, and Economics
+
+Canonical ID: `pattern-evaluation-operations-and-economics`  
+Type: `pattern` · Privacy: `internal` · Confidence: `0.84`  
+Sources: `source-evaluation-consulting-research-2026`, `source-agent-evaluation-research-2026`, `source-domescobar-agentic-runtime-techniques`
+
+# Evaluation Operations, Resilience, and Economics
+
+## Scope
+
+Use this pattern after metric meaning, datasets and hard gates are defined. It
+connects evaluation to production traces, resilience tests, cost allocation and
+incident response. It is not a Python/testing curriculum, an observability
+vendor catalog or a substitute for workload-specific SLOs.
+
+## Trace and sampling contract
+
+Emit OpenTelemetry-compatible spans or an equivalent open schema for request,
+model, retrieval, tool, checkpoint, judge and side-effect boundaries. Preserve
+release/run/tenant pseudonym, case/slice, model and prompt identity, tool call
+and causal IDs, terminal reason, latency, tokens, cost and evaluator result.
+Do not log hidden reasoning or unrestricted content.
+
+Keep deterministic safety and accounting events at full coverage. Sample rich
+payloads by declared policy: retain errors, rare/high-risk slices and canaries;
+use bounded representative sampling for routine successes. Products such as
+Langfuse, LangSmith and Phoenix are storage/analysis choices. Select them by
+schema fidelity, exportability, privacy, sampling controls, replay support and
+operating model; product adoption does not validate a metric.
+
+## Reliability and chaos evaluation
+
+Test timeout, rate limit, malformed response, partial tool success, duplicate
+delivery, dependency outage, checkpoint crash, lease loss, queue backlog and
+recovery after schema migration. Validate bounded retry/backoff, circuit
+open/half-open behavior, idempotency, compensation and explicit degraded-mode
+semantics. Load tests preserve workload mix and model/provider quotas while
+measuring p50/p95/p99 latency, saturation, error class, queue age, cost and
+quality gates. Chaos tests run in isolated or shadow environments first and
+carry stop conditions; they must not create uncontrolled external effects.
+
+## FinOps decision contract
+
+Attribute model, retrieval, tool, judge, retry and storage cost to request,
+tenant, workload slice and release. Report cost per request and per successful
+outcome separately; averages must retain denominators and tail slices. Enforce
+per-run and aggregate budgets with warning and hard-stop owners. Measure cache
+ROI as avoided cost and latency minus cache infrastructure, invalidation,
+staleness and quality-regression cost. A cheaper fallback wins only if its
+quality, safety and degraded-mode contract pass the same gates.
+
+## Incident-to-evaluation loop
+
+Detection starts from explicit SLO/error-budget burn or hard-gate events.
+Runbooks identify containment, kill switch, rollback unit, evidence capture,
+communications and authority. Postmortems separate agent, evaluator, data,
+runtime and infrastructure causes. Convert reviewed incidents into development
+and regression cases, preserve protected holdouts, and verify the fix through
+offline replay, shadow traffic and bounded canary before closing the action.
+
+## Minimum evidence
+
+- trace-schema and retention test, including redaction and dropped-span rate;
+- paired baseline/candidate results by quality, safety, latency and cost;
+- retry/circuit/idempotency and checkpoint-recovery fault injection;
+- tenant/request cost reconciliation and budget-kill test;
+- alert precision, detection delay, rollback rehearsal and postmortem-derived
+  regression replay.
+
+## Exclusions
+
+Do not add a vendor-specific page unless a concrete architecture decision needs
+one. Do not turn general Python, Git, pandas or portfolio-writing education into
+canonical architecture knowledge. Do not publish universal alert thresholds,
+cost targets or chaos schedules without workload evidence.
+
 ## Statistical Decision Rules for Agent Evaluations
 
 Canonical ID: `pattern-evaluation-statistical-decision-rules`  
@@ -1245,6 +1321,9 @@ extensibility, artifacts, cost and team fit.
   generated attacks and scorer meaning still need validation.
 - **DeepEval:** Python/pytest teams wanting broad RAG/agent/LLM metrics; built-in
   judge metrics still require local calibration.
+- **RAGAS:** RAG-focused component diagnostics such as groundedness and
+  relevance; validate every judge-backed metric against local labels and keep
+  retrieval relevance sets and citation checks outside the framework score.
 - **OpenAI Evals:** custom/private evals in an OpenAI-oriented workflow; verify
   portability and the current API surface.
 - **Custom harness:** domain-state oracles, regulated data or specialized
@@ -1252,6 +1331,12 @@ extensibility, artifacts, cost and team fit.
 
 Keep cases, oracles, identities and acceptance vendor-neutral. A migration must
 reproduce the same decisions before replacing the previous runner.
+
+Framework names describe integration fit, not an evidence hierarchy. Wire the
+chosen runner into CI only after scorer-unit controls, immutable dataset and
+configuration identities, a reproduced baseline, hard-gate exit behavior and
+retained per-case artifacts pass. CI should block on decision-bearing gates;
+diagnostic judge aggregates may warn until their false-pass rate is calibrated.
 
 ## Evidence-first Agent Evaluation
 
@@ -1326,6 +1411,15 @@ agent/runtime identity, judge identity, policy and evaluator hash.
 - judge calibration and disagreement;
 - missing/invalid traces and infrastructure failures separated from agent
   failures.
+
+## Stochastic-runtime contract
+
+An evaluation run must freeze or record model, provider, prompt, tool schema,
+context projection, sampling parameters, reasoning-effort setting and any
+provider seed. A seed is a replay aid, not proof of determinism: serving,
+tooling and model revisions can still change outputs. Report repeated attempts
+and their distribution when a decision is sensitive to sampling variance;
+never treat temperature zero or one successful run as an exact oracle.
 
 ## Failure modes
 
@@ -1735,6 +1829,17 @@ Turn incidents into reviewed development/redteam cases, not an exposed hidden
 holdout. Reproduce, patch, regress and canary again. Rollback restores model,
 prompt, tools, retrieval and runtime as one compatible release identity, with
 automatic hard-safety triggers and an accountable owner.
+
+## Operational decision contract
+
+Define SLOs for user-valued outcomes, safety hard gates, availability and
+latency; do not use model-judge score alone as an SLO. Alerts need a baseline,
+window, minimum denominator, slice and owner so a “hallucination spike” means a
+measured rise in unsupported claims rather than anecdotal reports. Maintain a
+runbook for detection, containment, rollback, evidence preservation and user
+communication. Postmortems record evaluator blind spots and promote reviewed
+incidents into development/regression cases without exposing protected
+holdouts.
 
 ## PageIndex Reasoning Tree Retrieval
 
@@ -2750,6 +2855,10 @@ insufficient.
 - Recheck proposed actions against the original intent and trust zone.
 - Protect side effects with idempotency keys or saga/compensation semantics.
 - Enforce no-progress, repetition, and budget breakers.
+- Bound retries by error class and deadline; use backoff/jitter only for
+  transient failures. Open a circuit around persistently unhealthy dependencies
+  and route to a declared degraded mode or explicit failure, not an unverified
+  fallback answer.
 - Use a resumable approval interrupt before risky or irreversible actions.
 
 ## After the run
@@ -2767,6 +2876,8 @@ insufficient.
 - Capability escalation and cross-project access
 - Duplicate delivery and crash between side effect and checkpoint
 - Infinite loops, no progress, and budget overruns
+- Retry storms, open/half-open circuit behavior, fallback correctness and
+  degraded-mode disclosure
 - Faulty verifier and false completion report
 - Replay after schema or state migration
 - Deletion of a memory entry across all projections
@@ -3529,6 +3640,51 @@ blocks against authoritative tool state.
    executable supply-chain inputs.
 5. Keep the exact component version, configuration, model, attack corpus,
    oracle and residual failures in every security release record.
+
+## BenchShield Reward Integrity Evidence 2026
+
+Canonical ID: `source-benchshield-reward-integrity-2026`  
+Type: `source` · Privacy: `public` · Confidence: `0.82`  
+Sources: none
+
+# BenchShield Reward Integrity Evidence 2026
+
+Primary paper: [BenchShield v1](https://arxiv.org/abs/2609.11028v1), retrieved
+and inspected 2026-09-14. This is an author-reported preprint, not an
+independently reproduced production result.
+
+## Supported distinctions
+
+1. A vulnerable task exposes a possible reward-manipulation path; exposure does
+   not establish that an agent attempted or successfully used it.
+2. Reward integrity spans observations, actions/state, handoff, evaluator
+   inputs, outcome/reward and feedback release. A correct final artifact alone
+   does not prove legitimate derivation.
+3. Infrastructure-side lifecycle evidence and sealed bundles support run-level
+   attribution and structural replay without rerunning unsafe side effects.
+4. Structural conformance and semantic adequacy are separate obligations. The
+   paper's finite structural model does not prove that the reward captures the
+   intended task meaning.
+
+## Reported results and limits
+
+The paper reports 456 adjudicated trajectories selected from more than 31,000
+public runs across three benchmarks; 314 were labelled reward hacking under the
+study protocol. This selected complete-artifact corpus is not a prevalence
+estimate for deployed agents.
+
+The runtime study planned 180 cells and reports 144 runnable cells. Reported
+96% accuracy is conditional on cells receiving a verdict; abstentions affect
+coverage. No directed exploit received `Checked` in that study, which is not a
+universal prevention guarantee. Structural checks are reported without model
+calls; full semantic auditing is reported at USD 5–10 per cell under the study
+setup. These costs and accuracies require local measurement.
+
+Transfer limits include BenchFlow-specific transformation, fixed lifecycle
+assumptions, nondeterministic semantic adaptation, incomplete backend coverage
+and out-of-scope multi-role noninterference. The paper does not establish
+general RL/RSI improvement, semantic correctness from isolation or production
+reliability.
 
 ## Bounded Improvement Technique Evidence Audit August 2026
 
@@ -6458,6 +6614,11 @@ relevance sets, evidence coverage, claim support/citations, abstention,
 staleness/contradiction, latency and cost. Measure ingestion, retrieval, context
 and generation separately plus end to end.
 
+“Hit rate” is ambiguous: define whether it means any relevant item in the top-k,
+answer-bearing evidence coverage, or cache hits. RAGAS-style faithfulness and
+relevance scores are judge-backed diagnostics, not replacements for judged
+relevance sets, claim-to-evidence citation binding or end-to-end outcome checks.
+
 ## Tool agents
 
 Outcome/state oracle, capability/arguments, forbidden actions, idempotency,
@@ -6715,6 +6876,59 @@ BM25 is a mandatory control at every corpus tier. The 2026 controlled scaling
 study makes a strong case for Agent+BM25 over raw file-system navigation at
 large scale, but does not establish lexical retrieval as universally superior.
 Use nested-corpus replay to identify the crossover for the actual query mix.
+
+## Reward Integrity in Agent Evaluations
+
+Canonical ID: `synthesis-reward-integrity-in-agent-evaluations`  
+Type: `synthesis` · Privacy: `internal` · Confidence: `0.84`  
+Sources: `source-benchshield-reward-integrity-2026`, `source-agent-evaluation-research-2026`
+
+# Reward Integrity in Agent Evaluations
+
+## Decision rule
+
+A passing task score is insufficient for promotion when the evaluated agent can
+influence evaluator inputs, reward-relevant artifacts or scoring
+infrastructure. Record outcome and integrity verdict separately; admit a score
+to optimization or promotion only when the declared integrity boundary is
+supported. Enforce forbidden channels and authority transitions, not one golden
+trajectory.
+
+## Minimum contract
+
+1. Keep evaluator code/configuration, hidden references, reward collection and
+   evidence recording outside the agent's writable authority. Treat executable
+   handoffs as agent-controlled even when mounted into an isolated verifier.
+2. Seal run/task/baseline identity, ordered lifecycle events, artifact and
+   evaluator-input hashes, reward producer/value, errors and feedback release.
+   Check sequence and artifact-to-input binding, not hash presence alone.
+3. Distinguish checked-within-scope, exposed-without-observed-use,
+   attempted/observed violation and inconclusive. Missing or conflicting
+   evidence must not become a clean pass.
+4. Check structural transitions and provenance deterministically. Keep semantic
+   adequacy as a separately calibrated review; a judge cannot rewrite
+   infrastructure facts.
+
+## Evaluation and rollout
+
+Use paired honest/exploit cases covering evaluator mutation, hidden-reference
+access, handoff substitution, forged reward/logs, missing or reordered events,
+fail-open errors and benign unconventional solutions. Measure unauthorized
+accepted rewards, honest-run false violations, abstention/coverage and semantic
+review disagreement by slice.
+
+Replay sealed receipts against pinned checker versions without rerunning side
+effects. Checker upgrades create a new verdict lineage. Start deployment in
+shadow mode and canary; quarantine violated or inconclusive rewards from
+training/promotion datasets. The kill switch suspends reward admission, not
+merely the agent prompt.
+
+## Boundary
+
+This pattern applies to tool/coding agents and bounded self-improvement where
+reward can be manipulated. It is not automatic RAG or memory coverage and does
+not imply that BenchShield's reported accuracy, cost or lifecycle transfers to
+the target system.
 
 ## Validated technique cards
 

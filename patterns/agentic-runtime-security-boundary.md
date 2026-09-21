@@ -56,6 +56,14 @@ untrusted input -> planner -> proposed action
 7. Enforce step, token, cost, fan-out, delegation and wall-time limits outside
    the model. Provide a tested kill switch and credential revocation path.
 
+Do not collapse authorization into one success/failure label. Correlate four
+separate events: the agent request, the deterministic policy decision, the tool
+invocation and the externally observed effect. This distinguishes an exposed
+capability, an attempted use, a blocked call and an actual side effect. APort
+Vault provides provisional payment-domain evidence for this boundary; its zero
+matched unauthorized transfers does not generalize beyond the tested policy,
+attack cohort or tool family.
+
 ## Trust and adoption gate
 
 An open-source governance or sandbox project is a component candidate, not a

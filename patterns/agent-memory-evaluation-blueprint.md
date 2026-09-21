@@ -38,6 +38,13 @@ Write: extraction precision/recall, fabrication, unauthorized writes,
 provenance completeness. Update: conflict recall, stale survival, current-value
 accuracy. Retrieval: Recall/Precision@k, MRR/nDCG, distractors and abstention.
 Use: task success, constraint grounding, exact tool arguments and side effects.
+Add paired memory-present versus memory-free replay for clean, stale,
+contradictory and adversarial evidence. Retrieval can increase recall while
+making the final answer worse, so report harm relative to the memory-free arm.
+If a pre-injection trust or abstention controller is used, evaluate its decision
+quality separately from retrieval recall and downstream generation quality;
+include false abstention, unsafe injection, latency and cost. The current Memory
+Decision Controller paper is a candidate mechanism, not a default architecture.
 Operations: p50/p95 latency, storage, tokens and calls, with ingest, extraction,
 retrieval, consolidation and answer cost metered separately. Report total cost
 per correct answer and warm/cold behavior rather than query-serving cost alone.

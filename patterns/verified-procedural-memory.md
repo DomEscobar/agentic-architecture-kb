@@ -28,7 +28,14 @@ approval where risk warrants. Selection requires task fit and satisfied
 preconditions. Execute with least privilege, budget and kill switch. Record the
 actual outcome and demote on drift or repeated failure.
 
+For learned or evolved skills, keep the model, context budget and evaluation
+cases frozen across arms. Compare acquisition-only, revision-only and coupled
+acquisition-plus-revision against the same no-skill baseline. A bounded gate may
+require at least one demonstrated win and no detected loss on protected slices;
+this is an admission rule under the tested workload, not evidence of general
+self-improvement. Designer-RSI provides provisional graphic-design evidence for
+this coupled ablation, with private-traffic, automated-judge and latency limits.
+
 Promotion uses development/selection/hidden holdout; canary before broad use;
 rollback restores the accepted procedure. A successful historical trajectory
 does not prove transfer to a changed environment.
-

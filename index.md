@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-09-16T21:20:44+02:00` · 107 pages · 80 claims · 132 technique cards
+Revision: `2026-09-21T08:15:00+02:00` · 108 pages · 80 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -140,7 +140,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (47)
+### Sources (48)
 
 - [Adaptive Agentic Retrieval Control Evidence Audit 2024–2026](sources/adaptive-agentic-retrieval-control-2024-2026.md)
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
@@ -188,6 +188,7 @@ These lists are generated from the same page metadata compiled into
 - [RAG Research and Practitioner Radar August 2026](sources/rag-radar-2026-08.md)
 - [Retrieval, Reranking, and Context Assembly Evidence Audit August 2026](sources/retrieval-context-landscape-2026-08.md)
 - [Runtime Boundary Regression Evidence Audit August 2026](sources/runtime-boundary-regression-evidence-2026-08.md)
+- [September 2026 Evidence — Procedural Memory, Authorization, and Memory Abstention](sources/scout-evidence-designer-rsi-aport-mdl-2026-09.md)
 - [VectifyAI PageIndex and Mafin 2.5 FinanceBench](sources/vectifyai-pageindex.md)
 
 ### Technique cards

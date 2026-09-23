@@ -53,6 +53,19 @@ transfer automatically to another.
 
 ## Promotion rule
 
+## Grounded and permissive grading are separate outcomes
+
+Grade evidence-grounded answering separately from permissive answering. A reject
+mode that may only use retrieved evidence and an open mode that may also use
+parametric knowledge answer different questions; one blended accuracy number
+hides whether a change improved evidence use or merely let the model answer from
+memory.
+
+Report both with the retrieval budget, because representation gains often grow
+with k. An improvement that appears only at larger k shifts context and serving
+cost rather than removing it: recheck tokens, latency and cost per correct answer
+before promoting. See `source-wfm-wiki-foundation-model-2026`.
+
 Promote only if hard gates pass, primary outcome meets its declared margin, no
 critical slice exceeds regression tolerance, operational constraints hold, an
 independent protected confirmation passes, and all identities match.

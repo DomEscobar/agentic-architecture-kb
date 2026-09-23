@@ -42,6 +42,17 @@ Seed a graph from query-linked entities/passages and diffuse relevance through
 relationships. Useful for associative multi-hop retrieval; sensitive to graph
 construction, edge weighting and seed quality.
 
+### Hybrid wiki representation (dense passages as nodes)
+
+Keep dense passages as first-class nodes alongside typed entity-relation edges
+instead of reducing all context to triples. Useful when passage-level semantics
+and multi-hop structure both matter. It normally requires a learned encoder to
+weight structural and textual neighbours jointly; see
+`source-wfm-wiki-foundation-model-2026` for a pretrained graph-foundation-model
+variant. Treat it as a representation option, not a default: it adds a training
+dependency, and the reported gains concentrate at deeper retrieval budgets,
+which shifts context cost rather than removing it.
+
 ## Default composition
 
 ```text

@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-09-23T11:00:00+02:00` · 109 pages · 81 claims · 132 technique cards
+Revision: `2026-09-24T08:05:00+02:00` · 111 pages · 82 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -78,7 +78,7 @@ These lists are generated from the same page metadata compiled into
 - [RAG Pipeline Taxonomy](syntheses/rag-pipeline-taxonomy.md)
 - [Reward Integrity in Agent Evaluations](syntheses/reward-integrity-in-agent-evaluations.md)
 
-### Patterns (48)
+### Patterns (49)
 
 - [Agent Memory Brownfield Audit and Greenfield Intake](patterns/agent-memory-consulting-intake.md)
 - [Agent Memory Evaluation Blueprint](patterns/agent-memory-evaluation-blueprint.md)
@@ -92,6 +92,7 @@ These lists are generated from the same page metadata compiled into
 - [Bounded RAG Architecture Search](patterns/bounded-rag-architecture-search.md)
 - [Chunking Baseline and Ablation](patterns/chunking-baseline-ablation.md)
 - [Chunking Technique Catalog and Routing Matrix](patterns/chunking-technique-catalog.md)
+- [Coding-Agent Debug Loop](patterns/coding-agent-debug-loop.md)
 - [Contextual Retrieval](patterns/contextual-retrieval.md)
 - [Controlled Memory Write and Promotion](patterns/memory-write-and-promotion.md)
 - [Document-centric Hybrid RAG](patterns/document-centric-hybrid-rag.md)
@@ -140,7 +141,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (49)
+### Sources (50)
 
 - [Adaptive Agentic Retrieval Control Evidence Audit 2024–2026](sources/adaptive-agentic-retrieval-control-2024-2026.md)
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
@@ -151,6 +152,7 @@ These lists are generated from the same page metadata compiled into
 - [Agent Memory Technique Evidence Audit August 2026](sources/memory-techniques-2026-08.md)
 - [Agent Runtime Framework Landscape Evidence Audit August 2026](sources/agent-runtime-framework-landscape-2026-08.md)
 - [Agent Runtime Mechanisms Evidence Audit August 2026](sources/runtime-techniques-2026-08.md)
+- [Agentic Repair-Loop Evidence 2024-2026](sources/agentic-repair-loops-evidence-2026.md)
 - [Agentic Runtime and RAG Security Evidence Audit August 2026](sources/agentic-security-landscape-2026-08.md)
 - [Agentic Security Cross-verification Audit August 2026](sources/agentic-security-verification-2026-08.md)
 - [BenchShield Reward Integrity Evidence 2026](sources/benchshield-reward-integrity-2026.md)

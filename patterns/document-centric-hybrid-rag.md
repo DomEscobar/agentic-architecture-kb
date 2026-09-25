@@ -72,6 +72,22 @@ dataset-specific parameters, not universal best practices.
 - Compute and validate calculable values deterministically.
 - Require human approval before external or irreversible output.
 
+## Structure-aware retrieval units
+
+Derive retrieval boundaries from document structure (headings, table of
+contents, breadcrumbs) instead of fixed token windows. Supplying that structure
+with the query performs better than expecting the retriever to memorise the
+hierarchy: an ablation that held base model, data and task constant and added
+the table of contents to the input reported a Recall@1 gain concentrated on the
+sections with the fewest training examples
+(`source-stair-structure-aware-retrieval-2026`).
+
+Compose it as routing, not replacement: route to a section, then select passages
+inside it and keep the existing coverage, citation and deletion checks. Do not
+adopt a per-corpus parametric index where incremental update, erasure, ACL
+propagation or provenance is required. Constrain generated identifiers to a
+valid set wherever a component must emit an ID rather than free text.
+
 ## Do not use
 
 - For small, fully structured datasets: direct SQL or API queries are simpler

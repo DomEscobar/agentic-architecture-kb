@@ -266,6 +266,29 @@ Treat harness tuning as an experiment, not accumulated prompt folklore:
 Automatic harness evolution is research-stage evidence. The reusable pattern
 is observability plus bounded attribution, not autonomous promotion.
 
+### Auto-research harness discovery
+
+Automated harness search is now reproducible at scale, and the transferable part
+is the selection machinery, not the artifact. SoL-Pi fixed capability metrics,
+tolerances and efficiency metrics before experimentation, kept them outside the
+optimizing agent's control, required each candidate to satisfy a capability gate
+and to improve at least one declared efficiency metric, retained nondominated
+results, and reserved held-out tasks for one-way acceptance of frozen candidates
+only (`source-sol-pi-harness-auto-research-2026`).
+
+Report the trade explicitly rather than the headline. The full four-mechanism
+stack cut token traffic by 49 percent and cost by 33 percent against its base
+harness while retaining 93.7 percent of the base score, and on a separate
+benchmark it solved 15 of 63 tasks against 18 for both the base harness and a
+native harness. Efficiency transferred across two model backends without
+re-search; capability parity did not. Treat efficiency mechanisms as a
+configurable operating point, not a free win.
+
+Require activation evidence per mechanism. A mechanism that exists in source but
+never activates in traces earns no causal credit: report activation rate and
+intensity per mechanism and per backend, and expect lower activation on a
+backend the harness was not optimized for.
+
 ## Fixed-executor evolution gate
 
 Treat the creator model, harness version, executor model and evaluator as

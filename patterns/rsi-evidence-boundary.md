@@ -63,3 +63,11 @@ requires the improved generation to produce better future candidates under
 equal search budget and information. Harness source that declares memory,
 verification or recovery is evidence of implementation only; trace activation
 and outcome ablations are needed to establish an effective mechanism.
+
+SoL-Pi adds supporting evidence for the search process rather than for recursive
+self-improvement. It fixed its acceptance gates outside the optimizing agent's
+control, kept held-out results out of the search loop, and reported efficiency
+gains at a measured capability cost, including fewer solved tasks than the base
+harness on one benchmark (`source-sol-pi-harness-auto-research-2026`). A harness
+that spends fewer tokens while solving fewer tasks is an operating-point choice,
+not an improved generation.

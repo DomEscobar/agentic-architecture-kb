@@ -266,6 +266,36 @@ Treat harness tuning as an experiment, not accumulated prompt folklore:
 Automatic harness evolution is research-stage evidence. The reusable pattern
 is observability plus bounded attribution, not autonomous promotion.
 
+### Component-level harness ablation
+
+Compare components one at a time. Hold the execution loop and every unablated
+supporting mechanism fixed, vary one component, and report effects conditional
+on model capability, context budget and task type: a study that ablated
+planning, action space and context management separately across four models,
+176 settings and two code benchmarks found no universal winner
+(`source-harness-design-empirical-study-2026`).
+
+Four defaults come out of that study and are worth adopting until local replay
+disagrees:
+
+- Guarantee that the context window cannot overflow before tuning compaction
+  nuance; most of the measured context-management benefit came from preventing
+  overflow termination, and the accuracy benefit shrank as the budget grew.
+- Stage cheap deterministic elision before LLM summarization rather than
+  replacing one with the other.
+- Do not build recoverability machinery (external store plus recall tool) unless
+  traces show the model actually invokes it; the reported recall tool was rarely
+  used and added no accuracy.
+- Treat planning as capability-conditional: an accuracy scaffold for weaker
+  models, a cost saver for stronger ones, with little accuracy movement either
+  way.
+
+Choose the action space from measured shell proficiency. Predefined typed tools
+helped models with weak bash usage, while bash-capable models ran effectively
+with a bash-only interface at substantially lower cost on command-line-centric
+tasks. Note that the comparison measures the whole interface, including
+validation and state tracking, not tool count alone.
+
 ### Auto-research harness discovery
 
 Automated harness search is now reproducible at scale, and the transferable part

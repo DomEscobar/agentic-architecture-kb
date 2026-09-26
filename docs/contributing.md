@@ -41,6 +41,9 @@ See [ADR-0002: One-way Knowledge Promotion DAG](adr/0002-knowledge-promotion-dag
 for how downstream consumers (the Memory Wiki projection and the public
 snapshot) are released without ever writing back to canonical pages.
 
+Repository-harness conventions for agent-operated repositories are recorded in
+[ADR-0003: Minimal Repository-Harness Alignment](adr/0003-minimal-repo-harness-alignment.md).
+
 Every canonical novelty, correction, supersession, or reversion also appends a
 dated record to [`changes/ledger.jsonl`](../changes/ledger.jsonl), validated
 against [schemas/change.schema.json](../schemas/change.schema.json). The

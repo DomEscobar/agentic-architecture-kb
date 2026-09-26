@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "kb_commit": "4d99256",
+  "because_of": [
+    "pattern-project-coding-agent-harness",
+    "pattern-evidence-first-agent-evaluation",
+    "claim-fix-accepted-only-after-repro-regression-and-verification"
+  ],
+  "invariants": [
+    {"rule": "Canonical knowledge changes carry a dated ledger record", "check": "lint"},
+    {"rule": "Review dates are validated for freshness", "check": "freshness-check"},
+    {"rule": "The test suite passes before publication", "check": "test"},
+    {"rule": "Consumer drift is reported, never auto-published", "check": "drift"}
+  ],
+  "review_at": "2026-12-26"
+}

@@ -1,4 +1,4 @@
-.PHONY: lint compile index navigation hybrid-index retrieval-benchmark memory-projection drift freshness-check repo-pulse due-reviews test check consult discovery-sync mcp
+.PHONY: lint compile index navigation hybrid-index retrieval-benchmark memory-projection drift freshness-check harness-check repo-pulse due-reviews test check consult discovery-sync mcp
 
 lint:
 	python3 tools/wiki.py lint
@@ -27,6 +27,9 @@ drift:
 freshness-check:
 	python3 tools/freshness.py validate
 
+harness-check:
+	python3 tools/harness_check.py
+
 repo-pulse:
 	python3 tools/freshness.py repo-pulse
 
@@ -46,4 +49,4 @@ mcp:
 test:
 	python3 -m unittest discover -s tests -v
 
-check: lint freshness-check compile test
+check: lint freshness-check harness-check compile test

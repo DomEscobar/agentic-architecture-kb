@@ -71,3 +71,14 @@ gains at a measured capability cost, including fewer solved tasks than the base
 harness on one benchmark (`source-sol-pi-harness-auto-research-2026`). A harness
 that spends fewer tokens while solving fewer tasks is an operating-point choice,
 not an improved generation.
+
+A single offline distillation pass over a frozen rollout corpus is reported to
+match or beat validation-gated prompt search, which weakens the assumption that
+gating is always required for bounded improvement
+(`source-coding-agent-skill-distillation-2026`). The boundary still holds: the
+offline pass replaces the gate only when corpus representativeness is
+independently established, corpus construction cost is counted, and outcome
+variance is reported. The reported advantage also disappears on two of four
+benchmarks once baselines receive more data and environment access. Treat it as
+a cheaper operating point under a verified corpus, not as a licence to drop
+held-out confirmation.

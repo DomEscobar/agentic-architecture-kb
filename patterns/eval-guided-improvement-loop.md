@@ -62,6 +62,23 @@ accepted baseline
   improvement.
 - Promotion has a kill switch, bounded canary and automatic rollback trigger.
 
+## Offline distillation instead of gated search
+
+When a frozen rollout corpus already exists, a single offline analysis pass can
+substitute for iterative validation-gated search at the same data access: an
+unmodified coding agent that writes and executes corpus-wide statistics, then
+inspects only the episodes those statistics flag, produced prompts that beat a
+reflective search optimizer on three of four agentic benchmarks and a
+validation-gated baseline on four of four, at roughly 1.60 USD per prompt
+(`source-coding-agent-skill-distillation-2026`).
+
+Require three conditions before accepting the substitution. Show that the corpus
+is representative of the deployment distribution, because the pass has no
+held-out gate and cannot detect corpus-specific overfit. Count corpus
+construction cost, because the rollout trajectories are paid work that the
+quoted figure omits. Report outcome variance, because a single pass yields one
+artifact per benchmark. Where these cannot be established, keep the gated loop.
+
 ## Selection
 
 Do not collapse all objectives into one score. First apply hard gates, then use

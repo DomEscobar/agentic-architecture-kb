@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-09-25T07:30:00+02:00` · 113 pages · 84 claims · 132 technique cards
+Revision: `2026-09-26T07:10:00+02:00` · 114 pages · 85 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -141,7 +141,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (52)
+### Sources (53)
 
 - [Adaptive Agentic Retrieval Control Evidence Audit 2024–2026](sources/adaptive-agentic-retrieval-control-2024-2026.md)
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
@@ -164,6 +164,7 @@ These lists are generated from the same page metadata compiled into
 - [Chunking Evidence Audit 2025–2026](sources/chunking-evidence-2025-2026.md)
 - [Chunking Landscape and Use-Case Audit August 2026](sources/chunking-landscape-2026-08.md)
 - [Coding Agent Harness and Skills Evidence Audit August 2026](sources/coding-agent-harness-and-skills-evidence-2026-08.md)
+- [Coding-Agent Skill Distillation Evidence 2026](sources/coding-agent-skill-distillation-2026.md)
 - [Document Parsing Evidence Audit 2025–2026](sources/document-parsing-evidence-2026.md)
 - [DomEscobar Agentic Eval Evolution Research](sources/domescobar-agentic-eval-research.md)
 - [DomEscobar agentic-runtime-techniques](sources/domescobar-agentic-runtime-techniques.md)

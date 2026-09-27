@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-09-26T07:35:00+02:00` · 115 pages · 86 claims · 132 technique cards
+Revision: `2026-09-27T07:30:00+02:00` · 116 pages · 87 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -141,7 +141,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (54)
+### Sources (55)
 
 - [Adaptive Agentic Retrieval Control Evidence Audit 2024–2026](sources/adaptive-agentic-retrieval-control-2024-2026.md)
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
@@ -175,6 +175,7 @@ These lists are generated from the same page metadata compiled into
 - [EnvHarness — Adaptive Wrappers for Agent-Learning Environments](sources/envharness-adaptive-environment-wrapper-2026.md)
 - [Evaluation Consulting Research August 2026](sources/evaluation-consulting-research-2026.md)
 - [HarnessDev Agent Harness Creation and Evolution Evidence 2026](sources/harnessdev-agent-harness-evolution-2026.md)
+- [JAZ invoke Harness-as-Language Evidence 2026](sources/jaz-invoke-harness-as-language-2026.md)
 - [JIT-Agent — Instance-Conditioned Harness Synthesis](sources/jit-agent-harness-evolution-2026.md)
 - [Memory Operational Baselines and Tenancy Evidence Audit August 2026](sources/memory-operational-baselines-and-tenancy-2026-08.md)
 - [Mistral Agentic Search — Navigable Retrieval Tool Contract](sources/mistral-agentic-search-2026.md)

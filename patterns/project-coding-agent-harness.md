@@ -343,6 +343,31 @@ previous content digest for rollback. Generated mechanisms must also appear in
 execution traces before they receive causal credit merely for existing in
 source code.
 
+## Minimal-loop expressivity and lossless delegation
+
+A single LLM primitive can stand in for several harness components when two
+properties hold: the model may write arbitrary code including recursive calls,
+so subagents are the default, and everything the model sees, including all
+inputs and the interaction history, is a variable in that code environment. JAZ
+reports that a prompt-only setup with these properties beats a long-horizon
+memory harness and a self-improvement harness on one benchmark each, with
+reported standard errors and calibrated cost measurement
+(`source-jaz-invoke-harness-as-language-2026`).
+
+Keep three cautions attached before treating this as a replacement for harness
+components. The delegation behaviour was elicited with an injected hook and a
+code template, so the gain is not purely attributable to the primitive. The
+equal-information comparison, where the baseline can read its own history as a
+variable, was not run. And the headline margin over the specialized memory
+harness shrinks to 1.7 points on the full task set while the large gain sits in
+a 207-task recall subset.
+
+Adopt the transferable parts now: keep the interaction history as a first-class
+variable so delegation can pass it by reference instead of compacting it;
+separate environment-provided instructions from method-provided guidance so
+method comparisons are not confounded by prompt overfitting; and state the
+missing ablation as an open question whenever this evidence is cited.
+
 ## Instance-conditioned harness synthesis is experimental
 
 When task structures differ materially, a generated per-task harness can be

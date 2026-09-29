@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-09-27T07:30:00+02:00` · 116 pages · 87 claims · 132 technique cards
+Revision: `2026-09-29T07:45:00+02:00` · 117 pages · 88 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -141,7 +141,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (55)
+### Sources (56)
 
 - [Adaptive Agentic Retrieval Control Evidence Audit 2024–2026](sources/adaptive-agentic-retrieval-control-2024-2026.md)
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
@@ -192,6 +192,7 @@ These lists are generated from the same page metadata compiled into
 - [RAG Developments 2026 Research Batch 2](sources/rag-developments-2026-batch-2.md)
 - [RAG Research and Practitioner Radar August 2026](sources/rag-radar-2026-08.md)
 - [Retrieval, Reranking, and Context Assembly Evidence Audit August 2026](sources/retrieval-context-landscape-2026-08.md)
+- [RRSI Regularized Harness Evolution Evidence 2026](sources/rrsi-regularized-harness-evolution-2026.md)
 - [Runtime Boundary Regression Evidence Audit August 2026](sources/runtime-boundary-regression-evidence-2026-08.md)
 - [September 2026 Evidence — Procedural Memory, Authorization, and Memory Abstention](sources/scout-evidence-designer-rsi-aport-mdl-2026-09.md)
 - [SoL-Pi Harness Auto-Research Evidence 2026](sources/sol-pi-harness-auto-research-2026.md)

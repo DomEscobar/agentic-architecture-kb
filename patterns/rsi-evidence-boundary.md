@@ -6,16 +6,19 @@ status: reviewed
 privacy: public
 confidence: 0.81
 created_at: 2026-08-12T18:42:00+02:00
-updated_at: 2026-09-04T13:52:00+02:00
+updated_at: 2026-09-29T07:45:00+02:00
 review_at: 2026-10-12
 source_ids:
   - source-bounded-self-improvement-2025-2026
   - source-harnessdev-agent-harness-evolution-2026
+  - source-rrsi-regularized-harness-evolution-2026
 relations:
   - predicate: derived_from
     target: source-bounded-self-improvement-2025-2026
   - predicate: derived_from
     target: source-harnessdev-agent-harness-evolution-2026
+  - predicate: derived_from
+    target: source-rrsi-regularized-harness-evolution-2026
   - predicate: applies_to
     target: pattern-eval-guided-improvement-loop
 ---
@@ -82,3 +85,18 @@ variance is reported. The reported advantage also disappears on two of four
 benchmarks once baselines receive more data and environment access. Treat it as
 a cheaper operating point under a verified corpus, not as a licence to drop
 held-out confirmation.
+
+## Search-path regularization, not autonomous promotion
+
+RRSI reports a useful counterexample to selecting the largest repeated evolve-set
+gain: in its workspace ablation, removing both proposal and selection
+regularizers raises evolve score from 90.5 to 92.8 while lowering the three-suite
+out-of-distribution average from 43.6 to 40.3, versus 43.6 for RRSI
+(`source-rrsi-regularized-harness-evolution-2026`). For a harness search with
+enough candidates and protected transfer tasks, test an edit-hypothesis ledger,
+bounded independent changes, pre-evaluation leakage screening, measured noise
+and explicit token-cost accounting. Preserve the independent confirmation and
+rollout gates above: a leakage critic and an evolve-set noise band are not
+substitutes. These are author-reported ablations of groups of constraints, not
+proof that any single regularizer transfers to another harness or that the
+evolved agent improves the next generation's optimizer.

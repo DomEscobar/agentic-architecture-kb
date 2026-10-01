@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-09-29T07:45:00+02:00` · 117 pages · 88 claims · 132 technique cards
+Revision: `2026-10-01T11:27:00+02:00` · 122 pages · 92 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -141,7 +141,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (56)
+### Sources (61)
 
 - [Adaptive Agentic Retrieval Control Evidence Audit 2024–2026](sources/adaptive-agentic-retrieval-control-2024-2026.md)
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
@@ -155,10 +155,12 @@ These lists are generated from the same page metadata compiled into
 - [Agentic Repair-Loop Evidence 2024-2026](sources/agentic-repair-loops-evidence-2026.md)
 - [Agentic Runtime and RAG Security Evidence Audit August 2026](sources/agentic-security-landscape-2026-08.md)
 - [Agentic Security Cross-verification Audit August 2026](sources/agentic-security-verification-2026-08.md)
+- [Audience-Bound Persistent Memory Lifecycle Evidence 2026](sources/audience-bound-memory-lifecycle-2026.md)
 - [BenchShield Reward Integrity Evidence 2026](sources/benchshield-reward-integrity-2026.md)
 - [Biweekly Agentic Architecture Research Radar 2026-08-16](inbox/research-radar-2026-08-16.md)
 - [Biweekly Agentic Architecture Research Radar 2026-08-30](inbox/research-radar-2026-08-30.md)
 - [Biweekly Agentic Architecture Research Radar 2026-09-13](inbox/research-radar-2026-09-13.md)
+- [Biweekly Agentic Architecture Research Radar 2026-09-30](inbox/research-radar-2026-09-30.md)
 - [Bounded Improvement Technique Evidence Audit August 2026](sources/bounded-improvement-techniques-2026-08.md)
 - [Bounded Self-Improvement Evidence 2025–2026](sources/bounded-self-improvement-2025-2026.md)
 - [Chunking Evidence Audit 2025–2026](sources/chunking-evidence-2025-2026.md)
@@ -166,6 +168,8 @@ These lists are generated from the same page metadata compiled into
 - [Coding Agent Harness and Skills Evidence Audit August 2026](sources/coding-agent-harness-and-skills-evidence-2026-08.md)
 - [Coding Harness Component Study Evidence 2026](sources/harness-design-empirical-study-2026.md)
 - [Coding-Agent Skill Distillation Evidence 2026](sources/coding-agent-skill-distillation-2026.md)
+- [Context Language Models Editable Live Context Evidence 2026](sources/context-language-models-2026.md)
+- [CTE-Bench Stateful Counterfactual Trace Evidence 2026](sources/cte-bench-stateful-counterfactual-2026.md)
 - [Document Parsing Evidence Audit 2025–2026](sources/document-parsing-evidence-2026.md)
 - [DomEscobar Agentic Eval Evolution Research](sources/domescobar-agentic-eval-research.md)
 - [DomEscobar agentic-runtime-techniques](sources/domescobar-agentic-runtime-techniques.md)
@@ -194,6 +198,7 @@ These lists are generated from the same page metadata compiled into
 - [Retrieval, Reranking, and Context Assembly Evidence Audit August 2026](sources/retrieval-context-landscape-2026-08.md)
 - [RRSI Regularized Harness Evolution Evidence 2026](sources/rrsi-regularized-harness-evolution-2026.md)
 - [Runtime Boundary Regression Evidence Audit August 2026](sources/runtime-boundary-regression-evidence-2026-08.md)
+- [SEABench Harness-Update Safety Regression Evidence 2026](sources/seabench-endogenous-regressions-2026.md)
 - [September 2026 Evidence — Procedural Memory, Authorization, and Memory Abstention](sources/scout-evidence-designer-rsi-aport-mdl-2026-09.md)
 - [SoL-Pi Harness Auto-Research Evidence 2026](sources/sol-pi-harness-auto-research-2026.md)
 - [STAIR Structure-Aware Retrieval Evidence 2026](sources/stair-structure-aware-retrieval-2026.md)

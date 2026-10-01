@@ -6,14 +6,16 @@ status: reviewed
 privacy: internal
 confidence: 0.91
 created_at: 2026-08-09T16:10:00+02:00
-updated_at: 2026-08-17T08:05:00+02:00
+updated_at: 2026-10-01T11:27:00+02:00
 review_at: 2026-10-09
-source_ids: [source-agent-memory-evaluation-security-2026, source-memory-operational-baselines-and-tenancy-2026-08]
+source_ids: [source-agent-memory-evaluation-security-2026, source-memory-operational-baselines-and-tenancy-2026-08, source-audience-bound-memory-lifecycle-2026]
 relations:
   - predicate: derived_from
     target: source-agent-memory-evaluation-security-2026
   - predicate: derived_from
     target: source-memory-operational-baselines-and-tenancy-2026-08
+  - predicate: derived_from
+    target: source-audience-bound-memory-lifecycle-2026
 ---
 
 # Agent Memory Evaluation Blueprint
@@ -54,3 +56,17 @@ Deletion: canonical/derived coverage, retrievability and rebuild consistency.
 Use dev, selection, hidden holdout and red-team splits with corpus/config hashes.
 Repeat stochastic runs and report confidence/flakiness. Zero cross-tenant leak,
 zero forbidden side effect and complete required erasure are non-compensatory.
+
+## Audience admission across the lifecycle
+
+For personal agents spanning private chats, groups and derived memory, evaluate
+authorization on the *exact assembled context before every physical model
+attempt*, not only on output or the retriever query. Bind origin audiences at
+write time; propagate/narrow labels through transformations; require exact
+object-specific grants; fail unresolved viewers closed; recheck retries and
+fallbacks. Test group-to-DM entitled recall alongside forbidden inclusion,
+candidate-slot displacement, ambiguous identity, grant revocation and stale
+derived facts. `source-audience-bound-memory-lifecycle-2026` reports a synthetic,
+conditional guarantee, not proof that a production identity resolver or every
+context path is correctly mediated. Keep action authorization and deletion as
+separate gates.

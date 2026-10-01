@@ -6,12 +6,13 @@ status: reviewed
 privacy: public
 confidence: 0.81
 created_at: 2026-08-12T18:42:00+02:00
-updated_at: 2026-09-29T07:45:00+02:00
+updated_at: 2026-10-01T11:27:00+02:00
 review_at: 2026-10-12
 source_ids:
   - source-bounded-self-improvement-2025-2026
   - source-harnessdev-agent-harness-evolution-2026
   - source-rrsi-regularized-harness-evolution-2026
+  - source-seabench-endogenous-regressions-2026
 relations:
   - predicate: derived_from
     target: source-bounded-self-improvement-2025-2026
@@ -19,6 +20,8 @@ relations:
     target: source-harnessdev-agent-harness-evolution-2026
   - predicate: derived_from
     target: source-rrsi-regularized-harness-evolution-2026
+  - predicate: derived_from
+    target: source-seabench-endogenous-regressions-2026
   - predicate: applies_to
     target: pattern-eval-guided-improvement-loop
 ---
@@ -100,3 +103,14 @@ rollout gates above: a leakage critic and an evolve-set noise band are not
 substitutes. These are author-reported ablations of groups of constraints, not
 proof that any single regularizer transfers to another harness or that the
 evolved agent improves the next generation's optimizer.
+
+## Search for safety regressions after a harness update
+
+An adaptive red-team can deliberately find later tasks on which an updated
+controller, memory or tool/skill surface is unsafe while the frozen baseline
+remains safe (`source-seabench-endogenous-regressions-2026`). This is an
+efficient *failure-discovery* arm, not a deployment prevalence estimator or
+an independent promotion holdout. Keep discovered failures separate from a
+precommitted downstream distribution; compare capability and forbidden effects
+without trading one against the other, and ablate the changed artifact before
+claiming a particular mechanism caused the regression.

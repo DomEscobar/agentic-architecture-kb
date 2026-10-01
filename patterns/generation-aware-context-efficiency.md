@@ -6,13 +6,16 @@ status: reviewed
 privacy: internal
 confidence: 0.82
 created_at: 2026-08-08T18:35:00+02:00
-updated_at: 2026-08-08T18:35:00+02:00
+updated_at: 2026-10-01T11:27:00+02:00
 review_at: 2026-10-08
 source_ids:
   - source-rag-developments-2026-batch-2
+  - source-context-language-models-2026
 relations:
   - predicate: derived_from
     target: source-rag-developments-2026-batch-2
+  - predicate: derived_from
+    target: source-context-language-models-2026
 ---
 
 # Generation-aware Context Efficiency
@@ -46,4 +49,16 @@ benchmarks and a fallback to the standard model serving path.
 Do not make a days-old preprint or a custom decoding kernel the default path.
 Run it as an optional projection or canary until independent or internal replay
 confirms quality retention and operating benefit.
+
+## Editable live context as a separate challenger
+
+Model-controlled edits to the next call's live context are neither index
+compression nor ordinary external-memory retrieval. Compare them against fixed
+summaries and bounded edit tools with the same model, task, effective turn/token
+limits, and side-effect policy (`source-context-language-models-2026`). Report
+grounded outcome, information loss, persistence of malicious instructions,
+context-diff provenance, rollback, TTFT/p95, GPU memory, USD cost and modeled
+prefill FLOPs as *different* measures. Cache reuse after in-place edits needs
+separate correctness and multi-session tests; modeled FLOPs alone do not
+establish an operating benefit.
 

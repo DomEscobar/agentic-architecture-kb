@@ -6,16 +6,19 @@ status: reviewed
 privacy: internal
 confidence: 0.9
 created_at: 2026-08-09T08:20:00+02:00
-updated_at: 2026-08-09T08:20:00+02:00
+updated_at: 2026-10-01T11:27:00+02:00
 review_at: 2026-11-09
 source_ids:
   - source-domescobar-eval-oigl
   - source-agent-evaluation-research-2026
+  - source-cte-bench-stateful-counterfactual-2026
 relations:
   - predicate: derived_from
     target: source-domescobar-eval-oigl
   - predicate: derived_from
     target: source-agent-evaluation-research-2026
+  - predicate: derived_from
+    target: source-cte-bench-stateful-counterfactual-2026
 ---
 
 # Evidence-first Agent Evaluation
@@ -108,3 +111,16 @@ never treat temperature zero or one successful run as an exact oracle.
   snapshot/reset state and classify infra failures separately.
 - **Contamination:** benchmark memorized or repeatedly exposed; use private and
   rotating holdouts plus fresh executable tasks.
+
+## Stateful intervention diagnosis
+
+For tool/service changes, keep a versioned pre-change state, apply a specified
+code or state intervention and replay fixed future calls against changed and
+unchanged executable oracles. Report exact value match on *affected steps*
+separately from all steps: an unchanged-service replay can look accurate while
+missing every actual effect. Score revealed feedback, no feedback and
+self-prediction rollout separately; cluster uncertainty by scenario, not by
+dependent calls (`source-cte-bench-stateful-counterfactual-2026`). This is a
+diagnostic for predicting consequences, not an agent-action or deployment-safety
+certificate. Include matched no-effect negatives and independent state/effect
+invariants before using it to gate an autonomous workflow.

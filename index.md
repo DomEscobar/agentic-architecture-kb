@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-10-01T11:27:00+02:00` · 122 pages · 92 claims · 132 technique cards
+Revision: `2026-10-03T12:00:00+02:00` · 123 pages · 93 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -141,7 +141,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (61)
+### Sources (62)
 
 - [Adaptive Agentic Retrieval Control Evidence Audit 2024–2026](sources/adaptive-agentic-retrieval-control-2024-2026.md)
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
@@ -200,6 +200,7 @@ These lists are generated from the same page metadata compiled into
 - [Runtime Boundary Regression Evidence Audit August 2026](sources/runtime-boundary-regression-evidence-2026-08.md)
 - [SEABench Harness-Update Safety Regression Evidence 2026](sources/seabench-endogenous-regressions-2026.md)
 - [September 2026 Evidence — Procedural Memory, Authorization, and Memory Abstention](sources/scout-evidence-designer-rsi-aport-mdl-2026-09.md)
+- [SkillRefiner OpenHands Artifact and Evidence Boundary 2026](sources/skillrefiner-openhands-artifact-2026.md)
 - [SoL-Pi Harness Auto-Research Evidence 2026](sources/sol-pi-harness-auto-research-2026.md)
 - [STAIR Structure-Aware Retrieval Evidence 2026](sources/stair-structure-aware-retrieval-2026.md)
 - [VectifyAI PageIndex and Mafin 2.5 FinanceBench](sources/vectifyai-pageindex.md)

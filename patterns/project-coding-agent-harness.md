@@ -6,7 +6,7 @@ status: reviewed
 privacy: public
 confidence: 0.87
 created_at: 2026-08-16T13:05:00+02:00
-updated_at: 2026-09-04T13:52:00+02:00
+updated_at: 2026-10-03T12:00:00+02:00
 review_at: 2026-09-16
 source_ids:
   - source-coding-agent-harness-and-skills-evidence-2026-08
@@ -14,6 +14,7 @@ source_ids:
   - source-agent-evaluation-research-2026
   - source-jit-agent-harness-evolution-2026
   - source-harnessdev-agent-harness-evolution-2026
+  - source-skillrefiner-openhands-artifact-2026
 relations:
   - predicate: derived_from
     target: source-coding-agent-harness-and-skills-evidence-2026-08
@@ -21,6 +22,8 @@ relations:
     target: source-jit-agent-harness-evolution-2026
   - predicate: derived_from
     target: source-harnessdev-agent-harness-evolution-2026
+  - predicate: derived_from
+    target: source-skillrefiner-openhands-artifact-2026
   - predicate: depends_on
     target: pattern-runtime-decision-guide
   - predicate: depends_on
@@ -188,6 +191,21 @@ can produce large gains, while many public SWE skills produce no gain and some
 regress because guidance is stale or mismatched. Admit one narrow candidate at
 a time and retain it only when project replays justify its context and tool
 cost.
+
+## Offline project-skill refinement as a challenger
+
+When a repository has consented, versioned historical agent traces and repeated
+skill-relevant failures, an offline candidate may cluster successful and failed
+trajectories before proposing a bounded skill revision. The released
+SkillRefiner implementation demonstrates this *mechanism* but its reported
+performance is not independently reconstructable from public artifacts
+(`source-skillrefiner-openhands-artifact-2026`); do not install or promote it by
+default. On the same frozen project corpus compare no skill, the current skill,
+one-pass skill distillation, and a budget-matched gated search. Hold out later
+projects/tasks, include failed and against-default slices, record source-corpus
+construction plus refinement cost, and reject any privilege or safety regression
+regardless of aggregate score. Publish only a reviewed, digest-pinned skill with
+a rollback target after independent project replay.
 
 ## Enforcement and authority
 

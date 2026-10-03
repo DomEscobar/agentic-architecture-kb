@@ -6,16 +6,19 @@ status: reviewed
 privacy: internal
 confidence: 0.82
 created_at: 2026-08-08T18:35:00+02:00
-updated_at: 2026-10-01T11:27:00+02:00
+updated_at: 2026-10-03T12:46:00+02:00
 review_at: 2026-10-08
 source_ids:
   - source-rag-developments-2026-batch-2
   - source-context-language-models-2026
+  - source-pair-counterfactual-compression-2026
 relations:
   - predicate: derived_from
     target: source-rag-developments-2026-batch-2
   - predicate: derived_from
     target: source-context-language-models-2026
+  - predicate: derived_from
+    target: source-pair-counterfactual-compression-2026
 ---
 
 # Generation-aware Context Efficiency
@@ -61,4 +64,17 @@ context-diff provenance, rollback, TTFT/p95, GPU memory, USD cost and modeled
 prefill FLOPs as *different* measures. Cache reuse after in-place edits needs
 separate correctness and multi-session tests; modeled FLOPs alone do not
 establish an operating benefit.
+
+## Compression-boundary replay
+
+When a long-running project agent can restore its environment, compare the
+same pre-compression snapshot under no compression, current compaction and a
+candidate compressor. Continue each arm repeatedly from the *same boundary*
+with the same agent, tools and budgets; score task success, retained evidence,
+authorization/safety and tokens separately. The PAIR study uses this approach
+to localize degradation at individual boundaries rather than attributing a
+whole-run divergence to compaction (`source-pair-counterfactual-compression-2026`).
+Its author-run result does not make compressed execution universally preferable
+to the uncompressed baseline. Keep full-trajectory and future-task holdouts
+outside the prompt-refinement loop.
 

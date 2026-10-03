@@ -6,7 +6,7 @@ status: reviewed
 privacy: public
 confidence: 0.87
 created_at: 2026-08-16T13:05:00+02:00
-updated_at: 2026-10-03T12:00:00+02:00
+updated_at: 2026-10-03T12:46:00+02:00
 review_at: 2026-09-16
 source_ids:
   - source-coding-agent-harness-and-skills-evidence-2026-08
@@ -15,6 +15,8 @@ source_ids:
   - source-jit-agent-harness-evolution-2026
   - source-harnessdev-agent-harness-evolution-2026
   - source-skillrefiner-openhands-artifact-2026
+  - source-agent-skill-audit-triggering-2026
+  - source-skillreducer-efficiency-evidence-2026
 relations:
   - predicate: derived_from
     target: source-coding-agent-harness-and-skills-evidence-2026-08
@@ -24,6 +26,10 @@ relations:
     target: source-harnessdev-agent-harness-evolution-2026
   - predicate: derived_from
     target: source-skillrefiner-openhands-artifact-2026
+  - predicate: derived_from
+    target: source-agent-skill-audit-triggering-2026
+  - predicate: derived_from
+    target: source-skillreducer-efficiency-evidence-2026
   - predicate: depends_on
     target: pattern-runtime-decision-guide
   - predicate: depends_on
@@ -191,6 +197,20 @@ can produce large gains, while many public SWE skills produce no gain and some
 regress because guidance is stale or mismatched. Admit one narrow candidate at
 a time and retain it only when project replays justify its context and tool
 cost.
+
+## Separate skill routing from skill-body effects
+
+For a project skill, record **eligible task → trigger → body loaded → procedure
+used → valid outcome**, plus false triggers, misses, token cost and forbidden
+actions. A security-audit study observed markedly different trigger behavior
+between agent/model configurations (`source-agent-skill-audit-triggering-2026`);
+its vulnerability-detection gain is domain-specific and cannot substitute for
+a project replay. Compare skill/no-skill attempts with the same model, task,
+tools and budget, and test routing failures independently from body quality.
+When shrinking a skill, ablate description-only and body-only changes against
+the original, preserve required preconditions and stop rules, and evaluate on
+held-out tasks not used to guide edits (`source-skillreducer-efficiency-evidence-2026`).
+No token saving or optimized-set score can compensate for a safety regression.
 
 ## Offline project-skill refinement as a challenger
 

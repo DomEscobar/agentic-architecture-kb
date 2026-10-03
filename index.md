@@ -6,7 +6,7 @@ This is the small, GitHub-readable entry point for humans and coding agents.
 Canonical knowledge remains in the linked Markdown pages and JSON technique
 cards; `build/wiki.json` is the reconstructable machine projection.
 
-Revision: `2026-10-03T12:00:00+02:00` · 123 pages · 93 claims · 132 technique cards
+Revision: `2026-10-03T12:46:00+02:00` · 126 pages · 96 claims · 132 technique cards
 
 ## Knowledge lanes
 
@@ -141,7 +141,7 @@ These lists are generated from the same page metadata compiled into
 - [Claim Ledger Governance](concepts/claim-ledger-governance.md)
 - [Evaluation Metric Catalog and Selection Rules](concepts/evaluation-metric-catalog.md)
 
-### Sources (62)
+### Sources (65)
 
 - [Adaptive Agentic Retrieval Control Evidence Audit 2024–2026](sources/adaptive-agentic-retrieval-control-2024-2026.md)
 - [Agent Evaluation Research August 2026](sources/agent-evaluation-research-2026.md)
@@ -152,6 +152,7 @@ These lists are generated from the same page metadata compiled into
 - [Agent Memory Technique Evidence Audit August 2026](sources/memory-techniques-2026-08.md)
 - [Agent Runtime Framework Landscape Evidence Audit August 2026](sources/agent-runtime-framework-landscape-2026-08.md)
 - [Agent Runtime Mechanisms Evidence Audit August 2026](sources/runtime-techniques-2026-08.md)
+- [Agent Skill Triggering in Smart Contract Audits 2026](sources/agent-skill-audit-triggering-2026.md)
 - [Agentic Repair-Loop Evidence 2024-2026](sources/agentic-repair-loops-evidence-2026.md)
 - [Agentic Runtime and RAG Security Evidence Audit August 2026](sources/agentic-security-landscape-2026-08.md)
 - [Agentic Security Cross-verification Audit August 2026](sources/agentic-security-verification-2026-08.md)
@@ -187,6 +188,7 @@ These lists are generated from the same page metadata compiled into
 - [Multilingual Embedding Evaluation Evidence 2025](sources/embedding-evaluation-2025.md)
 - [Multimodal Document Retrieval Evidence 2025](sources/multimodal-document-retrieval-2025.md)
 - [Multimodal RAG Evidence Audit 2026-08](sources/multimodal-rag-landscape-2026-08.md)
+- [PAIR Counterfactual Compression Replay Evidence 2026](sources/pair-counterfactual-compression-2026.md)
 - [Parser Landscape and Use-Case Audit August 2026](sources/parser-landscape-2026-08.md)
 - [Phantom Gains — Measured Nulls for Self-Improvement Claims](sources/phantom-gains-measured-null-2026.md)
 - [Public AI Architect Validation Artifacts August 2026](sources/public-ai-architect-validation-2026-08.md)
@@ -200,6 +202,7 @@ These lists are generated from the same page metadata compiled into
 - [Runtime Boundary Regression Evidence Audit August 2026](sources/runtime-boundary-regression-evidence-2026-08.md)
 - [SEABench Harness-Update Safety Regression Evidence 2026](sources/seabench-endogenous-regressions-2026.md)
 - [September 2026 Evidence — Procedural Memory, Authorization, and Memory Abstention](sources/scout-evidence-designer-rsi-aport-mdl-2026-09.md)
+- [SkillReducer Routing and Body Efficiency Evidence 2026](sources/skillreducer-efficiency-evidence-2026.md)
 - [SkillRefiner OpenHands Artifact and Evidence Boundary 2026](sources/skillrefiner-openhands-artifact-2026.md)
 - [SoL-Pi Harness Auto-Research Evidence 2026](sources/sol-pi-harness-auto-research-2026.md)
 - [STAIR Structure-Aware Retrieval Evidence 2026](sources/stair-structure-aware-retrieval-2026.md)
